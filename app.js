@@ -3,12 +3,6 @@
   const mobileMenu = document.querySelector('#mobile-menu');
   const dialog = document.querySelector('#demo-dialog');
 
-  // VOLT DEV — overrides visuais separados para acelerar o polimento.
-  const devOverrides = document.createElement('link');
-  devOverrides.rel = 'stylesheet';
-  devOverrides.href = `dev-overrides.css?v=${Date.now()}`;
-  document.head.appendChild(devOverrides);
-
   // VOLT DEV — ajustes rápidos de polimento da seção Serviços.
   // Quando a seção for aprovada, estes ajustes serão consolidados no HTML/CSS canônico.
   const servicesHeading = document.querySelector('.services-heading');
@@ -30,6 +24,30 @@
     }
     .services-other {
       border-left-color: #202422 !important;
+    }
+    .service-card {
+      min-height: 238px !important;
+    }
+    .service-card__body {
+      min-height: 220px !important;
+      padding-bottom: 14px !important;
+    }
+    .service-card h3 {
+      max-width: 100% !important;
+      width: 100% !important;
+      text-align: center !important;
+    }
+    .service-card__cta {
+      margin-top: 14px !important;
+    }
+    @media (max-width: 980px) {
+      .service-card {
+        min-height: 218px !important;
+      }
+      .service-card__body {
+        min-height: 206px !important;
+        padding-bottom: 12px !important;
+      }
     }
   `;
   document.head.appendChild(servicesPolish);
