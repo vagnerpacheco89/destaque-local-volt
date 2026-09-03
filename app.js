@@ -3,6 +3,31 @@
   const mobileMenu = document.querySelector('#mobile-menu');
   const dialog = document.querySelector('#demo-dialog');
 
+  // VOLT DEV — ajustes rápidos de polimento da seção Serviços.
+  // Quando a seção for aprovada, estes ajustes serão consolidados no HTML/CSS canônico.
+  const servicesHeading = document.querySelector('.services-heading');
+  if (servicesHeading && !servicesHeading.querySelector('.services-heading__intro')) {
+    const intro = document.createElement('p');
+    intro.className = 'services-heading__intro';
+    intro.textContent = 'Do reparo pontual à instalação de novos pontos e circuitos, o atendimento começa pela avaliação do que realmente precisa ser corrigido ou instalado.';
+    servicesHeading.appendChild(intro);
+  }
+
+  const servicesPolish = document.createElement('style');
+  servicesPolish.textContent = `
+    .services-heading__intro {
+      max-width: 760px;
+      margin: 20px 0 0;
+      color: #9da39f;
+      font-size: .92rem;
+      line-height: 1.6;
+    }
+    .services-other {
+      border-left-color: #202422 !important;
+    }
+  `;
+  document.head.appendChild(servicesPolish);
+
   if (menuButton && mobileMenu) {
     menuButton.addEventListener('click', () => {
       const expanded = menuButton.getAttribute('aria-expanded') === 'true';
