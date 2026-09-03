@@ -3,6 +3,12 @@
   const mobileMenu = document.querySelector('#mobile-menu');
   const dialog = document.querySelector('#demo-dialog');
 
+  // VOLT DEV — overrides visuais separados para acelerar o polimento.
+  const devOverrides = document.createElement('link');
+  devOverrides.rel = 'stylesheet';
+  devOverrides.href = `dev-overrides.css?v=${Date.now()}`;
+  document.head.appendChild(devOverrides);
+
   // VOLT DEV — ajustes rápidos de polimento da seção Serviços.
   // Quando a seção for aprovada, estes ajustes serão consolidados no HTML/CSS canônico.
   const servicesHeading = document.querySelector('.services-heading');
