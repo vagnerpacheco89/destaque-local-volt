@@ -32,11 +32,6 @@
       min-height: 220px !important;
       padding-bottom: 14px !important;
     }
-    .service-card h3 {
-      max-width: 100% !important;
-      width: 100% !important;
-      text-align: center !important;
-    }
     .service-card__cta {
       margin-top: 14px !important;
     }
@@ -69,7 +64,6 @@
     });
   }
 
-
   const mobileCta = document.querySelector('.mobile-cta');
   const heroPrimaryCta = document.querySelector('.hero__actions [data-demo-cta]');
   if (mobileCta && heroPrimaryCta && 'IntersectionObserver' in window) {
@@ -81,7 +75,6 @@
   } else if (mobileCta) {
     mobileCta.classList.add('is-visible');
   }
-
 
   // VOLT v0.22 — progressive reveal. Mantém o conteúdo visível sem JS e
   // respeita prefers-reduced-motion.
