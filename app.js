@@ -1,0 +1,87 @@
+(() => {
+  const menuButton = document.querySelector('.menu-toggle');
+  const mobileMenu = document.querySelector('#mobile-menu');
+  const dialog = document.querySelector('#demo-dialog');
+
+  if (menuButton && mobileMenu) {
+    menuButton.addEventListener('click', () => {
+      const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!expanded));
+      mobileMenu.hidden = expanded;
+      menuButton.setAttribute('aria-label', expanded ? 'Abrir menu' : 'Fechar menu');
+    });
+
+    mobileMenu.addEventListener('click', (event) => {
+      if (event.target.closest('a')) {
+        mobileMenu.hidden = true;
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Abrir menu');
+      }
+    });
+  }
+
+
+  const mobileCta = document.querySelector('.mobile-cta');
+  const heroPrimaryCta = document.querySelector('.hero__actions [data-demo-cta]');
+  if (mobileCta && heroPrimaryCta && 'IntersectionObserver' in window) {
+    const ctaObserver = new IntersectionObserver((entries) => {
+      const heroCtaVisible = entries[0]?.isIntersecting;
+      mobileCta.classList.toggle('is-visible', !heroCtaVisible);
+    }, { threshold: 0.2 });
+    ctaObserver.observe(heroPrimaryCta);
+  } else if (mobileCta) {
+    mobileCta.classList.add('is-visible');
+  }
+
+
+  // VOLT v0.22 — progressive reveal. Mantém o conteúdo visível sem JS e
+  // respeita prefers-reduced-motion.
+  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const revealTargets = document.querySelectorAll([
+      '.section-heading',
+      '.services-heading',
+      '.service-card',
+      '.services-other',
+      '.diagnostic__grid > *',
+      '.portfolio-card',
+      '.process-grid > li',
+      '.differentials > *',
+      '.reviews-head > *',
+      '.reviews-grid > blockquote',
+      '.about__grid > *',
+      '.service-area__grid > *',
+      '.faq__grid > *',
+      '.final-cta__inner > *'
+    ].join(','));
+
+    revealTargets.forEach((element, index) => {
+      element.classList.add('reveal-item');
+      element.style.setProperty('--reveal-delay', `${(index % 4) * 55}ms`);
+    });
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
+
+    revealTargets.forEach((element) => revealObserver.observe(element));
+  }
+
+  document.querySelectorAll('[data-demo-cta]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (dialog && typeof dialog.showModal === 'function') dialog.showModal();
+    });
+  });
+
+  if (dialog) {
+    dialog.addEventListener('click', (event) => {
+      const rect = dialog.getBoundingClientRect();
+      const inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+      if (!inside) dialog.close();
+    });
+  }
+})();
