@@ -59,15 +59,16 @@
 
     .process .section-heading--split {
       display:block !important;
-      max-width:900px;
+      max-width:none;
       margin-bottom:38px;
       padding-bottom:24px;
       border-bottom:1px solid #292d2d;
     }
 
     .process .section-heading h2 {
-      max-width:820px;
+      max-width:none;
       margin-bottom:14px;
+      white-space:nowrap;
     }
 
     .process .process-intro {
@@ -249,6 +250,10 @@
     }
 
     @media (max-width:900px) {
+      .process .section-heading h2 {
+        white-space:normal;
+      }
+
       .process .process-grid {
         display:block;
         padding:0 !important;
