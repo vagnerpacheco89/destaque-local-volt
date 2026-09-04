@@ -30,7 +30,7 @@
     closing.innerHTML = `
       <h3>Tem um serviço parecido para fazer?</h3>
       <p>Envie uma foto ou descreva o que precisa para Rafael avaliar o atendimento.</p>
-      <button class="btn btn--accent btn--large portfolio-closing__cta" type="button">Solicitar orçamento pelo WhatsApp</button>
+      <button class="btn btn--large portfolio-closing__cta" type="button">Solicitar orçamento pelo WhatsApp</button>
     `;
     grid.insertAdjacentElement('afterend', closing);
 
@@ -201,7 +201,20 @@
 
     #trabalhos .portfolio-closing__cta {
       min-width:320px;
+      border:1px solid var(--accent) !important;
+      background:#050606 !important;
+      color:var(--accent) !important;
       text-transform:none;
+      box-shadow:none !important;
+      transition:background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms var(--ease);
+    }
+
+    #trabalhos .portfolio-closing__cta:hover,
+    #trabalhos .portfolio-closing__cta:focus-visible {
+      border-color:var(--accent-hover) !important;
+      background:var(--accent) !important;
+      color:var(--accent-ink) !important;
+      transform:translateY(-2px);
     }
 
     @media (max-width: 760px) {
