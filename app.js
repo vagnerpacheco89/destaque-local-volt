@@ -3,7 +3,7 @@
   const mobileMenu = document.querySelector('#mobile-menu');
   const dialog = document.querySelector('#demo-dialog');
 
-  // VOLT DEV — ajustes rápidos de polimento da seção Serviços.
+  // VOLT DEV — Serviços aprovado.
   const servicesHeading = document.querySelector('.services-heading');
   if (servicesHeading && !servicesHeading.querySelector('.services-heading__intro')) {
     const intro = document.createElement('p');
@@ -12,7 +12,7 @@
     servicesHeading.appendChild(intro);
   }
 
-  // VOLT DEV — primeira passada de polimento da seção Diagnóstico/Urgência.
+  // VOLT DEV — Diagnóstico/Urgência em polimento.
   const diagnostic = document.querySelector('.diagnostic');
   if (diagnostic) {
     const lead = diagnostic.querySelector('.lead-text');
@@ -22,18 +22,12 @@
     const problemList = diagnostic.querySelector('.problem-panel ul');
 
     if (lead) {
-      lead.textContent = 'Falhas elétricas nem sempre mostram a causa de imediato. O diagnóstico ajuda a identificar o problema antes de definir a correção.';
+      lead.classList.add('diagnostic__body');
+      lead.textContent = 'Falhas elétricas nem sempre mostram a causa de imediato. O diagnóstico ajuda a identificar o problema antes de definir a correção. No primeiro contato, Rafael pode pedir fotos ou vídeos para entender o cenário e, quando a avaliação presencial é necessária, o orçamento é apresentado antes da execução. Urgências são atendidas no horário de funcionamento e conforme disponibilidade; não é atendimento 24h.';
     }
 
-    if (support) {
-      support.classList.add('diagnostic__support');
-      support.textContent = 'No primeiro contato, Rafael pode pedir fotos ou vídeos para entender o cenário. Quando a avaliação presencial é necessária, o orçamento é apresentado antes da execução.';
-    }
-
-    if (note) {
-      note.innerHTML = '<strong>Urgências:</strong> atendimento no horário de funcionamento e conforme disponibilidade. Não é atendimento 24h.';
-    }
-
+    if (support) support.hidden = true;
+    if (note) note.hidden = true;
     if (panelLabel) panelLabel.textContent = 'SINAIS QUE MERECEM ATENÇÃO';
 
     if (problemList) {
@@ -59,19 +53,13 @@
       font-size: .92rem;
       line-height: 1.6;
     }
-    .services-other {
-      border-left-color: #202422 !important;
-    }
-    .service-card {
-      min-height: 238px !important;
-    }
+    .services-other { border-left-color: #202422 !important; }
+    .service-card { min-height: 238px !important; }
     .service-card__body {
       min-height: 220px !important;
       padding-bottom: 14px !important;
     }
-    .service-card__cta {
-      margin-top: 14px !important;
-    }
+    .service-card__cta { margin-top: 14px !important; }
 
     /* Diagnóstico / Urgência — em polimento */
     .diagnostic {
@@ -83,52 +71,34 @@
     .diagnostic__grid {
       grid-template-columns:minmax(0,1.05fr) minmax(420px,.95fr) !important;
       gap:56px !important;
-      align-items:start !important;
+      align-items:center !important;
     }
-    .diagnostic__grid > div:first-child {
-      padding-top:4px;
-    }
+    .diagnostic__grid > div:first-child { padding-top:4px; }
     .diagnostic h2 {
       max-width:640px !important;
       font-size:clamp(3.1rem,4.5vw,4.25rem);
       margin-bottom:20px;
     }
-    .diagnostic .lead-text {
+    .diagnostic .diagnostic__body {
       max-width:650px;
-      color:#e2e4df;
-      font-size:1rem;
-      line-height:1.58;
-      margin-bottom:14px;
+      margin:0;
+      color:#b7bcb7 !important;
+      font-size:.94rem !important;
+      line-height:1.68 !important;
+      font-weight:400 !important;
     }
-    .diagnostic__support {
-      max-width:650px;
-      color:#989e99;
-      font-size:.9rem;
-      line-height:1.6;
-      margin-bottom:0;
-    }
-    .diagnostic .availability-note {
-      margin:22px 0 18px;
-      padding:15px 17px;
-      border:1px solid #d1a300;
-      border-left:4px solid #202422;
-      border-radius:var(--radius);
-      background:linear-gradient(90deg, #f4c400 0%, #efbb00 100%);
-      color:#0a0c0c;
-      font-size:.84rem;
-      line-height:1.5;
-      box-shadow:none;
-    }
-    .diagnostic .availability-note strong {
-      color:#0a0c0c;
-      font-weight:900;
-    }
+    .diagnostic .diagnostic__support,
+    .diagnostic .availability-note { display:none !important; }
     .diagnostic .btn--accent {
-      min-height:48px;
+      min-height:50px;
+      margin-top:22px;
+      padding-inline:24px;
       text-transform:uppercase;
+      font-weight:900;
     }
     .problem-panel {
       position:relative;
+      align-self:center !important;
       overflow:hidden;
       border-color:#383d3b !important;
       background:linear-gradient(145deg,#0d1010 0%,#090b0b 78%) !important;
@@ -165,9 +135,7 @@
       font-size:.82rem !important;
       line-height:1.4;
     }
-    .problem-panel li:last-child {
-      border-bottom:1px solid #2b302f !important;
-    }
+    .problem-panel li:last-child { border-bottom:1px solid #2b302f !important; }
     .problem-panel li::before {
       left:14px !important;
       top:50% !important;
@@ -178,9 +146,7 @@
     }
 
     @media (max-width: 980px) {
-      .service-card {
-        min-height: 218px !important;
-      }
+      .service-card { min-height: 218px !important; }
       .service-card__body {
         min-height: 206px !important;
         padding-bottom: 12px !important;
@@ -192,18 +158,12 @@
         grid-template-columns:1fr !important;
         gap:34px !important;
       }
-      .problem-panel {
-        max-width:none;
-      }
+      .problem-panel { max-width:none; }
     }
 
     @media (max-width: 620px) {
-      .problem-panel ul {
-        grid-template-columns:1fr;
-      }
-      .problem-panel li {
-        min-height:62px;
-      }
+      .problem-panel ul { grid-template-columns:1fr; }
+      .problem-panel li { min-height:62px; }
     }
   `;
   document.head.appendChild(voltDevPolish);
@@ -237,8 +197,6 @@
     mobileCta.classList.add('is-visible');
   }
 
-  // VOLT v0.22 — progressive reveal. Mantém o conteúdo visível sem JS e
-  // respeita prefers-reduced-motion.
   const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   if (!reduceMotion && 'IntersectionObserver' in window) {
     const revealTargets = document.querySelectorAll([
