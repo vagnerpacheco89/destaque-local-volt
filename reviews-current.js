@@ -9,22 +9,30 @@
   const warning = section.querySelector('.demo-warning');
   const grid = section.querySelector('.reviews-grid');
 
-  if (eyebrow) eyebrow.textContent = 'AVALIAÇÕES • DEMONSTRAÇÃO';
-  if (title) title.textContent = 'Clareza, organização e serviço bem explicado';
+  if (eyebrow) eyebrow.textContent = 'DEPOIMENTOS DE CLIENTES';
+  if (title) title.textContent = 'O que clientes dizem sobre o atendimento';
+
+  if (head && title) {
+    let intro = head.querySelector('.reviews-intro');
+    if (!intro) {
+      intro = document.createElement('p');
+      intro.className = 'reviews-intro';
+      title.insertAdjacentElement('afterend', intro);
+    }
+    intro.textContent = 'Relatos sobre clareza, organização, cuidado e comunicação ao longo do serviço.';
+  }
 
   if (rating) {
     const small = rating.querySelector('small');
-    if (small) small.textContent = '38 AVALIAÇÕES • FICTÍCIO';
+    if (small) small.textContent = '38 AVALIAÇÕES';
   }
 
-  if (warning) {
-    warning.textContent = 'Depoimentos, nomes, nota e quantidade são fictícios e aparecem apenas para demonstrar como avaliações reais seriam apresentadas no modelo VOLT.';
-  }
+  if (warning) warning.remove();
 
   if (grid) {
     [...grid.querySelectorAll('blockquote')].forEach((quote) => {
       const source = quote.querySelector('footer span');
-      if (source) source.textContent = 'DEMO';
+      if (source) source.remove();
     });
   }
 
@@ -42,81 +50,76 @@
       grid-template-columns:minmax(0,1fr) auto !important;
       gap:56px !important;
       align-items:end;
-      margin-bottom:18px;
-      padding-bottom:28px;
+      margin-bottom:30px;
+      padding-bottom:30px;
       border-bottom:1px solid #292d2d;
     }
 
     .reviews .reviews-head > div:first-child {
-      max-width:900px;
+      max-width:960px;
     }
 
     .reviews .reviews-head h2 {
-      max-width:900px;
-      margin-bottom:0;
+      max-width:920px;
+      margin-bottom:14px;
+    }
+
+    .reviews .reviews-intro {
+      max-width:720px;
+      margin:0;
+      color:#9ca19c;
+      font-size:.9rem;
+      line-height:1.6;
     }
 
     .reviews .rating-demo {
-      min-width:176px;
-      padding:0 0 2px 24px !important;
-      border:0 !important;
-      border-left:1px solid #343839 !important;
-      border-radius:0 !important;
-      background:transparent !important;
+      min-width:190px;
+      padding:22px 24px 20px !important;
+      border:1px solid #e5b900 !important;
+      border-radius:2px !important;
+      background:var(--accent) !important;
+      color:var(--accent-ink) !important;
       text-align:left !important;
+      box-shadow:
+        0 0 0 1px rgba(244,196,0,.2),
+        0 0 28px rgba(244,196,0,.22),
+        0 14px 34px rgba(0,0,0,.24) !important;
     }
 
     .reviews .rating-demo::before {
       content:'★★★★★';
       display:block;
-      margin-bottom:9px;
-      color:var(--accent);
-      font-size:10px;
+      margin-bottom:11px;
+      color:var(--accent-ink);
+      font-size:11px;
       line-height:1;
-      letter-spacing:.16em;
+      letter-spacing:.15em;
     }
 
     .reviews .rating-demo strong {
-      color:#fff;
-      font-size:4rem;
+      color:var(--accent-ink) !important;
+      font-size:4.25rem;
       line-height:.78;
     }
 
     .reviews .rating-demo span {
       margin-left:3px;
-      color:var(--accent);
-      font-size:.86rem;
+      color:var(--accent-ink) !important;
+      font-size:.88rem;
+      font-weight:900;
     }
 
     .reviews .rating-demo small {
       display:block;
-      margin-top:10px;
-      color:#737873;
+      margin-top:11px;
+      color:rgba(9,10,8,.72) !important;
       font-size:8px;
-      font-weight:700;
-      letter-spacing:.095em;
+      font-weight:900;
+      letter-spacing:.1em;
     }
 
     .reviews .demo-warning {
-      position:relative;
-      max-width:820px;
-      margin:0 0 30px;
-      padding:0 0 0 17px;
-      border:0;
-      color:#747974;
-      font-size:.71rem;
-      line-height:1.55;
-    }
-
-    .reviews .demo-warning::before {
-      content:'';
-      position:absolute;
-      left:0;
-      top:.48em;
-      width:6px;
-      height:6px;
-      background:var(--accent);
-      transform:rotate(45deg);
+      display:none !important;
     }
 
     /* Composição editorial: um depoimento principal + lista aberta */
@@ -216,20 +219,6 @@
       white-space:nowrap;
     }
 
-    .reviews .reviews-grid footer span {
-      display:inline-flex;
-      align-items:center;
-      margin-left:8px;
-      padding:4px 6px;
-      border:1px solid #353938;
-      color:#777c77;
-      font-size:7px;
-      font-weight:800;
-      line-height:1;
-      letter-spacing:.08em;
-      vertical-align:middle;
-    }
-
     .reviews .reviews-grid blockquote:hover {
       background:rgba(255,255,255,.018) !important;
     }
@@ -275,9 +264,6 @@
       .reviews .rating-demo {
         width:100%;
         min-width:0;
-        padding:18px 0 0 !important;
-        border-left:0 !important;
-        border-top:1px solid #292d2d !important;
       }
 
       .reviews .rating-demo strong {
