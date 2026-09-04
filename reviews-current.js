@@ -19,7 +19,7 @@
       intro.className = 'reviews-intro';
       title.insertAdjacentElement('afterend', intro);
     }
-    intro.textContent = 'Relatos sobre clareza, organização, cuidado e comunicação ao longo do serviço.';
+    intro.textContent = 'Eletricista em Palhoça para instalações, manutenção e reparos elétricos, com atendimento direto, orçamento claro e serviço bem executado.';
   }
 
   if (rating) {
@@ -65,57 +65,78 @@
     }
 
     .reviews .reviews-intro {
-      max-width:720px;
+      max-width:760px;
       margin:0;
-      color:#9ca19c;
-      font-size:.9rem;
-      line-height:1.6;
+      color:#aeb2ad;
+      font-size:.92rem;
+      line-height:1.62;
     }
 
     .reviews .rating-demo {
-      min-width:190px;
-      padding:22px 24px 20px !important;
+      position:relative;
+      min-width:210px;
+      min-height:210px;
+      padding:24px 22px !important;
       border:1px solid #e5b900 !important;
-      border-radius:2px !important;
-      background:var(--accent) !important;
+      border-radius:4px !important;
+      background:linear-gradient(180deg, #f4c400 0%, #e6b900 100%) !important;
       color:var(--accent-ink) !important;
-      text-align:left !important;
+      display:flex !important;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center !important;
+      overflow:hidden;
       box-shadow:
         0 0 0 1px rgba(244,196,0,.2),
-        0 0 28px rgba(244,196,0,.22),
-        0 14px 34px rgba(0,0,0,.24) !important;
+        0 0 24px rgba(244,196,0,.2),
+        0 0 46px rgba(244,196,0,.11),
+        inset 0 1px 0 rgba(255,255,255,.2),
+        0 18px 38px rgba(0,0,0,.28) !important;
+    }
+
+    .reviews .rating-demo::after {
+      content:'';
+      position:absolute;
+      inset:8px;
+      border:1px solid rgba(9,10,8,.16);
+      pointer-events:none;
     }
 
     .reviews .rating-demo::before {
       content:'★★★★★';
       display:block;
-      margin-bottom:11px;
+      margin:0 0 14px;
       color:var(--accent-ink);
-      font-size:11px;
+      font-size:13px;
       line-height:1;
-      letter-spacing:.15em;
+      letter-spacing:.18em;
     }
 
     .reviews .rating-demo strong {
       color:var(--accent-ink) !important;
-      font-size:4.25rem;
+      font-size:4.65rem;
       line-height:.78;
+      letter-spacing:-.045em;
     }
 
     .reviews .rating-demo span {
-      margin-left:3px;
+      margin-left:4px;
       color:var(--accent-ink) !important;
-      font-size:.88rem;
+      font-size:1rem;
       font-weight:900;
+      vertical-align:middle;
     }
 
     .reviews .rating-demo small {
       display:block;
-      margin-top:11px;
-      color:rgba(9,10,8,.72) !important;
-      font-size:8px;
+      margin-top:15px;
+      color:rgba(9,10,8,.76) !important;
+      font-size:9px;
       font-weight:900;
-      letter-spacing:.1em;
+      line-height:1;
+      letter-spacing:.12em;
+      text-transform:uppercase;
     }
 
     .reviews .demo-warning {
@@ -264,10 +285,11 @@
       .reviews .rating-demo {
         width:100%;
         min-width:0;
+        min-height:190px;
       }
 
       .reviews .rating-demo strong {
-        font-size:3.5rem;
+        font-size:3.7rem;
       }
 
       .reviews .reviews-grid blockquote:first-child {
