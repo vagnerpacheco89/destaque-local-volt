@@ -13,7 +13,7 @@
   section.dataset.aboutPolished = 'true';
 
   if (eyebrow) eyebrow.textContent = 'SOBRE RAFAEL';
-  if (title) title.textContent = 'Atendimento direto com quem vai executar o serviço';
+  if (title) title.textContent = 'Atendimento direto do início ao fim';
 
   const bodyCopy = [
     'Rafael Martins atende serviços elétricos em Palhoça e região, com foco em manutenção, instalações e reparos para residências e pequenos comércios.',
@@ -65,7 +65,7 @@
     button.className = 'btn btn--accent btn--large';
     button.type = 'button';
     button.setAttribute('data-demo-cta', '');
-    button.textContent = 'Falar diretamente com Rafael';
+    button.textContent = 'FALAR DIRETAMENTE COM RAFAEL';
 
     const micro = document.createElement('p');
     micro.className = 'about__action-micro';
@@ -185,7 +185,7 @@
     }
 
     .about .about__copy {
-      max-width:760px;
+      max-width:780px;
     }
 
     .about .about__copy .eyebrow {
@@ -193,9 +193,9 @@
     }
 
     .about .about__copy h2 {
-      max-width:730px !important;
+      max-width:780px !important;
       margin-bottom:22px !important;
-      font-size:clamp(3rem,4.9vw,5.15rem) !important;
+      font-size:clamp(3rem,4.55vw,4.9rem) !important;
       line-height:.9 !important;
       text-transform:uppercase;
     }
@@ -210,7 +210,7 @@
 
     .about .about__copy > p.about__lead {
       margin-bottom:17px !important;
-      color:#e8eae5 !important;
+      color:#a9ada9 !important;
       font-size:1.02rem !important;
       line-height:1.58 !important;
     }
@@ -274,6 +274,7 @@
     .about .about__action .btn {
       flex:0 0 auto;
       min-width:245px;
+      text-transform:uppercase;
     }
 
     .about .about__action-micro {
