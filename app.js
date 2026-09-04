@@ -11,7 +11,9 @@
     loadScript('diagnostic-current.js', () => {
       loadScript('portfolio-current.js', () => {
         loadScript('process-current.js', () => {
-          loadScript('reviews-current.js');
+          loadScript('reviews-current.js', () => {
+            loadScript('reviews-badge-current.js');
+          });
         });
       });
     });
