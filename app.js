@@ -12,7 +12,9 @@
       loadScript('portfolio-current.js', () => {
         loadScript('process-current.js', () => {
           loadScript('reviews-current.js', () => {
-            loadScript('reviews-badge-current.js');
+            loadScript('reviews-badge-current.js', () => {
+              loadScript('reviews-marquee-current.js');
+            });
           });
         });
       });
