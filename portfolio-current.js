@@ -4,6 +4,9 @@
 
   const heading = section.querySelector('.section-heading');
   const title = section.querySelector('#trabalhos-title');
+  const eyebrow = heading?.querySelector('.eyebrow');
+
+  if (eyebrow) eyebrow.textContent = 'TRABALHOS';
 
   if (heading && title) {
     title.innerHTML = '<span>Alguns serviços que fazem</span><span>parte do atendimento</span>';
@@ -18,6 +21,24 @@
       title.insertAdjacentElement('afterend', intro);
     }
     intro.textContent = 'Do quadro elétrico aos pontos de iluminação, estes são alguns exemplos de serviços que podem fazer parte do atendimento.';
+  }
+
+  const grid = section.querySelector('.portfolio-grid');
+  if (grid && !section.querySelector('.portfolio-closing')) {
+    const closing = document.createElement('div');
+    closing.className = 'portfolio-closing';
+    closing.innerHTML = `
+      <h3>Tem um serviço parecido para fazer?</h3>
+      <p>Envie uma foto ou descreva o que precisa para Rafael avaliar o atendimento.</p>
+      <button class="btn btn--accent btn--large portfolio-closing__cta" type="button">Solicitar orçamento pelo WhatsApp</button>
+    `;
+    grid.insertAdjacentElement('afterend', closing);
+
+    const button = closing.querySelector('.portfolio-closing__cta');
+    const dialog = document.querySelector('#demo-dialog');
+    button?.addEventListener('click', () => {
+      if (dialog && typeof dialog.showModal === 'function') dialog.showModal();
+    });
   }
 
   const style = document.createElement('style');
@@ -155,6 +176,34 @@
       max-width:68%;
     }
 
+    #trabalhos .portfolio-closing {
+      max-width:760px;
+      margin:46px auto 0;
+      padding-top:34px;
+      border-top:1px solid #292d2d;
+      text-align:center;
+    }
+
+    #trabalhos .portfolio-closing h3 {
+      margin:0 0 10px;
+      color:#fff;
+      font-size:clamp(1.9rem, 3vw, 2.55rem);
+      line-height:1;
+    }
+
+    #trabalhos .portfolio-closing p {
+      max-width:620px;
+      margin:0 auto 22px;
+      color:#9ca19c;
+      font-size:.9rem;
+      line-height:1.6;
+    }
+
+    #trabalhos .portfolio-closing__cta {
+      min-width:320px;
+      text-transform:none;
+    }
+
     @media (max-width: 760px) {
       #trabalhos .section-heading h2 {
         max-width:100%;
@@ -195,6 +244,16 @@
       #trabalhos .portfolio-card:first-child figcaption strong {
         max-width:68%;
         font-size:1.15rem;
+      }
+
+      #trabalhos .portfolio-closing {
+        margin-top:34px;
+        padding-top:28px;
+      }
+
+      #trabalhos .portfolio-closing__cta {
+        width:100%;
+        min-width:0;
       }
     }
   `;
