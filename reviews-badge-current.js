@@ -17,22 +17,27 @@
 
   const style = document.createElement('style');
   style.textContent = `
+    .reviews .reviews-head {
+      align-items:center !important;
+    }
+
     .reviews .rating-demo {
-      min-width:198px !important;
-      min-height:142px !important;
-      padding:14px 20px 13px !important;
+      min-width:202px !important;
+      min-height:148px !important;
+      padding:15px 22px 14px !important;
       justify-content:center !important;
+      align-self:center !important;
       gap:0 !important;
     }
 
     .reviews .rating-demo::before {
       content:'NOTA' !important;
-      margin:0 0 8px !important;
+      margin:0 0 10px !important;
       color:var(--accent-ink) !important;
-      font-size:9px !important;
+      font-size:11px !important;
       font-weight:900 !important;
       line-height:1 !important;
-      letter-spacing:.16em !important;
+      letter-spacing:.18em !important;
     }
 
     .reviews .rating-demo::after {
@@ -43,39 +48,53 @@
       display:flex;
       align-items:flex-end;
       justify-content:center;
-      gap:6px;
+      gap:7px;
+      margin:0 0 13px;
       line-height:1;
     }
 
     .reviews .rating-demo .rating-score strong {
       margin:0 !important;
-      font-size:3.72rem !important;
+      font-size:3.8rem !important;
       line-height:.78 !important;
       letter-spacing:-.045em !important;
     }
 
     .reviews .rating-demo .rating-score span {
-      margin:0 0 4px !important;
-      font-size:.82rem !important;
+      margin:0 0 5px !important;
+      font-size:.96rem !important;
       line-height:1 !important;
       font-weight:900 !important;
     }
 
     .reviews .rating-demo small {
-      margin-top:9px !important;
-      font-size:7.5px !important;
+      margin:0 !important;
+      color:rgba(9,10,8,.82) !important;
+      font-size:9px !important;
+      font-weight:900 !important;
       line-height:1 !important;
-      letter-spacing:.105em !important;
+      letter-spacing:.11em !important;
       white-space:nowrap;
     }
 
+    @media (max-width:900px) {
+      .reviews .reviews-head {
+        align-items:center !important;
+      }
+    }
+
     @media (max-width:620px) {
+      .reviews .reviews-head {
+        align-items:stretch !important;
+      }
+
       .reviews .rating-demo {
-        min-height:136px !important;
+        min-height:142px !important;
+        align-self:stretch !important;
       }
 
       .reviews .rating-demo .rating-score strong {
-        font-size:3.4rem !important;
+        font-size:3.5rem !important;
       }
     }
   `;
