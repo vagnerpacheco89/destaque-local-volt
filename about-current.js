@@ -12,13 +12,13 @@
 
   section.dataset.aboutPolished = 'true';
 
-  if (eyebrow) eyebrow.textContent = 'SOBRE RAFAEL';
-  if (title) title.textContent = 'Atendimento direto do início ao fim';
+  if (eyebrow) eyebrow.textContent = 'SOBRE MIM';
+  if (title) title.textContent = 'Rafael Martins, eletricista em Palhoça';
 
   const bodyCopy = [
-    'Rafael Martins atende serviços elétricos em Palhoça e região, com foco em manutenção, instalações e reparos para residências e pequenos comércios.',
-    'O contato é direto do início ao fim: Rafael entende a necessidade, avalia o que precisa ser feito, apresenta o orçamento e executa o serviço após a aprovação.',
-    'A forma de trabalhar prioriza explicar o problema com clareza, combinar materiais e execução antes de começar e testar o serviço ao final.'
+    'Rafael Martins atua desde 2017 com serviços elétricos em Palhoça e região, atendendo residências, pequenos comércios e demandas do dia a dia com manutenção, instalações e reparos elétricos.',
+    'Ao longo do trabalho, busca entender primeiro o que realmente precisa ser resolvido, explicar a situação de forma simples e executar somente o que foi combinado com o cliente.',
+    'Organização, cuidado com o local e atenção aos detalhes fazem parte da forma como conduz cada serviço, desde a avaliação inicial até a finalização.'
   ];
 
   paragraphs.forEach((paragraph, index) => {
