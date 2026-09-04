@@ -2,6 +2,24 @@
   const section = document.querySelector('#trabalhos');
   if (!section) return;
 
+  const heading = section.querySelector('.section-heading');
+  const title = section.querySelector('#trabalhos-title');
+
+  if (heading && title) {
+    title.innerHTML = '<span>Alguns serviços que fazem</span><span>parte do atendimento</span>';
+
+    const lateralNote = heading.querySelector(':scope > p');
+    if (lateralNote) lateralNote.remove();
+
+    let intro = heading.querySelector('.portfolio-intro');
+    if (!intro) {
+      intro = document.createElement('p');
+      intro.className = 'portfolio-intro';
+      title.insertAdjacentElement('afterend', intro);
+    }
+    intro.textContent = 'Do quadro elétrico aos pontos de iluminação, estes são alguns exemplos de serviços que podem fazer parte do atendimento.';
+  }
+
   const style = document.createElement('style');
   style.textContent = `
     /* Trabalhos / Portfólio — em polimento */
@@ -12,23 +30,27 @@
     }
 
     #trabalhos .section-heading--split {
-      align-items:end;
+      display:block !important;
       margin-bottom:36px;
       padding-bottom:24px;
       border-bottom:1px solid #292d2d;
     }
 
     #trabalhos .section-heading h2 {
-      max-width:780px;
-      margin-bottom:0;
+      max-width:980px;
+      margin-bottom:16px;
     }
 
-    #trabalhos .section-heading--split > p {
-      max-width:360px;
-      justify-self:end;
-      color:#8f948f;
-      font-size:.78rem;
-      line-height:1.55;
+    #trabalhos .section-heading h2 span {
+      display:block;
+    }
+
+    #trabalhos .portfolio-intro {
+      max-width:760px;
+      margin:0;
+      color:#9ca19c;
+      font-size:.9rem;
+      line-height:1.6;
     }
 
     #trabalhos .portfolio-grid {
@@ -115,19 +137,11 @@
       max-width:68%;
     }
 
-    @media (max-width: 980px) {
-      #trabalhos .section-heading--split {
-        grid-template-columns:1fr;
-        gap:16px;
-      }
-
-      #trabalhos .section-heading--split > p {
-        justify-self:start;
-        max-width:620px;
-      }
-    }
-
     @media (max-width: 760px) {
+      #trabalhos .section-heading h2 {
+        max-width:100%;
+      }
+
       #trabalhos .portfolio-grid {
         display:grid;
         grid-template-columns:1fr 1fr;
