@@ -49,14 +49,15 @@
 
     .diagnostic .problem-panel__label {
       margin: 0 !important;
-      padding: 18px 20px !important;
+      padding: 20px 20px !important;
       border: 0 !important;
       background: linear-gradient(90deg, #f4c400 0%, #e9b900 100%) !important;
       color: #090b0b !important;
-      font-size: 11px !important;
+      font-size: 13px !important;
       font-weight: 950 !important;
-      letter-spacing: .12em !important;
+      letter-spacing: .11em !important;
       line-height: 1.2 !important;
+      text-align: center !important;
     }
 
     .diagnostic .problem-panel ul {
@@ -102,7 +103,8 @@
       }
 
       .diagnostic .problem-panel__label {
-        padding: 16px 17px !important;
+        padding: 17px 16px !important;
+        font-size: 12px !important;
       }
 
       .diagnostic .problem-panel ul {
