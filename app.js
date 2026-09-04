@@ -9,7 +9,9 @@
 
   loadScript('dev-current.js', () => {
     loadScript('diagnostic-current.js', () => {
-      loadScript('portfolio-current.js');
+      loadScript('portfolio-current.js', () => {
+        loadScript('process-current.js');
+      });
     });
   });
 })();
