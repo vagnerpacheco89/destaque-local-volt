@@ -109,16 +109,19 @@
     }
     .diagnostic .availability-note {
       margin:22px 0 18px;
-      padding:13px 15px;
-      border:1px solid #383820;
-      border-left:3px solid var(--accent);
-      background:#0e100c;
-      color:#aeb3ae;
-      font-size:.82rem;
+      padding:15px 17px;
+      border:1px solid #d1a300;
+      border-left:4px solid #202422;
+      border-radius:var(--radius);
+      background:linear-gradient(90deg, #f4c400 0%, #efbb00 100%);
+      color:#0a0c0c;
+      font-size:.84rem;
       line-height:1.5;
+      box-shadow:none;
     }
     .diagnostic .availability-note strong {
-      color:#fff;
+      color:#0a0c0c;
+      font-weight:900;
     }
     .diagnostic .btn--accent {
       min-height:48px;
