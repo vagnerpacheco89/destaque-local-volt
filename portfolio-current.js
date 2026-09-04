@@ -117,15 +117,21 @@
 
     #trabalhos .portfolio-card figcaption span {
       flex:0 0 auto;
-      padding:5px 7px;
-      border:1px solid rgba(244,196,0,.32);
-      background:rgba(5,6,6,.7);
-      color:#c5c8c2;
-      font-size:8px;
-      font-weight:700;
-      line-height:1.2;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px 11px;
+      border:1px solid #d3aa00;
+      border-radius:2px;
+      background:var(--accent) !important;
+      color:var(--accent-ink) !important;
+      font-size:9px;
+      font-weight:900;
+      line-height:1;
+      text-align:center;
       text-transform:uppercase;
-      letter-spacing:.04em;
+      letter-spacing:.055em;
+      box-shadow:0 4px 12px rgba(0,0,0,.16);
     }
 
     #trabalhos .portfolio-card:first-child figcaption {
