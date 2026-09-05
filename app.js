@@ -21,7 +21,9 @@
                         loadScript('faq-current.js', () => {
                           loadScript('faq-controls-current.js', () => {
                             loadScript('final-cta-current.js', () => {
-                              loadScript('typography-current.js');
+                              loadScript('footer-current.js', () => {
+                                loadScript('typography-current.js');
+                              });
                             });
                           });
                         });
