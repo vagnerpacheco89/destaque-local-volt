@@ -54,9 +54,10 @@
 
   if (demo) {
     demo.innerHTML = `
-      <span>© 2026 RAFAEL MARTINS ELÉTRICA</span>
-      <span class="footer-demo__divider" aria-hidden="true"></span>
-      <span>SITE DEMONSTRATIVO DO MODELO VOLT • DESTAQUE LOCAL</span>
+      <div class="footer-demo__center">
+        <span>© 2026 RAFAEL MARTINS ELÉTRICA</span>
+        <span class="footer-demo__highlight">SITE DEMONSTRATIVO DO MODELO VOLT • DESTAQUE LOCAL</span>
+      </div>
       <a href="#topo">VOLTAR AO TOPO ↑</a>
     `;
   }
@@ -238,11 +239,11 @@
     }
 
     .site-footer .footer-demo {
-      min-height:54px;
-      display:flex !important;
+      min-height:58px;
+      display:grid !important;
+      grid-template-columns:1fr auto 1fr;
       align-items:center;
-      gap:16px;
-      padding:16px 0 !important;
+      padding:12px 0 !important;
       border-top:1px solid #202423;
       color:#5f6560 !important;
       font-size:9px !important;
@@ -252,14 +253,32 @@
       text-transform:uppercase;
     }
 
-    .footer-demo__divider {
-      width:1px;
-      height:13px;
-      background:#343938;
+    .footer-demo__center {
+      grid-column:2;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      white-space:nowrap;
+      text-align:center;
+    }
+
+    .footer-demo__highlight {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:28px;
+      padding:0 10px;
+      background:var(--accent);
+      color:var(--accent-ink);
+      font-weight:900;
+      letter-spacing:.07em;
     }
 
     .site-footer .footer-demo a {
-      margin:0 0 0 auto !important;
+      grid-column:3;
+      justify-self:end;
+      margin:0 !important;
       color:#888e89 !important;
       font-size:9px !important;
       font-weight:850;
@@ -289,6 +308,26 @@
       }
     }
 
+    @media (max-width:860px) {
+      .site-footer .footer-demo {
+        grid-template-columns:1fr;
+        justify-items:center;
+        gap:10px;
+        padding:14px 0 !important;
+      }
+
+      .footer-demo__center {
+        grid-column:1;
+        white-space:normal;
+        flex-wrap:wrap;
+      }
+
+      .site-footer .footer-demo a {
+        grid-column:1;
+        justify-self:center;
+      }
+    }
+
     @media (max-width:720px) {
       .site-footer::before {
         width:calc(100% - 36px);
@@ -313,16 +352,6 @@
       .site-footer .footer-contact {
         padding-top:26px !important;
       }
-
-      .site-footer .footer-demo {
-        flex-wrap:wrap;
-        gap:8px 12px;
-      }
-
-      .site-footer .footer-demo a {
-        width:100%;
-        margin:5px 0 0 !important;
-      }
     }
 
     @media (max-width:480px) {
@@ -340,7 +369,15 @@
         border-top:1px solid #202423;
       }
 
-      .footer-demo__divider { display:none; }
+      .footer-demo__center {
+        gap:8px;
+      }
+
+      .footer-demo__highlight {
+        width:100%;
+        min-height:30px;
+        padding:6px 10px;
+      }
     }
   `;
 
