@@ -108,12 +108,47 @@
       padding-right:0;
     }
 
-    .footer-brand--polished .wordmark {
-      margin-bottom:20px;
+    /* A marca do footer deve ser exatamente a mesma assinatura visual do navbar. */
+    .site-footer .footer-brand--polished .wordmark {
+      display:inline-grid !important;
+      grid-template-columns:auto 1fr !important;
+      column-gap:8px !important;
+      align-items:center !important;
+      width:auto !important;
+      margin:0 0 20px !important;
+      color:inherit !important;
+      font-size:inherit !important;
+      line-height:1 !important;
     }
 
-    .footer-brand--polished .wordmark__main {
-      color:#f7f7f2;
+    .site-footer .footer-brand--polished .wordmark::before {
+      content:'' !important;
+      display:block !important;
+      grid-row:1 / span 2 !important;
+      width:22px !important;
+      height:34px !important;
+      background:var(--accent) !important;
+      clip-path:polygon(55% 0,12% 53%,43% 53%,27% 100%,88% 38%,57% 38%) !important;
+    }
+
+    .site-footer .footer-brand--polished .wordmark__main {
+      display:block !important;
+      color:#f7f7f2 !important;
+      font-family:var(--font-display) !important;
+      font-size:22px !important;
+      font-weight:800 !important;
+      line-height:1 !important;
+      text-transform:uppercase !important;
+      letter-spacing:.015em !important;
+    }
+
+    .site-footer .footer-brand--polished .wordmark__sub {
+      display:block !important;
+      color:var(--muted) !important;
+      font-size:9px !important;
+      font-weight:800 !important;
+      line-height:1 !important;
+      letter-spacing:.22em !important;
     }
 
     .footer-brand__text {
