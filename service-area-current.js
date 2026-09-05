@@ -82,6 +82,30 @@
     `;
   }
 
+  if (grid && !grid.querySelector('.service-area__map')) {
+    const map = document.createElement('div');
+    map.className = 'service-area__map';
+    map.innerHTML = `
+      <div class="service-area__map-head">
+        <div>
+          <span class="service-area__map-kicker">LOCALIZAÇÃO</span>
+          <strong>PALHOÇA • SANTA CATARINA</strong>
+        </div>
+        <span class="service-area__map-pin" aria-hidden="true">⌖</span>
+      </div>
+      <div class="service-area__map-frame">
+        <iframe
+          title="Mapa de Palhoça, Santa Catarina"
+          src="https://www.google.com/maps?q=Palho%C3%A7a%2C%20Santa%20Catarina&z=12&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+      </div>
+    `;
+    grid.appendChild(map);
+  }
+
   const style = document.createElement('style');
   style.textContent = `
     .service-area {
@@ -342,6 +366,84 @@
       line-height:1.45 !important;
     }
 
+    .service-area .service-area__map {
+      grid-column:1 / -1;
+      width:100%;
+      margin-top:-22px;
+      overflow:hidden;
+      border:1px solid #373c3b;
+      border-radius:6px;
+      background:#0b0d0d;
+      box-shadow:0 24px 58px rgba(0,0,0,.24);
+    }
+
+    .service-area .service-area__map-head {
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      padding:16px 20px;
+      border-bottom:1px solid #303534;
+      background:linear-gradient(90deg,#101313 0%,#0a0c0c 100%);
+    }
+
+    .service-area .service-area__map-head > div {
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+    }
+
+    .service-area .service-area__map-kicker {
+      color:var(--accent);
+      font-size:11px !important;
+      font-weight:900;
+      line-height:1;
+      letter-spacing:.12em;
+    }
+
+    .service-area .service-area__map-head strong {
+      color:#fff;
+      font:800 1.45rem/1 var(--font-display);
+      letter-spacing:.01em;
+    }
+
+    .service-area .service-area__map-pin {
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      flex:0 0 38px;
+      border:1px solid var(--accent);
+      border-radius:50%;
+      color:var(--accent);
+      font-size:1.2rem;
+      line-height:1;
+      box-shadow:0 0 18px rgba(244,196,0,.08);
+    }
+
+    .service-area .service-area__map-frame {
+      position:relative;
+      height:340px;
+      background:#101313;
+    }
+
+    .service-area .service-area__map-frame::after {
+      content:'';
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.025);
+    }
+
+    .service-area .service-area__map-frame iframe {
+      display:block;
+      width:100%;
+      height:100%;
+      border:0;
+      filter:grayscale(.82) saturate(.72) contrast(1.06) brightness(.86);
+    }
+
     @media (max-width:980px) {
       .service-area .service-area__grid {
         grid-template-columns:1fr !important;
@@ -352,6 +454,9 @@
       }
       .service-area .lead-text {
         max-width:680px;
+      }
+      .service-area .service-area__map {
+        margin-top:0;
       }
     }
 
@@ -409,6 +514,16 @@
       }
       .service-area .service-area__cta {
         width:100%;
+      }
+      .service-area .service-area__map-frame {
+        height:280px;
+      }
+      .service-area .service-area__map-head {
+        min-height:66px;
+        padding:14px 16px;
+      }
+      .service-area .service-area__map-head strong {
+        font-size:1.2rem;
       }
     }
   `;
