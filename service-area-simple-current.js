@@ -12,95 +12,96 @@
   section.dataset.areaSimple = 'true';
 
   if (panel) panel.remove();
+  if (cta) cta.remove();
+  if (oldNote) oldNote.remove();
 
-  if (copy) {
-    let coverage = copy.querySelector('.service-area__coverage');
-    if (!coverage) {
-      coverage = document.createElement('div');
-      coverage.className = 'service-area__coverage';
-      coverage.setAttribute('aria-label', 'Cidades e regiões atendidas');
-      if (cta) cta.insertAdjacentElement('beforebegin', coverage);
-      else copy.appendChild(coverage);
-    }
-
-    coverage.innerHTML = `
-      <article class="service-area__coverage-item service-area__coverage-item--primary">
-        <div class="service-area__coverage-head">
-          <span class="service-area__coverage-mark">01</span>
-          <div>
-            <strong>PALHOÇA</strong>
-            <small>BASE PRINCIPAL</small>
-          </div>
-        </div>
-        <div class="service-area__coverage-neighborhoods" aria-label="Bairros confirmados em Palhoça">
-          <span>Pagani</span>
-          <span>Pedra Branca</span>
-          <span>Passa Vinte</span>
-          <span>Ponte do Imaruim</span>
-          <span>Bela Vista</span>
-          <span>Aririú</span>
-        </div>
-      </article>
-
-      <article class="service-area__coverage-item">
-        <div class="service-area__coverage-head">
-          <span class="service-area__coverage-mark">02</span>
-          <div>
-            <strong>SÃO JOSÉ</strong>
-            <small>ATENDIMENTO POR DESLOCAMENTO</small>
-          </div>
-        </div>
-        <div class="service-area__coverage-neighborhoods service-area__coverage-neighborhoods--pending">
-          <span>BAIRROS SOB CONSULTA</span>
-        </div>
-      </article>
-
-      <article class="service-area__coverage-item">
-        <div class="service-area__coverage-head">
-          <span class="service-area__coverage-mark">03</span>
-          <div>
-            <strong>FLORIANÓPOLIS CONTINENTAL</strong>
-            <small>ATENDIMENTO POR DESLOCAMENTO</small>
-          </div>
-        </div>
-        <div class="service-area__coverage-neighborhoods service-area__coverage-neighborhoods--pending">
-          <span>BAIRROS SOB CONSULTA</span>
-        </div>
-      </article>
-    `;
+  let coverage = section.querySelector('.service-area__coverage');
+  if (!coverage) {
+    coverage = document.createElement('div');
+    coverage.className = 'service-area__coverage';
+    coverage.setAttribute('aria-label', 'Cidades e regiões atendidas');
   }
 
-  if (oldNote) {
-    oldNote.textContent = 'Informe seu bairro no contato para confirmar o atendimento na sua região.';
-  }
+  coverage.innerHTML = `
+    <article class="service-area__coverage-item service-area__coverage-item--primary">
+      <div class="service-area__coverage-head">
+        <span class="service-area__coverage-mark">01</span>
+        <div>
+          <strong>PALHOÇA</strong>
+          <small>BASE PRINCIPAL</small>
+        </div>
+      </div>
+      <div class="service-area__coverage-neighborhoods" aria-label="Bairros confirmados em Palhoça">
+        <span>Pagani</span>
+        <span>Pedra Branca</span>
+        <span>Passa Vinte</span>
+        <span>Ponte do Imaruim</span>
+        <span>Bela Vista</span>
+        <span>Aririú</span>
+      </div>
+    </article>
 
-  if (grid && map) {
-    grid.appendChild(map);
+    <article class="service-area__coverage-item">
+      <div class="service-area__coverage-head">
+        <span class="service-area__coverage-mark">02</span>
+        <div>
+          <strong>SÃO JOSÉ</strong>
+          <small>ATENDIMENTO POR DESLOCAMENTO</small>
+        </div>
+      </div>
+      <div class="service-area__coverage-neighborhoods service-area__coverage-neighborhoods--pending">
+        <span>BAIRROS SOB CONSULTA</span>
+      </div>
+    </article>
+
+    <article class="service-area__coverage-item">
+      <div class="service-area__coverage-head">
+        <span class="service-area__coverage-mark">03</span>
+        <div>
+          <strong>FLORIANÓPOLIS CONTINENTAL</strong>
+          <small>ATENDIMENTO POR DESLOCAMENTO</small>
+        </div>
+      </div>
+      <div class="service-area__coverage-neighborhoods service-area__coverage-neighborhoods--pending">
+        <span>BAIRROS SOB CONSULTA</span>
+      </div>
+    </article>
+  `;
+
+  if (grid) {
+    if (map) grid.insertBefore(coverage, map);
+    else grid.appendChild(coverage);
+
+    if (map) grid.appendChild(map);
   }
 
   const style = document.createElement('style');
   style.id = 'service-area-simple-style';
   style.textContent = `
     .service-area .service-area__grid {
-      grid-template-columns:minmax(0,.88fr) minmax(500px,1.12fr) !important;
-      gap:64px !important;
-      align-items:center !important;
+      grid-template-columns:minmax(0,.9fr) minmax(500px,1.1fr) !important;
+      column-gap:64px !important;
+      row-gap:42px !important;
+      align-items:start !important;
     }
 
     .service-area .service-area__grid > div:first-child {
       max-width:580px !important;
+      align-self:center;
     }
 
     .service-area .service-area__coverage {
       display:grid;
       gap:10px;
-      margin:28px 0 26px;
+      width:100%;
+      margin:0 !important;
+      align-self:start;
     }
 
     .service-area .service-area__coverage-item {
       position:relative;
       overflow:hidden;
-      padding:17px 18px 16px;
+      padding:18px 18px 17px;
       border:1px solid #303534;
       border-radius:10px;
       background:linear-gradient(145deg,#101313 0%,#0b0d0d 100%);
@@ -215,50 +216,51 @@
     }
 
     .service-area .service-area__map {
-      grid-column:auto !important;
+      grid-column:1 / -1 !important;
       width:100%;
       margin:0 !important;
       align-self:stretch;
       display:flex;
       flex-direction:column;
-      min-height:500px;
+      min-height:0 !important;
     }
 
     .service-area .service-area__map-frame {
-      flex:1;
-      min-height:420px;
-      height:auto !important;
+      height:340px !important;
+      min-height:340px !important;
+      flex:none !important;
     }
 
     .service-area .service-area__map-frame iframe {
-      min-height:420px;
+      min-height:340px !important;
     }
 
     @media (max-width:980px) {
       .service-area .service-area__grid {
         grid-template-columns:1fr !important;
-        gap:36px !important;
+        gap:34px !important;
       }
 
       .service-area .service-area__grid > div:first-child {
         max-width:720px !important;
       }
 
+      .service-area .service-area__coverage {
+        max-width:720px;
+      }
+
       .service-area .service-area__map {
-        min-height:440px;
+        grid-column:1 !important;
       }
 
       .service-area .service-area__map-frame,
       .service-area .service-area__map-frame iframe {
-        min-height:360px;
+        height:340px !important;
+        min-height:340px !important;
       }
     }
 
     @media (max-width:620px) {
-      .service-area .service-area__coverage {
-        margin:24px 0 22px;
-      }
-
       .service-area .service-area__coverage-item {
         padding:15px 14px 14px;
         border-radius:9px;
@@ -268,13 +270,10 @@
         margin-left:0;
       }
 
-      .service-area .service-area__map {
-        min-height:390px;
-      }
-
       .service-area .service-area__map-frame,
       .service-area .service-area__map-frame iframe {
-        min-height:310px;
+        height:300px !important;
+        min-height:300px !important;
       }
     }
   `;
