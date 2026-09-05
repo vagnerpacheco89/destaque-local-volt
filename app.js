@@ -1,49 +1,45 @@
 (() => {
-  const loadScript = (src, onLoad) => {
+  const VERSION = '20260905-final-seo-1';
+
+  const loadScript = (src) => new Promise((resolve, reject) => {
     const script = document.createElement('script');
-    script.src = `${src}?v=${Date.now()}`;
-    script.defer = true;
-    if (onLoad) script.addEventListener('load', onLoad, { once: true });
+    script.src = `${src}?v=${VERSION}`;
+    script.async = true;
+    script.addEventListener('load', resolve, { once: true });
+    script.addEventListener('error', reject, { once: true });
     document.head.appendChild(script);
+  });
+
+  const loadSequence = async (...files) => {
+    for (const file of files) await loadScript(file);
   };
 
-  loadScript('dev-current.js', () => {
-    loadScript('diagnostic-current.js', () => {
-      loadScript('portfolio-current.js', () => {
-        loadScript('process-current.js', () => {
-          loadScript('reviews-current.js', () => {
-            loadScript('reviews-badge-current.js', () => {
-              loadScript('reviews-marquee-current.js', () => {
-                loadScript('about-current.js', () => {
-                  loadScript('service-area-current.js', () => {
-                    loadScript('service-area-simple-current.js', () => {
-                      loadScript('service-area-map-current.js', () => {
-                        loadScript('faq-current.js', () => {
-                          loadScript('faq-controls-current.js', () => {
-                            loadScript('final-cta-current.js', () => {
-                              loadScript('footer-current.js', () => {
-                                loadScript('brand-current.js', () => {
-                                  loadScript('footer-bottom-current.js', () => {
-                                    loadScript('cta-standard-current.js', () => {
-                                      loadScript('mobile-diagnostic-current.js', () => {
-                                        loadScript('typography-current.js');
-                                      });
-                                    });
-                                  });
-                                });
-                              });
-                            });
-                          });
-                        });
-                      });
-                    });
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
+  const init = async () => {
+    try {
+      // Base comum primeiro; depois cada seção é carregada em paralelo,
+      // preservando apenas as dependências internas de cada grupo.
+      await loadScript('dev-current.js');
+
+      await Promise.all([
+        loadSequence('diagnostic-current.js', 'mobile-diagnostic-current.js'),
+        loadSequence('portfolio-current.js'),
+        loadSequence('process-current.js'),
+        loadSequence('reviews-current.js', 'reviews-badge-current.js', 'reviews-marquee-current.js'),
+        loadSequence('about-current.js'),
+        loadSequence('service-area-current.js', 'service-area-simple-current.js', 'service-area-map-current.js'),
+        loadSequence('faq-current.js', 'faq-controls-current.js'),
+        loadSequence('final-cta-current.js'),
+        loadSequence('footer-current.js', 'brand-current.js', 'footer-bottom-current.js')
+      ]);
+
+      // Ajustes globais devem rodar depois que todas as seções já existem no DOM final.
+      await loadScript('cta-standard-current.js');
+      await loadScript('seo-current.js');
+      await loadScript('typography-current.js');
+    } catch (error) {
+      console.error('VOLT: falha ao carregar os ajustes finais.', error);
+    }
+  };
+
+  init();
 })();
