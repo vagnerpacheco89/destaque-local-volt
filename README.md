@@ -1,6 +1,8 @@
-# Destaque Local — VOLT
+# Destaque Local — VOLT MASTER v1.0
 
 Template one-page VOLT para eletricistas locais, mantido como base demonstrativa e master de produto da Destaque Local | SITES.
+
+**Status: MASTER v1.0 — consolidação e QA pós-refatoração concluídas em 2026-09-05.**
 
 ## Estrutura final
 
@@ -9,11 +11,12 @@ A versão aprovada foi consolidada para evitar a antiga cadeia de arquivos `*-cu
 - `index.html` — HTML final, conteúdo, estrutura semântica, SEO e Schema do demo
 - `styles.css` — estilos base do VOLT
 - `volt-final.css` — direção visual final aprovada e responsividade
-- `volt-final.js` — somente comportamentos de interface: menu mobile, FAQ, modal demo, voltar ao topo e reveal
+- `volt-final.js` — somente comportamentos de interface: menu mobile, FAQ, modal demo, navegação interna e reveal
 - `assets/` — imagens do template
 - `robots.txt` — regras de crawling do demo
 - `sitemap.xml` — sitemap do demo
 - `SEO-CLIENT-CHECKLIST.md` — checklist para transformar o demo em um site real indexável
+- `QA-MASTER-v1.0.md` — registro da revisão pós-refatoração que aprovou esta versão como master
 
 O HTML não depende mais de JavaScript para criar, reescrever ou reorganizar as seções aprovadas. O JavaScript ficou restrito a comportamentos interativos.
 
@@ -33,6 +36,8 @@ Fluxo normal: Founder dá feedback → ChatGPT analisa → implementa no repo �
 
 Codex não é etapa padrão; fica reservado para tarefas que realmente exijam engenharia especializada.
 
-## Segurança da consolidação
+## Segurança e versões
 
-Antes da consolidação final foi criado o branch `archive/volt-pre-consolidation-20260905`, preservando o estado anterior com todos os overrides de desenvolvimento.
+- `archive/volt-pre-consolidation-20260905` preserva o estado anterior à consolidação, com os antigos overrides de desenvolvimento.
+- `archive/volt-post-consolidation-pre-qa` preserva a versão consolidada imediatamente antes da QA final.
+- `release/volt-master-v1.0` é o branch congelado da versão aprovada para servir de base às adaptações de clientes.
