@@ -14,7 +14,9 @@
           loadScript('reviews-current.js', () => {
             loadScript('reviews-badge-current.js', () => {
               loadScript('reviews-marquee-current.js', () => {
-                loadScript('about-current.js');
+                loadScript('about-current.js', () => {
+                  loadScript('typography-current.js');
+                });
               });
             });
           });
