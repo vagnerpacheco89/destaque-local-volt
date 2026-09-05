@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20260905-final-seo-2';
+  const VERSION = '20260905-static-seo-1';
 
   const loadScript = (src) => new Promise((resolve, reject) => {
     const script = document.createElement('script');
@@ -16,8 +16,6 @@
 
   const init = async () => {
     try {
-      // Base comum primeiro; depois cada seção é carregada em paralelo,
-      // preservando apenas as dependências internas de cada grupo.
       await loadScript('dev-current.js');
 
       await Promise.all([
@@ -32,10 +30,9 @@
         loadSequence('footer-current.js', 'brand-current.js', 'footer-bottom-current.js')
       ]);
 
-      // Ajustes globais devem rodar depois que todas as seções já existem no DOM final.
       await loadScript('cta-events-current.js');
       await loadScript('cta-standard-current.js');
-      await loadScript('seo-current.js');
+      await loadScript('semantic-current.js');
       await loadScript('typography-current.js');
     } catch (error) {
       console.error('VOLT: falha ao carregar os ajustes finais.', error);
