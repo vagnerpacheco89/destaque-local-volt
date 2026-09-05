@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20260905-final-seo-1';
+  const VERSION = '20260905-final-seo-2';
 
   const loadScript = (src) => new Promise((resolve, reject) => {
     const script = document.createElement('script');
@@ -33,6 +33,7 @@
       ]);
 
       // Ajustes globais devem rodar depois que todas as seções já existem no DOM final.
+      await loadScript('cta-events-current.js');
       await loadScript('cta-standard-current.js');
       await loadScript('seo-current.js');
       await loadScript('typography-current.js');
