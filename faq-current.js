@@ -12,7 +12,7 @@
   section.dataset.faqPolished = 'true';
 
   if (eyebrow) eyebrow.textContent = 'DÚVIDAS FREQUENTES';
-  if (title) title.innerHTML = 'RESPOSTAS RÁPIDAS<br>ANTES DE CHAMAR';
+  if (title) title.textContent = 'RESPOSTAS RÁPIDAS ANTES DE CHAMAR';
   if (introText) {
     introText.textContent = 'Veja as principais dúvidas sobre orçamento, atendimento e serviços elétricos em Palhoça e região.';
     introText.classList.add('section-intro');
@@ -94,15 +94,16 @@
 
     .faq .faq__intro {
       position:static !important;
-      max-width:900px !important;
+      max-width:none !important;
       margin-bottom:40px;
     }
 
     .faq .faq__intro h2 {
-      max-width:900px !important;
+      max-width:none !important;
       margin-bottom:18px;
-      font-size:clamp(3.15rem,4.9vw,5.1rem);
+      font-size:clamp(2.85rem,4.15vw,4.5rem);
       line-height:.9;
+      white-space:nowrap;
     }
 
     .faq .faq__intro .section-intro {
@@ -256,6 +257,10 @@
     }
 
     @media (max-width:900px) {
+      .faq .faq__intro h2 {
+        white-space:normal;
+      }
+
       .faq .faq__list {
         grid-template-columns:1fr;
         gap:26px;
