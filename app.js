@@ -23,7 +23,9 @@
                             loadScript('final-cta-current.js', () => {
                               loadScript('footer-current.js', () => {
                                 loadScript('cta-standard-current.js', () => {
-                                  loadScript('typography-current.js');
+                                  loadScript('mobile-diagnostic-current.js', () => {
+                                    loadScript('typography-current.js');
+                                  });
                                 });
                               });
                             });
