@@ -17,7 +17,9 @@
                 loadScript('about-current.js', () => {
                   loadScript('service-area-current.js', () => {
                     loadScript('service-area-simple-current.js', () => {
-                      loadScript('typography-current.js');
+                      loadScript('service-area-map-current.js', () => {
+                        loadScript('typography-current.js');
+                      });
                     });
                   });
                 });
