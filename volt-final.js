@@ -4,7 +4,21 @@
   const menuButton = document.querySelector('.menu-toggle');
   const mobileMenu = document.querySelector('#mobile-menu');
   const dialog = document.querySelector('#demo-dialog');
+  const header = document.querySelector('.site-header');
   const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+
+  /* Demo safety: service CTAs never retain an external WhatsApp destination. */
+  document.querySelectorAll('.service-card__cta, .services-other__cta').forEach((anchor) => {
+    anchor.setAttribute('href', '#contato');
+    anchor.removeAttribute('target');
+    anchor.removeAttribute('rel');
+    anchor.setAttribute('data-demo-cta', '');
+  });
+
+  document.querySelectorAll('[data-demo-cta]').forEach((cta) => {
+    cta.setAttribute('aria-haspopup', 'dialog');
+    cta.setAttribute('aria-controls', 'demo-dialog');
+  });
 
   if (menuButton && mobileMenu) {
     menuButton.addEventListener('click', () => {
@@ -32,20 +46,19 @@
     });
   });
 
-  const demoSelectors = [
-    '[data-demo-cta]',
-    '.service-card__cta',
-    '.services-other__cta'
-  ].join(',');
-
   document.addEventListener('click', (event) => {
-    const cta = event.target.closest(demoSelectors);
+    const cta = event.target.closest('[data-demo-cta]');
     if (!cta) return;
 
-    if (cta.tagName === 'A') event.preventDefault();
+    if (dialog && typeof dialog.showModal === 'function') {
+      event.preventDefault();
+      if (!dialog.open) dialog.showModal();
+      return;
+    }
 
-    if (dialog && typeof dialog.showModal === 'function' && !dialog.open) {
-      dialog.showModal();
+    if (cta.tagName === 'BUTTON') {
+      const fallbackTarget = document.querySelector('#contato');
+      fallbackTarget?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     }
   });
 
@@ -57,10 +70,24 @@
     });
   }
 
-  const backToTop = document.querySelector('.site-footer .footer-demo a[href="#topo"]');
-  backToTop?.addEventListener('click', (event) => {
-    event.preventDefault();
-    window.scrollTo({ top: 0, left: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  /* Internal navigation accounts for the sticky header on desktop and mobile. */
+  document.querySelectorAll('a[href^="#"]:not([data-demo-cta])').forEach((anchor) => {
+    const hash = anchor.getAttribute('href');
+    if (!hash || hash === '#') return;
+
+    anchor.addEventListener('click', (event) => {
+      const target = document.querySelector(hash);
+      if (!target) return;
+
+      event.preventDefault();
+      const headerOffset = (header?.getBoundingClientRect().height || 0) + 12;
+      const top = hash === '#topo'
+        ? 0
+        : Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerOffset);
+
+      window.scrollTo({ top, left: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+      if (history.replaceState) history.replaceState(null, '', hash);
+    });
   });
 
   if (!reduceMotion && 'IntersectionObserver' in window) {
