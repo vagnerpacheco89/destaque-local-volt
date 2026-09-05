@@ -3,6 +3,8 @@
   const map = section?.querySelector('.service-area__map');
   if (!section || !map) return;
 
+  map.querySelector('.service-area__map-pin')?.remove();
+
   const style = document.createElement('style');
   style.id = 'service-area-map-current-style';
   style.textContent = `
@@ -39,7 +41,7 @@
       display:flex !important;
       align-items:center !important;
       justify-content:center !important;
-      padding:17px 72px !important;
+      padding:17px 24px !important;
       text-align:center;
       border-bottom:1px solid rgba(244,196,0,.28) !important;
       background:
@@ -66,16 +68,6 @@
       letter-spacing:.025em !important;
     }
 
-    .service-area .service-area__map-pin {
-      position:absolute;
-      right:18px;
-      top:50%;
-      transform:translateY(-50%);
-      border-color:rgba(244,196,0,.72) !important;
-      background:rgba(244,196,0,.055);
-      box-shadow:0 0 18px rgba(244,196,0,.11) !important;
-    }
-
     .service-area .service-area__map-frame {
       position:relative;
       background:#0a0c0c !important;
@@ -97,14 +89,7 @@
     @media (max-width:620px) {
       .service-area .service-area__map-head {
         min-height:70px !important;
-        padding:14px 52px !important;
-      }
-
-      .service-area .service-area__map-pin {
-        right:12px;
-        width:34px;
-        height:34px;
-        flex-basis:34px;
+        padding:14px 18px !important;
       }
     }
   `;
