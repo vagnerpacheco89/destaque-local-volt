@@ -31,7 +31,7 @@
           <small>BASE PRINCIPAL</small>
         </div>
       </div>
-      <div class="service-area__coverage-neighborhoods" aria-label="Bairros confirmados em Palhoça">
+      <div class="service-area__coverage-neighborhoods" aria-label="Bairros em Palhoça">
         <span>Pagani</span>
         <span>Pedra Branca</span>
         <span>Passa Vinte</span>
@@ -46,11 +46,13 @@
         <span class="service-area__coverage-mark">02</span>
         <div>
           <strong>SÃO JOSÉ</strong>
-          <small>ATENDIMENTO POR DESLOCAMENTO</small>
+          <small>POR DESLOCAMENTO</small>
         </div>
       </div>
-      <div class="service-area__coverage-neighborhoods service-area__coverage-neighborhoods--pending">
-        <span>BAIRROS SOB CONSULTA</span>
+      <div class="service-area__coverage-neighborhoods" aria-label="Bairros em São José">
+        <span>Kobrasol</span>
+        <span>Campinas</span>
+        <span>Barreiros</span>
       </div>
     </article>
 
@@ -59,11 +61,13 @@
         <span class="service-area__coverage-mark">03</span>
         <div>
           <strong>FLORIANÓPOLIS CONTINENTAL</strong>
-          <small>ATENDIMENTO POR DESLOCAMENTO</small>
+          <small>POR DESLOCAMENTO</small>
         </div>
       </div>
-      <div class="service-area__coverage-neighborhoods service-area__coverage-neighborhoods--pending">
-        <span>BAIRROS SOB CONSULTA</span>
+      <div class="service-area__coverage-neighborhoods" aria-label="Bairros em Florianópolis continental">
+        <span>Estreito</span>
+        <span>Coqueiros</span>
+        <span>Capoeiras</span>
       </div>
     </article>
   `;
@@ -79,9 +83,9 @@
   style.id = 'service-area-simple-style';
   style.textContent = `
     .service-area .service-area__grid {
-      grid-template-columns:minmax(0,.9fr) minmax(500px,1.1fr) !important;
-      column-gap:64px !important;
-      row-gap:42px !important;
+      grid-template-columns:minmax(0,.9fr) minmax(520px,1.1fr) !important;
+      column-gap:56px !important;
+      row-gap:38px !important;
       align-items:start !important;
     }
 
@@ -92,7 +96,7 @@
 
     .service-area .service-area__coverage {
       display:grid;
-      gap:10px;
+      gap:8px;
       width:100%;
       margin:0 !important;
       align-self:start;
@@ -101,11 +105,16 @@
     .service-area .service-area__coverage-item {
       position:relative;
       overflow:hidden;
-      padding:18px 18px 17px;
+      display:grid;
+      grid-template-columns:minmax(190px,32%) minmax(0,68%);
+      align-items:center;
+      gap:18px;
+      min-height:92px;
+      padding:14px 16px;
       border:1px solid #303534;
       border-radius:10px;
       background:linear-gradient(145deg,#101313 0%,#0b0d0d 100%);
-      box-shadow:0 10px 28px rgba(0,0,0,.16);
+      box-shadow:0 8px 22px rgba(0,0,0,.14);
     }
 
     .service-area .service-area__coverage-item::before {
@@ -132,15 +141,18 @@
     .service-area .service-area__coverage-head {
       display:flex;
       align-items:center;
-      gap:13px;
+      gap:12px;
+      min-width:0;
+      padding-right:16px;
+      border-right:1px solid #2d3230;
     }
 
     .service-area .service-area__coverage-mark {
-      width:34px;
-      height:34px;
+      width:36px;
+      height:36px;
       display:grid;
       place-items:center;
-      flex:0 0 34px;
+      flex:0 0 36px;
       border:1px solid #454b48;
       border-radius:50%;
       color:#8d938f;
@@ -163,8 +175,9 @@
     .service-area .service-area__coverage-item strong {
       display:block;
       color:#f4f5f0;
-      font:800 1.2rem/1 var(--font-display);
+      font:800 1.18rem/1 var(--font-display);
       letter-spacing:.015em;
+      white-space:normal;
     }
 
     .service-area .service-area__coverage-item--primary strong {
@@ -184,14 +197,16 @@
     .service-area .service-area__coverage-neighborhoods {
       display:flex;
       flex-wrap:wrap;
+      align-items:center;
       gap:7px;
-      margin:14px 0 0 47px;
+      margin:0;
+      min-width:0;
     }
 
     .service-area .service-area__coverage-neighborhoods span {
       display:inline-flex;
       align-items:center;
-      min-height:30px;
+      min-height:28px;
       padding:0 10px;
       border:1px solid #343a37;
       border-radius:999px;
@@ -200,19 +215,13 @@
       font-size:12px !important;
       font-weight:700;
       line-height:1;
+      white-space:nowrap;
     }
 
     .service-area .service-area__coverage-item--primary .service-area__coverage-neighborhoods span {
       border-color:#554d1f;
       background:rgba(244,196,0,.045);
       color:#e2dfc9;
-    }
-
-    .service-area .service-area__coverage-neighborhoods--pending span {
-      border-style:dashed;
-      color:#777d79;
-      font-size:11px !important;
-      letter-spacing:.06em;
     }
 
     .service-area .service-area__map {
@@ -235,6 +244,12 @@
       min-height:340px !important;
     }
 
+    @media (max-width:1120px) {
+      .service-area .service-area__coverage-item {
+        grid-template-columns:minmax(170px,36%) minmax(0,64%);
+      }
+    }
+
     @media (max-width:980px) {
       .service-area .service-area__grid {
         grid-template-columns:1fr !important;
@@ -246,7 +261,11 @@
       }
 
       .service-area .service-area__coverage {
-        max-width:720px;
+        max-width:100%;
+      }
+
+      .service-area .service-area__coverage-item {
+        grid-template-columns:minmax(190px,32%) minmax(0,68%);
       }
 
       .service-area .service-area__map {
@@ -260,14 +279,29 @@
       }
     }
 
-    @media (max-width:620px) {
+    @media (max-width:680px) {
       .service-area .service-area__coverage-item {
-        padding:15px 14px 14px;
+        grid-template-columns:1fr;
+        gap:12px;
+        min-height:0;
+        padding:14px;
         border-radius:9px;
       }
 
+      .service-area .service-area__coverage-head {
+        padding-right:0;
+        padding-bottom:12px;
+        border-right:0;
+        border-bottom:1px solid #2d3230;
+      }
+
       .service-area .service-area__coverage-neighborhoods {
-        margin-left:0;
+        gap:6px;
+      }
+
+      .service-area .service-area__coverage-neighborhoods span {
+        min-height:27px;
+        padding:0 9px;
       }
 
       .service-area .service-area__map-frame,
