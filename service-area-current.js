@@ -36,46 +36,27 @@
 
   if (panel) {
     panel.innerHTML = `
-      <div class="area-panel__top">
-        <span class="area-panel__label">BASE DE ATENDIMENTO</span>
-        <strong>PALHOÇA</strong>
-        <p>Atendimento local com deslocamento para cidades próximas conforme disponibilidade.</p>
-      </div>
-
-      <div class="area-route" aria-label="Cidades atendidas">
-        <div class="area-route__city area-route__city--primary">
-          <span>01</span>
+      <div class="area-summary">
+        <div class="area-summary__main">
+          <span>BASE DE ATENDIMENTO</span>
           <strong>PALHOÇA</strong>
-          <small>BASE PRINCIPAL</small>
         </div>
-        <div class="area-route__city">
-          <span>02</span>
-          <strong>SÃO JOSÉ</strong>
-          <small>DESLOCAMENTO</small>
-        </div>
-        <div class="area-route__city">
-          <span>03</span>
-          <strong>FLORIANÓPOLIS</strong>
-          <small>CONTINENTAL</small>
+        <div class="area-summary__nearby">
+          <span>TAMBÉM ATENDO</span>
+          <strong>São José</strong>
+          <strong>Florianópolis continental</strong>
         </div>
       </div>
 
-      <div class="area-panel__neighborhoods">
-        <span class="area-panel__sub">BAIRROS EM PALHOÇA</span>
-        <div class="area-chips">
-          <span>Pagani</span>
-          <span>Pedra Branca</span>
-          <span>Passa Vinte</span>
-          <span>Ponte do Imaruim</span>
-          <span>Bela Vista</span>
-          <span>Aririú</span>
-        </div>
+      <div class="area-neighborhoods-simple">
+        <span>BAIRROS EM PALHOÇA</span>
+        <p>Pagani • Pedra Branca • Passa Vinte • Ponte do Imaruim • Bela Vista • Aririú</p>
       </div>
 
-      <div class="hours-grid">
-        <div><small>SEG–SEX</small><strong>08:00–18:00</strong></div>
-        <div><small>SÁBADO</small><strong>08:00–13:00</strong></div>
-        <div><small>DOM / FERIADOS</small><strong>Não atende</strong></div>
+      <div class="area-hours-simple" aria-label="Horários de atendimento">
+        <div><span>SEG–SEX</span><strong>08:00–18:00</strong></div>
+        <div><span>SÁBADO</span><strong>08:00–13:00</strong></div>
+        <div><span>DOM / FERIADOS</span><strong>Não atende</strong></div>
       </div>
 
       <p class="area-note">Atendimento conforme disponibilidade e deslocamento. Não há endereço físico aberto ao público.</p>
@@ -130,7 +111,7 @@
 
     .service-area .service-area__grid {
       display:grid !important;
-      grid-template-columns:minmax(0,.82fr) minmax(520px,1.18fr) !important;
+      grid-template-columns:minmax(0,.82fr) minmax(500px,1.18fr) !important;
       gap:72px !important;
       align-items:center !important;
     }
@@ -170,10 +151,10 @@
     .service-area .area-panel {
       position:relative;
       overflow:hidden;
-      border:1px solid #373c3b;
+      border:1px solid #343938;
       border-radius:6px;
-      background:linear-gradient(145deg,#101313 0%,#090b0b 72%);
-      box-shadow:0 24px 58px rgba(0,0,0,.28);
+      background:linear-gradient(145deg,#101313 0%,#090b0b 78%);
+      box-shadow:0 24px 58px rgba(0,0,0,.26);
     }
 
     .service-area .area-panel::before {
@@ -186,181 +167,113 @@
       background:var(--accent);
     }
 
-    .service-area .area-panel__top {
+    .service-area .area-summary {
       display:grid;
-      grid-template-columns:1fr auto;
-      column-gap:22px;
-      align-items:end;
-      padding:24px 26px 22px;
-      border-bottom:1px solid #303534;
-      background:rgba(255,255,255,.012);
+      grid-template-columns:1fr 1fr;
+      gap:0;
+      min-height:152px;
+      border-bottom:1px solid #2d3230;
     }
 
-    .service-area .area-panel__label {
-      grid-column:1 / -1;
-      margin-bottom:8px;
-      color:var(--accent);
-      font-size:12px;
-      font-weight:900;
-      line-height:1;
-      letter-spacing:.12em;
-    }
-
-    .service-area .area-panel__top > strong {
-      color:#fff;
-      font:800 2.8rem/.86 var(--font-display);
-      letter-spacing:-.01em;
-    }
-
-    .service-area .area-panel__top p {
-      max-width:280px;
-      margin:0;
-      color:#919691;
-      font-size:12px !important;
-      line-height:1.5;
-      text-align:right;
-    }
-
-    .service-area .area-route {
-      position:relative;
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      padding:24px 22px 22px;
-      border-bottom:1px solid #303534;
-    }
-
-    .service-area .area-route::before {
-      content:'';
-      position:absolute;
-      left:16.66%;
-      right:16.66%;
-      top:43px;
-      height:1px;
-      background:#4a504d;
-    }
-
-    .service-area .area-route__city {
-      position:relative;
-      z-index:1;
-      min-width:0;
-      padding:0 12px;
-      text-align:center;
-    }
-
-    .service-area .area-route__city > span {
-      width:36px;
-      height:36px;
-      margin:0 auto 14px;
-      display:grid;
-      place-items:center;
-      border:1px solid #555b57;
-      border-radius:50%;
-      background:#0a0c0c;
-      color:#a8ada8;
-      font-size:10px;
-      font-weight:900;
-      line-height:1;
-      box-shadow:0 0 0 7px #0c0f0f;
-    }
-
-    .service-area .area-route__city--primary > span {
-      border-color:var(--accent);
-      background:var(--accent);
-      color:var(--accent-ink);
-      box-shadow:0 0 0 7px #0c0f0f, 0 0 22px rgba(244,196,0,.12);
-    }
-
-    .service-area .area-route__city strong {
-      display:block;
-      color:#fff;
-      font:800 1.18rem/1 var(--font-display);
-      letter-spacing:.01em;
-    }
-
-    .service-area .area-route__city--primary strong {
-      color:var(--accent);
-    }
-
-    .service-area .area-route__city small {
-      display:block;
-      margin-top:6px;
-      color:#777d79;
-      font-size:11px !important;
-      font-weight:800;
-      line-height:1.1;
-      letter-spacing:.07em;
-    }
-
-    .service-area .area-panel__neighborhoods {
-      padding:20px 22px 22px;
-      border-bottom:1px solid #303534;
-    }
-
-    .service-area .area-panel__sub {
-      display:block;
-      margin-bottom:12px;
-      color:#8f958f;
-      font-size:11px !important;
-      font-weight:900;
-      line-height:1;
-      letter-spacing:.11em;
-    }
-
-    .service-area .area-chips {
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-
-    .service-area .area-chips span {
-      display:inline-flex;
-      align-items:center;
-      min-height:34px;
-      padding:0 12px;
-      border:1px solid #363b39;
-      border-radius:3px;
-      background:#0c0f0e;
-      color:#d5d8d2;
-      font-size:12px !important;
-      font-weight:700;
-    }
-
-    .service-area .hours-grid {
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      border-bottom:1px solid #303534;
-    }
-
-    .service-area .hours-grid > div {
-      min-height:78px;
+    .service-area .area-summary__main,
+    .service-area .area-summary__nearby {
       display:flex;
       flex-direction:column;
       justify-content:center;
-      padding:15px 18px;
-      border-right:1px solid #303534;
+      padding:28px 30px;
     }
 
-    .service-area .hours-grid > div:last-child {
+    .service-area .area-summary__main {
+      background:linear-gradient(135deg, rgba(244,196,0,.08), transparent 74%);
+      border-right:1px solid #2d3230;
+    }
+
+    .service-area .area-summary span,
+    .service-area .area-neighborhoods-simple > span,
+    .service-area .area-hours-simple span {
+      color:#868c87;
+      font-size:11px !important;
+      font-weight:900;
+      line-height:1.1;
+      letter-spacing:.11em;
+    }
+
+    .service-area .area-summary__main > span {
+      color:var(--accent);
+      margin-bottom:10px;
+    }
+
+    .service-area .area-summary__main > strong {
+      color:#fff;
+      font:800 3.2rem/.84 var(--font-display);
+      letter-spacing:-.02em;
+    }
+
+    .service-area .area-summary__nearby > span {
+      margin-bottom:11px;
+    }
+
+    .service-area .area-summary__nearby > strong {
+      color:#eceee9;
+      font-size:16px;
+      line-height:1.45;
+      font-weight:750;
+    }
+
+    .service-area .area-summary__nearby > strong + strong {
+      margin-top:2px;
+    }
+
+    .service-area .area-neighborhoods-simple {
+      padding:22px 30px 24px;
+      border-bottom:1px solid #2d3230;
+    }
+
+    .service-area .area-neighborhoods-simple > span {
+      display:block;
+      margin-bottom:10px;
+    }
+
+    .service-area .area-neighborhoods-simple p {
+      margin:0 !important;
+      color:#d6d9d3 !important;
+      font-size:14px !important;
+      line-height:1.7 !important;
+    }
+
+    .service-area .area-hours-simple {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      border-bottom:1px solid #2d3230;
+    }
+
+    .service-area .area-hours-simple > div {
+      min-height:84px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:17px 20px;
+      border-right:1px solid #2d3230;
+    }
+
+    .service-area .area-hours-simple > div:last-child {
       border-right:0;
     }
 
-    .service-area .hours-grid small {
-      margin-bottom:6px;
-      color:#777d79;
-      font-size:11px !important;
-      font-weight:800;
-      letter-spacing:.08em;
+    .service-area .area-hours-simple span {
+      margin-bottom:7px;
     }
 
-    .service-area .hours-grid strong {
+    .service-area .area-hours-simple strong {
       color:#fff;
-      font-size:14px;
+      font-size:15px;
       line-height:1.2;
+      font-weight:800;
     }
 
     .service-area .area-note {
       margin:0 !important;
-      padding:14px 22px !important;
+      padding:14px 30px !important;
       color:#747a75 !important;
       font-size:11px !important;
       line-height:1.45 !important;
@@ -461,69 +374,56 @@
     }
 
     @media (max-width:620px) {
-      .service-area .area-panel__top {
-        grid-template-columns:1fr;
-        gap:12px;
-      }
-      .service-area .area-panel__top p {
-        max-width:none;
-        text-align:left;
-      }
-      .service-area .area-route {
-        grid-template-columns:1fr;
-        gap:18px;
-        padding:20px;
-      }
-      .service-area .area-route::before {
-        left:37px;
-        right:auto;
-        top:38px;
-        bottom:38px;
-        width:1px;
-        height:auto;
-      }
-      .service-area .area-route__city {
-        display:grid;
-        grid-template-columns:36px 1fr;
-        grid-template-rows:auto auto;
-        column-gap:14px;
-        padding:0;
-        text-align:left;
-      }
-      .service-area .area-route__city > span {
-        grid-row:1 / span 2;
-        margin:0;
-      }
-      .service-area .area-route__city strong,
-      .service-area .area-route__city small {
-        align-self:center;
-      }
-      .service-area .area-route__city small {
-        margin-top:2px;
-      }
-      .service-area .hours-grid {
+      .service-area .area-summary {
         grid-template-columns:1fr;
       }
-      .service-area .hours-grid > div {
-        min-height:64px;
+
+      .service-area .area-summary__main {
         border-right:0;
-        border-bottom:1px solid #303534;
+        border-bottom:1px solid #2d3230;
       }
-      .service-area .hours-grid > div:last-child {
+
+      .service-area .area-summary__main,
+      .service-area .area-summary__nearby,
+      .service-area .area-neighborhoods-simple {
+        padding-left:20px;
+        padding-right:20px;
+      }
+
+      .service-area .area-hours-simple {
+        grid-template-columns:1fr;
+      }
+
+      .service-area .area-hours-simple > div {
+        min-height:66px;
+        border-right:0;
+        border-bottom:1px solid #2d3230;
+      }
+
+      .service-area .area-hours-simple > div:last-child {
         border-bottom:0;
       }
+
+      .service-area .area-note {
+        padding-left:20px !important;
+        padding-right:20px !important;
+      }
+
       .service-area .service-area__cta {
         width:100%;
       }
-      .service-area .service-area__map-frame {
-        height:280px;
-      }
+
       .service-area .service-area__map-head {
-        min-height:66px;
+        min-height:64px;
         padding:14px 16px;
       }
+
       .service-area .service-area__map-head strong {
         font-size:1.2rem;
+      }
+
+      .service-area .service-area__map-frame {
+        height:300px;
       }
     }
   `;
