@@ -10,4 +10,4 @@ Allow: /
 User-agent: ChatGPT-User
 Allow: /
 
-Sitemap: https://vagnerpacheco89.github.io/destaque-local-volt/sitemap.xml
+Sitemap: https://volt.destaquelocal.com.br/sitemap.xml
