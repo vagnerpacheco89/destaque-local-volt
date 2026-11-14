@@ -29,7 +29,7 @@ O HTML não depende mais de JavaScript para criar, reescrever ou reorganizar as 
 ## Operação
 
 - GitHub = source of truth do código executável e histórico.
-- Google Drive = source of truth de produto, direção visual, copy, regras e contexto.
+- `destaque-local-core/sites/producao.md` = referência operacional aprovada de produto e produção.
 - O preview via GitHub Pages é usado para revisão rápida do template.
 
 Fluxo normal: Founder dá feedback → ChatGPT analisa → implementa no repo → preview atualiza → Founder avalia.
@@ -41,3 +41,10 @@ Codex não é etapa padrão; fica reservado para tarefas que realmente exijam en
 - `archive/volt-pre-consolidation-20260905` preserva o estado anterior à consolidação, com os antigos overrides de desenvolvimento.
 - `archive/volt-post-consolidation-pre-qa` preserva a versão consolidada imediatamente antes da QA final.
 - `release/volt-master-v1.0` é o branch congelado da versão aprovada para servir de base às adaptações de clientes.
+
+## Polimento — convite para avaliação — 14/11/2026
+
+- Convite para avaliar no Google após os depoimentos e antes de Sobre, adaptado da implementação da AR Instalações.
+- O MASTER continua demonstrativo: o botão de avaliação abre um aviso próprio, sem direcionar para o perfil de um cliente real.
+- Em um site de cliente, conectar somente o link confirmado do negócio e adequar a orientação ao destino (perfil ou tela de avaliação).
+- Publicação desta seção autorizada pelo Founder em 14/11/2026. Esta rodada não declara o polimento completo nem substitui a versão congelada aprovada.
