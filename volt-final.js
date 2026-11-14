@@ -70,6 +70,23 @@
     });
   }
 
+  const reviewDialog = document.querySelector('#review-demo-dialog');
+  document.querySelectorAll('[data-review-demo-cta]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (reviewDialog && typeof reviewDialog.showModal === 'function' && !reviewDialog.open) {
+        reviewDialog.showModal();
+      }
+    });
+  });
+
+  if (reviewDialog) {
+    reviewDialog.addEventListener('click', (event) => {
+      const rect = reviewDialog.getBoundingClientRect();
+      const inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+      if (!inside) reviewDialog.close();
+    });
+  }
+
   /* Internal navigation accounts for the sticky header on desktop and mobile. */
   document.querySelectorAll('a[href^="#"]:not([data-demo-cta])').forEach((anchor) => {
     const hash = anchor.getAttribute('href');

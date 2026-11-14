@@ -26,8 +26,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260905-final" />
-  <link rel="stylesheet" href="volt-final.css?v=20260905-final" />
+  <link rel="stylesheet" href="styles.css?v=20261114-polimento-01" />
+  <link rel="stylesheet" href="volt-final.css?v=20261114-polimento-01" />
 
   <script type="application/ld+json">
   {
@@ -358,6 +358,28 @@
       </div>
     </section>
 
+    <section class="section google-review" id="avaliar-no-google" aria-labelledby="google-review-title">
+      <div class="container">
+        <div class="google-review__inner">
+          <p class="eyebrow">SUA EXPERIÊNCIA CONTA</p>
+          <h2 id="google-review-title">JÁ FOI ATENDIDO POR RAFAEL MARTINS?</h2>
+          <p class="google-review__description">Se você já utilizou nossos serviços, compartilhe sua experiência no Google. Sua opinião ajuda outras pessoas a conhecerem nosso trabalho.</p>
+
+          <!-- No site do cliente, usar um link confirmado do próprio negócio e ajustar os passos ao destino. -->
+          <button class="btn google-review__button" type="button" data-review-demo-cta aria-haspopup="dialog" aria-controls="review-demo-dialog">
+            AVALIAR NO GOOGLE <span aria-hidden="true">↗</span>
+          </button>
+
+          <ol class="google-review__microsteps" aria-label="Como avaliar no Google">
+            <li><strong>1.</strong> Clique em Avaliar no Google</li>
+            <li><strong>2.</strong> Acesse Avaliações no perfil</li>
+            <li><strong>3.</strong> Compartilhe sua experiência</li>
+          </ol>
+          <p class="google-review__demo-note">Demonstração: este modelo não está vinculado a um perfil real.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="section section--elevated about" id="sobre" aria-labelledby="sobre-title">
       <div class="container about__grid">
         <div class="about__image">
@@ -517,6 +539,16 @@
     </form>
   </dialog>
 
-  <script src="volt-final.js?v=20260905-final" defer></script>
+  <dialog class="demo-dialog" id="review-demo-dialog" aria-labelledby="review-demo-title" aria-describedby="review-demo-description">
+    <form method="dialog">
+      <button class="dialog-close" value="close" aria-label="Fechar demonstração de avaliação">×</button>
+      <p class="eyebrow">DEMONSTRAÇÃO</p>
+      <h2 id="review-demo-title">UM CAMINHO PARA AVALIAR SEU NEGÓCIO</h2>
+      <p id="review-demo-description">No site do cliente, este botão leva ao Perfil da Empresa no Google ou diretamente à tela de avaliação, conforme o link confirmado. Rafael Martins é um personagem demonstrativo e não possui um perfil vinculado a este modelo.</p>
+      <button class="btn btn--accent" value="close">Entendi</button>
+    </form>
+  </dialog>
+
+  <script src="volt-final.js?v=20261114-polimento-01" defer></script>
 </body>
 </html>
