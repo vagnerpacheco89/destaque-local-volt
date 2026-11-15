@@ -1234,9 +1234,10 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 
 
 
-/* Avaliações — texto alinhado ao topo visível do escudo no desktop. */
-@media (min-width:761px) {
+/* Avaliações — texto alinhado ao topo visível do escudo quando lado a lado. */
+@media (min-width:621px) {
   .reviews .reviews-head { align-items:start !important; }
   .reviews .reviews-head > div:first-child { padding-top:16px; }
+  .reviews .reviews-head > div:first-child > .eyebrow { display:flex; }
   .reviews .rating-demo.rating-badge { align-self:start !important; }
 }
