@@ -1233,13 +1233,10 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 }
 
 
-.reviews .rating-badge__count {
-  position:absolute;
-  top:100%;
-  left:0;
-  right:0;
-  margin:6px 0 0 !important;
-  color:var(--muted,#a9ada9) !important;
-  font:600 10px/1.2 var(--font-body),Arial,sans-serif !important;
-  text-align:center;
+
+/* Avaliações — texto alinhado ao topo visível do escudo no desktop. */
+@media (min-width:761px) {
+  .reviews .reviews-head { align-items:start !important; }
+  .reviews .reviews-head > div:first-child { padding-top:16px; }
+  .reviews .rating-demo.rating-badge { align-self:start !important; }
 }
