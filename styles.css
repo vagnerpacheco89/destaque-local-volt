@@ -334,7 +334,6 @@ p { color: var(--muted); }
 .portfolio-card:hover { border-color:#68601e; transform:none; box-shadow:none; }
 .portfolio-card:hover img { transform:scale(1.035); filter:saturate(.92) contrast(1.08) brightness(.94); }
 .portfolio-card figcaption { position:absolute; z-index:2; left:0; right:0; bottom:0; padding:16px; background:transparent; display:flex; justify-content:space-between; gap:12px; align-items:end; }
-.portfolio-card figcaption strong { font-family:var(--font-display); font-size:1.15rem; text-transform:uppercase; line-height:1; }
 .portfolio-card figcaption span { color:#a1a59f; font-size:9px; text-align:right; }
 
 /* Process */
