@@ -4,7 +4,6 @@
 
 :root {
   --section-body-size: 16px;
-  --section-intro-size: 17px;
   --section-meta-size: 12px;
   --section-button-size: 14px;
   --section-eyebrow-size: 12px;
@@ -717,27 +716,28 @@
 .site-footer .footer-demo a { grid-column:3; justify-self:end; margin:0 !important; color:#888e89 !important; font-size:9px !important; font-weight:850; letter-spacing:.07em; transition:color 160ms ease; }
 .site-footer .footer-demo a:hover { color:var(--accent) !important; }
 
-/* Escala tipográfica aprovada após a Hero */
+/* Texto de conteúdo — introduções e descrições no mesmo grupo de 16px. */
 main > section:not(.hero) .service-card p,
 main > section:not(.hero) .services-other p,
-main > section:not(.hero) .diagnostic__body--second,
+main > section:not(.hero) .diagnostic__body,
 main > section:not(.hero) .problem-panel li,
 main > section:not(.hero) .portfolio-closing p,
 main > section:not(.hero) .process-grid p,
 main > section:not(.hero) .differentials li,
 main > section:not(.hero) .review-marquee-message,
 main > section.about .about__copy > p:not(.eyebrow),
-main > section:not(.hero) .faq details p { font-size:var(--section-body-size) !important; }
-main > section.about .about__copy > p.about__lead { font-size:var(--section-body-size) !important; }
+main > section:not(.hero) .faq details p,
 main > section:not(.hero) .services-heading__intro,
-main > section:not(.hero) .diagnostic__body:not(.diagnostic__body--second),
 main > section:not(.hero) .portfolio-intro,
 main > section:not(.hero) .process-intro,
 main > section:not(.hero) .reviews-intro,
-main > section:not(.hero) .service-area .lead-text,
+main > section.service-area .lead-text,
 main > section:not(.hero) .faq__intro > p:not(.eyebrow),
 main > section:not(.hero) .final-cta__inner > div:first-child > p:not(.eyebrow),
-main > section:not(.hero) .section-heading > p:not(.eyebrow) { font-size:var(--section-intro-size) !important; }
+main > section:not(.hero) .section-heading > p:not(.eyebrow),
+main > section.google-review .google-review__description {
+  font-size:var(--section-body-size) !important;
+}
 main > section:not(.hero) small,
 main > section:not(.hero) .about__action-micro,
 main > section:not(.hero) .about__image-label span,
@@ -956,7 +956,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   max-width:740px;
   margin:0;
   color:rgba(9,10,8,.83);
-  font-size:var(--section-intro-size,17px);
+  font-size:var(--section-body-size,16px);
   line-height:1.56;
   text-wrap:pretty;
 }
@@ -1032,7 +1032,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   .google-review { padding:44px 0; }
   .google-review__inner { padding:42px 25px 38px; }
   .google-review__inner h2 { max-width:650px; font-size:clamp(2.5rem,7vw,3.9rem); }
-  .google-review__description { font-size:var(--section-intro-size,17px); }
+  .google-review__description { font-size:var(--section-body-size,16px); }
 }
 @media (max-width:480px) {
   .google-review { padding:32px 0; }
