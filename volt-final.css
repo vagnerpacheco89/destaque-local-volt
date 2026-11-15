@@ -1,5 +1,5 @@
-/* VOLT â camada final consolidada.
-   MantÃ©m styles.css como base histÃ³rica e reÃºne aqui todos os ajustes aprovados.
+/* VOLT — camada final consolidada.
+   Mantém styles.css como base histórica e reúne aqui todos os ajustes aprovados.
    Nenhum estilo desta folha depende de JavaScript para existir. */
 
 :root {
@@ -29,7 +29,7 @@
   letter-spacing:.17em !important;
 }
 
-/* Hierarquia semÃ¢ntica dos selos do Hero */
+/* Hierarquia semântica dos selos do Hero */
 .hero__trust-card .hero__trust-title {
   margin:0;
   font-family:var(--font-body);
@@ -54,7 +54,7 @@
 .footer-contact__cta,
 .footer-cta { text-transform:uppercase !important; }
 
-/* ServiÃ§os */
+/* Serviços */
 .services-heading__intro {
   max-width:760px;
   margin:20px 0 0;
@@ -67,7 +67,7 @@
 .service-card__body { min-height:220px !important; padding-bottom:14px !important; }
 .service-card__cta { margin-top:14px !important; }
 
-/* DiagnÃ³stico */
+/* Diagnóstico */
 .diagnostic {
   background:
     radial-gradient(620px 360px at 86% 14%, rgba(244,196,0,.055), transparent 68%),
@@ -171,7 +171,7 @@
   box-shadow:inset 3px 0 0 rgba(244,196,0,.78),0 10px 22px rgba(0,0,0,.16);
 }
 
-/* Trabalhos / PortfÃ³lio */
+/* Trabalhos / Portfólio */
 #trabalhos {
   background:radial-gradient(760px 360px at 12% 4%,rgba(244,196,0,.045),transparent 70%),#050606 !important;
 }
@@ -577,7 +577,7 @@
 .about .about__action .btn { flex:0 0 auto; min-width:245px; text-transform:uppercase; }
 .about .about__action-micro { max-width:245px !important; margin:0 !important; color:#777c77 !important; font-size:.7rem !important; line-height:1.45 !important; }
 
-/* Ãrea atendida */
+/* Área atendida */
 .service-area {
   position:relative;
   overflow:hidden;
@@ -661,7 +661,7 @@
 .faq .faq__column summary::after { content:'+'; width:34px !important; height:34px !important; display:grid !important; place-items:center !important; justify-self:end !important; align-self:center !important; border:1px solid #3b413e !important; border-radius:6px !important; background:#111414 !important; color:#aeb3af !important; font-size:18px !important; font-weight:500 !important; line-height:1 !important; box-shadow:inset 0 0 0 1px rgba(255,255,255,.015); transform:none !important; }
 .faq .faq__column summary:hover::after { border-color:rgba(244,196,0,.55) !important; color:var(--accent) !important; background:rgba(244,196,0,.045) !important; }
 .faq .faq__column details[open] .faq__number { color:var(--accent); }
-.faq .faq__column details[open] summary::after { content:'â' !important; border-color:var(--accent) !important; color:var(--accent) !important; background:rgba(244,196,0,.06) !important; box-shadow:0 0 14px rgba(244,196,0,.08),inset 0 0 0 1px rgba(244,196,0,.035); transform:none !important; }
+.faq .faq__column details[open] summary::after { content:'−' !important; border-color:var(--accent) !important; color:var(--accent) !important; background:rgba(244,196,0,.06) !important; box-shadow:0 0 14px rgba(244,196,0,.08),inset 0 0 0 1px rgba(244,196,0,.035); transform:none !important; }
 .faq .faq__column details > p { margin:0 !important; padding:0 42px 22px 46px !important; max-width:680px; color:#979d98 !important; font-size:16px !important; line-height:1.62 !important; }
 .faq .faq__cta-wrap { width:min(100%,520px) !important; margin:36px auto 0 !important; padding-top:24px !important; display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; gap:14px !important; text-align:center !important; border-top:1px solid #303534 !important; }
 .faq .faq__cta-wrap p { margin:0 !important; color:#8d938e; font-size:14px !important; line-height:1.5; text-align:center !important; }
@@ -720,7 +720,7 @@
 .site-footer .footer-demo a { grid-column:3; justify-self:end; margin:0 !important; color:#888e89 !important; font-size:9px !important; font-weight:850; letter-spacing:.07em; transition:color 160ms ease; }
 .site-footer .footer-demo a:hover { color:var(--accent) !important; }
 
-/* TÃ­tulos principais de seÃ§Ã£o â escala Ãºnica; Hero e H3 mantÃªm suas categorias. */
+/* Títulos principais de seção — escala única; Hero e H3 mantêm suas categorias. */
 main > section:not(.hero) h2 {
   font-family:var(--font-display);
   font-size:var(--section-title-size);
@@ -732,7 +732,7 @@ main > section:not(.hero) h2 {
   overflow-wrap:break-word;
 }
 
-/* SubtÃ­tulos H3 â padrÃ£o aprovado em 15/11/2026 para os cinco tipos de bloco. */
+/* Subtítulos H3 — padrão aprovado em 15/11/2026 para os cinco tipos de bloco. */
 main > section:not(.hero) h3 {
   font-family:var(--font-display);
   font-size:var(--section-subtitle-size);
@@ -745,7 +745,7 @@ main > section:not(.hero) h3 {
   :root { --section-subtitle-size:24px; }
 }
 
-/* Texto de conteÃºdo â introduÃ§Ãµes e descriÃ§Ãµes no mesmo grupo de 16px. */
+/* Texto de conteúdo — introduções e descrições no mesmo grupo de 16px. */
 main > section:not(.hero) .service-card p,
 main > section:not(.hero) .services-other p,
 main > section:not(.hero) .diagnostic__body,
@@ -779,7 +779,7 @@ main > section:not(.hero) .service-card__cta,
 main > section:not(.hero) button { font-size:var(--section-button-size) !important; }
 main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !important; }
 
-/* RevelaÃ§Ã£o progressiva */
+/* Revelação progressiva */
 .reveal-item { opacity:0; transform:translateY(12px); transition:opacity 420ms ease,transform 420ms var(--ease); transition-delay:var(--reveal-delay,0ms); }
 .reveal-item.is-visible { opacity:1; transform:none; }
 
@@ -939,7 +939,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   .reviews .review-marquee-group[aria-hidden='true'] { display:none; }
 }
 
-/* VOLT â convite para avaliaÃ§Ã£o: painel amarelo compacto dentro da seÃ§Ã£o. */
+/* VOLT — convite para avaliação: painel amarelo compacto dentro da seção. */
 .google-review {
   padding:56px 0;
   background:#050606;
@@ -1046,7 +1046,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   font-weight:800;
 }
 .google-review__microsteps li+li::before {
-  content:"â¢";
+  content:"•";
   display:inline-block;
   margin:0 12px 0 14px;
   color:rgba(9,10,8,.55);
@@ -1092,7 +1092,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 }
 
 
-/* DivisÃ³rias de conteÃºdo â estilo da AR, somente em amarelo. */
+/* Divisórias de conteúdo — estilo da AR, somente em amarelo. */
 :root {
   --volt-section-divider:linear-gradient(
     90deg,
@@ -1159,7 +1159,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
 }
 
-/* AvaliaÃ§Ãµes â selo demonstrativo em escudo, adaptado da referÃªncia da AR. */
+/* Avaliações — selo demonstrativo em escudo, adaptado da referência da AR. */
 .reviews .rating-demo.rating-badge {
   position:relative !important;
   display:block !important;
@@ -1258,7 +1258,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 
 
 
-/* AvaliaÃ§Ãµes â texto alinhado ao topo visÃ­vel do escudo quando lado a lado. */
+/* Avaliações — texto alinhado ao topo visível do escudo quando lado a lado. */
 @media (min-width:621px) {
   .reviews .reviews-head { align-items:start !important; }
   .reviews .reviews-head > div:first-child { padding-top:16px; }
@@ -1266,7 +1266,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   .reviews .rating-demo.rating-badge { align-self:start !important; }
 }
 
-/* RodapÃ© VOLT â crÃ©ditos com tipografia uniforme e conjunto centralizado. */
+/* Rodapé VOLT — créditos com tipografia uniforme e conjunto centralizado. */
 .site-footer .footer-demo.footer-bottom {
   display:grid !important;
   grid-template-columns:minmax(0,1fr) auto !important;
@@ -1441,7 +1441,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
 }
 
-/* Raio padrÃ£o de componentes â referÃªncia do painel de chamada final. */
+/* Raio padrão de componentes — referência do painel de chamada final. */
 :root { --radius:10px; }
 .nav-demo-label,
 .menu-toggle,
@@ -1475,14 +1475,14 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 .faq .faq__column summary::after {
   border-radius:var(--radius) !important;
 }
-/* Recortar os conteÃºdos nos cantos externos de conjuntos unidos. */
+/* Recortar os conteúdos nos cantos externos de conjuntos unidos. */
 .google-review__inner,
 .about .about__proofs,
 .process .differentials,
 .problem-panel { overflow:hidden; }
 
-/* Tipografia auxiliar aprovada â 15/11/2026.
-   A categoria estÃ¡ explÃ­cita no HTML. Esta camada Ã© a fonte Ãºnica dessas
+/* Tipografia auxiliar aprovada — 15/11/2026.
+   A categoria está explícita no HTML. Esta camada é a fonte única dessas
    propriedades; !important em camada vence os antigos overrides sem camada. */
 @layer volt-typography {
   [data-typography] {
@@ -1517,7 +1517,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   [data-ink="accent"] { color:#f4c400 !important; }
   [data-ink="on-accent"] { color:#090a08 !important; }
   [data-ink="brand"] { color:#ff4b00 !important; }
-  /* ConteÃºdo interno herda a categoria; Ã­cones decorativos mantÃªm sua escala. */
+  /* Conteúdo interno herda a categoria; ícones decorativos mantêm sua escala. */
   [data-typography="microcopy"] strong,
   [data-typography="credit"] span:not([aria-hidden="true"]) {
     font:inherit !important;
@@ -1529,7 +1529,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   .footer-contact__cta:is(:hover,:focus-visible) { color:#090a08 !important; }
   [data-ink="brand"]:is(:hover,:focus-visible) { color:#ff8555 !important; }
 }
-/* Permitir que textos maiores ocupem as linhas necessÃ¡rias, sem corte. */
+/* Permitir que textos maiores ocupem as linhas necessárias, sem corte. */
 .footer-contact__cta { height:auto; padding-block:10px; }
 .site-footer .footer-bottom__legal,
 .site-footer .footer-bottom__developer { flex-wrap:wrap; white-space:normal; }
