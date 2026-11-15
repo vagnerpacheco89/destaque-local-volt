@@ -4,6 +4,8 @@
 
 :root {
   --section-body-size: 16px;
+  --section-subtitle-size: 28px;
+  --section-subtitle-line-height: 1.05;
   --section-title-size: clamp(2.6rem, calc(2rem + 2.5vw), 4.4rem);
   --section-title-line-height: .95;
   --section-meta-size: 12px;
@@ -271,8 +273,8 @@
 #trabalhos .portfolio-closing h3 {
   margin:0 0 10px;
   color:#fff;
-  font-size:clamp(1.9rem,3vw,2.55rem);
-  line-height:1;
+
+
 }
 #trabalhos .portfolio-closing p {
   max-width:620px;
@@ -378,7 +380,7 @@
   line-height:1;
   transition:transform 180ms var(--ease),background 180ms ease;
 }
-.process .process-grid h3 { margin:0 0 10px; max-width:220px; color:#fff; font-size:1.68rem; line-height:.98; }
+.process .process-grid h3 { margin:0 0 10px; max-width:220px; color:#fff;   }
 .process .process-grid p { max-width:235px; margin:0; color:#a9ada9; font-size:.82rem; line-height:1.55; }
 .process .process-grid li:hover { background:rgba(255,255,255,.018) !important; }
 .process .process-grid li:hover > span { transform:translateY(-2px); background:var(--accent-hover); }
@@ -394,7 +396,7 @@
 .process .differentials > div:first-child { padding:28px !important; background:var(--accent); color:var(--accent-ink); }
 .process .differentials > div:first-child .eyebrow { margin-bottom:12px; color:var(--accent-ink); }
 .process .differentials > div:first-child .eyebrow::after { background:var(--accent-ink); opacity:.55; }
-.process .differentials > div:first-child h3 { color:var(--accent-ink); font-size:2rem; line-height:.95; }
+.process .differentials > div:first-child h3 { color:var(--accent-ink);   }
 .process .differentials ul {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -728,6 +730,19 @@ main > section:not(.hero) h2 {
   text-transform:uppercase;
   white-space:normal;
   overflow-wrap:break-word;
+}
+
+/* Subtítulos H3 — padrão aprovado em 15/11/2026 para os cinco tipos de bloco. */
+main > section:not(.hero) h3 {
+  font-family:var(--font-display);
+  font-size:var(--section-subtitle-size);
+  font-weight:800;
+  line-height:var(--section-subtitle-line-height);
+  letter-spacing:-.018em;
+  text-transform:uppercase;
+}
+@media (max-width:620px) {
+  :root { --section-subtitle-size:24px; }
 }
 
 /* Texto de conteúdo — introduções e descrições no mesmo grupo de 16px. */
