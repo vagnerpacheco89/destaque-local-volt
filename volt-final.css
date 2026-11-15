@@ -1134,3 +1134,108 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     border-image-slice:1 !important;
   }
 }
+
+/* Avaliações — selo demonstrativo em escudo, adaptado da referência da AR. */
+.reviews .rating-demo.rating-badge {
+  position:relative !important;
+  display:block !important;
+  width:268px !important;
+  height:auto !important;
+  aspect-ratio:280 / 324;
+  min-width:268px !important;
+  min-height:0 !important;
+  max-width:100%;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  color:#111111 !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+  align-self:center !important;
+  justify-self:end !important;
+  text-align:center !important;
+}
+.reviews .rating-demo.rating-badge::before,
+.reviews .rating-demo.rating-badge::after {
+  content:none !important;
+  display:none !important;
+}
+.reviews .rating-badge__shield {
+  display:block;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:visible;
+  filter:drop-shadow(0 10px 18px rgba(0,0,0,.22));
+}
+.reviews .rating-badge__content {
+  position:absolute;
+  z-index:1;
+  inset:25px 25px 38px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-width:0;
+}
+.reviews .rating-badge__google {
+  display:block;
+  width:39px;
+  height:39px;
+  flex:0 0 39px;
+}
+.reviews .rating-badge__stars {
+  color:#141414;
+  font:900 22px/1 Arial,sans-serif;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.reviews .rating-badge__text {
+  margin:0 !important;
+  color:#111111 !important;
+  font-family:var(--font-body),Inter,Arial,sans-serif;
+  font-size:1.6rem !important;
+  font-weight:900 !important;
+  line-height:1.07 !important;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+.reviews .rating-badge__score {
+  margin:0 !important;
+  color:#111111 !important;
+  font-family:var(--font-body),Inter,Arial,sans-serif;
+  font-size:1rem !important;
+  font-weight:850 !important;
+  line-height:1.15;
+}
+.reviews .rating-badge__score span {
+  margin-left:1px;
+  color:inherit !important;
+  font:inherit !important;
+}
+@media(max-width:760px) {
+  .reviews .rating-demo.rating-badge {
+    width:min(268px,100%) !important;
+    min-width:0 !important;
+    max-width:268px !important;
+    align-self:center !important;
+    justify-self:center !important;
+  }
+}
+@media(max-width:350px) {
+  .reviews .rating-badge__content {inset:22px 22px 35px;gap:8px;}
+  .reviews .rating-badge__text {font-size:1.4rem !important;}
+  .reviews .rating-badge__stars {font-size:19px;}
+}
+
+
+.reviews .rating-badge__count {
+  margin:0 !important;
+  color:#111 !important;
+  font:600 10px/1.2 var(--font-body),Arial,sans-serif !important;
+  text-align:center;
+}
