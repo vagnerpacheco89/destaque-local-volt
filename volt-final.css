@@ -1234,8 +1234,12 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 
 
 .reviews .rating-badge__count {
-  margin:0 !important;
-  color:#111 !important;
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  margin:6px 0 0 !important;
+  color:var(--muted,#a9ada9) !important;
   font:600 10px/1.2 var(--font-body),Arial,sans-serif !important;
   text-align:center;
 }
