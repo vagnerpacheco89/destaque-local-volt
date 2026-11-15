@@ -1417,3 +1417,42 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
 }
 
+/* Raio padrão de componentes — referência do painel de chamada final. */
+:root { --radius:10px; }
+.nav-demo-label,
+.menu-toggle,
+.btn,
+.service-card,
+.service-card__visual,
+.service-card__cta,
+.services-other,
+.problem-panel,
+.diagnostic .problem-panel li,
+.portfolio-card,
+#trabalhos .portfolio-card figcaption span,
+.process .process-grid li > span,
+.process .differentials,
+.reviews .review-marquee-card,
+.about .about__image,
+.about .about__proofs,
+.service-area .service-area__coverage-item,
+.service-area .service-area__map,
+.area-panel,
+.area-cities span,
+.area-chips span,
+.google-review__inner,
+.google-review .google-review__button,
+.final-cta .final-cta__inner,
+.final-cta .final-cta__action .btn,
+.footer-contact__cta,
+.site-footer .footer-demo.footer-bottom .footer-bottom__back-top,
+.demo-dialog,
+.demo-message,
+.faq .faq__column summary::after {
+  border-radius:var(--radius) !important;
+}
+/* Recortar os conteúdos nos cantos externos de conjuntos unidos. */
+.google-review__inner,
+.about .about__proofs,
+.process .differentials,
+.problem-panel { overflow:hidden; }
