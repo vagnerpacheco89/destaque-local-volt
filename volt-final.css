@@ -80,7 +80,7 @@
 .diagnostic__grid > div:first-child { padding-top:4px; }
 .diagnostic h2 {
   max-width:640px !important;
-  
+
   margin-bottom:20px;
 }
 .diagnostic .diagnostic__body {
@@ -953,11 +953,11 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   max-width:880px;
   margin:0 0 16px;
   color:var(--accent-ink);
-  
-  
-  
-  
-  
+
+
+
+
+
   text-transform:uppercase;
   text-wrap:balance;
 }
@@ -1049,7 +1049,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   .google-review .eyebrow { margin-bottom:13px; }
   .google-review__inner h2 {
     margin-bottom:14px;
-    
+
   }
   .google-review__description { font-size:15px; line-height:1.53; }
   .google-review .google-review__button {
