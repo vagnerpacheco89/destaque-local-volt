@@ -1066,3 +1066,71 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   font-size:12px;
   line-height:1.5;
 }
+
+
+/* Divisórias de conteúdo — estilo da AR, somente em amarelo. */
+:root {
+  --volt-section-divider:linear-gradient(
+    90deg,
+    var(--accent) 0%,
+    rgba(244,196,0,.78) 34%,
+    rgba(244,196,0,.08) 50%,
+    rgba(244,196,0,.78) 66%,
+    var(--accent) 100%
+  );
+}
+.services-heading,
+#trabalhos .section-heading--split,
+.reviews .reviews-head,
+.faq .faq__column details:not(:last-child) {
+  border-bottom:2px solid transparent !important;
+  border-image-source:var(--volt-section-divider) !important;
+  border-image-slice:1 !important;
+}
+.services-heading { padding-bottom:24px; }
+.diagnostic .diagnostic__cta-row,
+.faq .faq__cta-wrap {
+  border-top:2px solid transparent !important;
+  border-image-source:var(--volt-section-divider) !important;
+  border-image-slice:1 !important;
+}
+.process .section-heading--split {
+  border-bottom:0 !important;
+  border-image:none !important;
+}
+.process .process-grid,
+.faq .faq__column {
+  border-top:2px solid transparent !important;
+  border-bottom:2px solid transparent !important;
+  border-image-source:var(--volt-section-divider) !important;
+  border-image-slice:1 !important;
+}
+.faq .faq__column::before { display:none; }
+#trabalhos .portfolio-grid {
+  position:relative;
+  padding-bottom:14px;
+  border-bottom:0 !important;
+}
+#trabalhos .portfolio-grid::after {
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:2px;
+  background:var(--volt-section-divider);
+  pointer-events:none;
+}
+#trabalhos .portfolio-closing { border-top:0; }
+@media (max-width:900px) {
+  .process .process-grid li:not(:last-child) {
+    border-bottom:2px solid transparent !important;
+    border-image-source:var(--volt-section-divider) !important;
+    border-image-slice:1 !important;
+  }
+  .process .differentials ul {
+    border-top:2px solid transparent !important;
+    border-image-source:var(--volt-section-divider) !important;
+    border-image-slice:1 !important;
+  }
+}
