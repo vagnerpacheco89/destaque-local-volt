@@ -1857,3 +1857,19 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     .hero__trust-grid--mobile .hero__trust-card:nth-child(n) { padding-left:2px !important; padding-right:10px !important; }
   }
 }
+
+
+/* Rodada 12: identificação curta de Serviços, sem esticar ou cortar. */
+@layer volt-services-eyebrow {
+  #servicos .services-heading > .eyebrow {
+    width:max-content !important;
+    max-width:min(280px,100%) !important;
+    min-height:1lh !important;
+    white-space:nowrap !important;
+    flex-wrap:nowrap !important;
+  }
+  #servicos .services-heading > .eyebrow::after {
+    width:28px !important;
+    flex:0 0 28px !important;
+  }
+}
