@@ -1696,9 +1696,29 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     -webkit-box-orient:initial !important;
     flex:0 0 auto;
   }
-  /* Quebras editoriais da copy: linhas de texto reais, sem preenchimento vazio. */
-  #servicos .service-card__description-line {
-    display:block !important;
+  /* O resumo é fluido: o encaixe muda pela largura real da coluna,
+     sem quebra de linha forçada, recuo artificial ou corte do conteúdo. */
+  #servicos .service-card__body {
+    container-type:inline-size !important;
+    container-name:volt-service-copy !important;
+  }
+  #servicos .service-card__description-variant {
+    display:none !important;
+  }
+  #servicos .service-card__description--regular {
+    display:inline !important;
+  }
+  @container volt-service-copy (max-width:235px) {
+    #servicos .service-card__description--regular { display:none !important; }
+    #servicos .service-card__description--medium { display:inline !important; }
+  }
+  @container volt-service-copy (max-width:180px) {
+    #servicos .service-card__description--medium { display:none !important; }
+    #servicos .service-card__description--compact { display:inline !important; }
+  }
+  @container volt-service-copy (min-width:310.01px) {
+    #servicos .service-card__description--regular { display:none !important; }
+    #servicos .service-card__description--large { display:inline !important; }
   }
   #servicos .service-card__cta {
     align-self:flex-start !important;
