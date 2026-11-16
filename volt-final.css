@@ -1532,3 +1532,95 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 @media(max-width:620px) {
   .site-header .nav-demo-label { white-space:normal; text-align:center; }
 }
+
+/* Espaçamentos aprovados — 16/11/2026.
+   Camada única das relações comuns; os componentes preservam seus recuos.
+   Divisórias decorativas ocupam o próprio intervalo, sem somar afastamentos. */
+@layer volt-spacing {
+  :root {
+    --volt-section-space:96px;
+    --volt-page-gutter:24px;
+    --volt-eyebrow-title-gap:12px;
+    --volt-title-content-gap:16px;
+    --volt-heading-block-gap:40px;
+    --volt-structural-column-gap:48px;
+    --volt-structural-stack-gap:32px;
+  }
+  @media (max-width:860px) {
+    :root {
+      --volt-section-space:72px;
+      --volt-page-gutter:20px;
+      --volt-heading-block-gap:32px;
+      --volt-structural-column-gap:32px;
+    }
+  }
+  @media (max-width:620px) {
+    :root {
+      --volt-section-space:64px;
+      --volt-page-gutter:16px;
+    }
+  }
+
+  .container {
+    width:min(var(--container),calc(100% - 2 * var(--volt-page-gutter))) !important;
+  }
+  main > section.section:not(.google-review) {
+    padding-block:var(--volt-section-space) !important;
+  }
+  main > section:not(.hero) .eyebrow {
+    margin-bottom:var(--volt-eyebrow-title-gap) !important;
+  }
+  main > section:not(.hero) h2 {
+    margin-top:0 !important;
+    margin-bottom:var(--volt-title-content-gap) !important;
+  }
+  main > section:not(.hero) h2 + p {
+    margin-top:0 !important;
+  }
+
+  /* Aberturas simples e o conjunto de texto + selo em Avaliações. */
+  .services-heading,
+  #trabalhos .section-heading,
+  .process .section-heading,
+  .reviews .reviews-head,
+  .faq .faq__intro {
+    position:relative;
+    margin-bottom:var(--volt-heading-block-gap) !important;
+    padding-bottom:0 !important;
+    border-bottom:0 !important;
+    border-image:none !important;
+  }
+  .services-heading::after,
+  #trabalhos .section-heading::after,
+  .reviews .reviews-head::after {
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:calc(var(--volt-heading-block-gap) / -2);
+    height:2px;
+    background:var(--volt-section-divider);
+    pointer-events:none;
+  }
+  .reviews .reviews-marquee {
+    margin-top:0 !important;
+    padding-top:0 !important;
+  }
+  /* Em Sobre, a abertura termina no último parágrafo, antes dos atributos. */
+  .about .about__copy > p:not(.eyebrow):last-of-type {
+    margin-bottom:0 !important;
+  }
+  .about .about__proofs {
+    margin-top:var(--volt-heading-block-gap) !important;
+  }
+
+  /* Somente colunas estruturais separadas; grades e painéis unidos não entram. */
+  .diagnostic .diagnostic__grid,
+  .about .about__grid,
+  .service-area .service-area__grid,
+  .reviews .reviews-head,
+  .faq .faq__list {
+    column-gap:var(--volt-structural-column-gap) !important;
+    row-gap:var(--volt-structural-stack-gap) !important;
+  }
+}
