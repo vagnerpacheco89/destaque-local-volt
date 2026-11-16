@@ -1635,6 +1635,8 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     --volt-service-icon-gap:16px;
     --volt-service-title-gap:12px;
     --volt-service-cta-gap:16px;
+    --volt-service-title-lines:2;
+    --volt-service-description-lines:4;
   }
   @media (max-width:620px) {
     :root {
@@ -1675,12 +1677,16 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     padding:0 !important;
   }
   #servicos .service-card h3 {
+    /* Reserva duas linhas, inclusive quando o título ocupa somente uma. */
+    min-height:calc(var(--volt-service-title-lines) * 1lh) !important;
     width:100% !important;
     max-width:none !important;
     margin:0 0 var(--volt-service-title-gap) !important;
     flex:0 0 auto;
   }
   #servicos .service-card p {
+    /* Área de quatro linhas; a copy deve caber inteira, sem corte por CSS. */
+    min-height:calc(var(--volt-service-description-lines) * 1lh) !important;
     display:block !important;
     width:100% !important;
     max-width:none !important;
