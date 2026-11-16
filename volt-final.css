@@ -1780,3 +1780,13 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     min-height:0 !important;
   }
 }
+
+/* Frase complementar da Hero: uma linha acima de 620 px;
+   uma a duas no celular, verificadas na QA sem corte do texto. */
+@layer volt-hero-promise {
+  .hero__copy > .hero__promise {
+    max-width:min(620px,100%) !important;
+    height:auto !important;
+    min-height:0 !important;
+  }
+}
