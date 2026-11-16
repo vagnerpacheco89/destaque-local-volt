@@ -1624,3 +1624,79 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     row-gap:var(--volt-structural-stack-gap) !important;
   }
 }
+
+/* Cartões de Serviços — padrão aprovado em 16/11/2026.
+   Altura acompanha o conteúdo; a grade iguala apenas os cartões da mesma linha. */
+@layer volt-service-card {
+  :root {
+    --volt-service-pad-y:24px;
+    --volt-service-pad-x:24px;
+    --volt-service-icon-size:62px;
+    --volt-service-icon-gap:16px;
+    --volt-service-title-gap:12px;
+    --volt-service-cta-gap:16px;
+  }
+  @media (max-width:620px) {
+    :root {
+      --volt-service-pad-y:20px;
+      --volt-service-pad-x:16px;
+      --volt-service-icon-size:56px;
+    }
+  }
+  #servicos .service-card {
+    display:grid !important;
+    grid-template-columns:var(--volt-service-icon-size) minmax(0,1fr) !important;
+    grid-template-rows:auto !important;
+    column-gap:var(--volt-service-icon-gap) !important;
+    row-gap:0 !important;
+    align-items:center !important;
+    align-self:stretch !important;
+    height:auto !important;
+    min-height:0 !important;
+    padding:var(--volt-service-pad-y) var(--volt-service-pad-x) !important;
+  }
+  #servicos .service-card__visual {
+    position:static !important;
+    inset:auto !important;
+    transform:none !important;
+    width:var(--volt-service-icon-size) !important;
+    height:var(--volt-service-icon-size) !important;
+    margin:0 !important;
+    align-self:center !important;
+  }
+  #servicos .service-card__body {
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:flex-start !important;
+    align-items:flex-start !important;
+    align-self:stretch !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    padding:0 !important;
+  }
+  #servicos .service-card h3 {
+    width:100% !important;
+    max-width:none !important;
+    margin:0 0 var(--volt-service-title-gap) !important;
+    flex:0 0 auto;
+  }
+  #servicos .service-card p {
+    display:block !important;
+    width:100% !important;
+    max-width:none !important;
+    margin:0 0 var(--volt-service-cta-gap) !important;
+    overflow:visible !important;
+    -webkit-line-clamp:unset !important;
+    -webkit-box-orient:initial !important;
+    flex:0 0 auto;
+  }
+  #servicos .service-card__cta {
+    align-self:flex-start !important;
+    flex:0 0 auto !important;
+    width:fit-content !important;
+    max-width:100% !important;
+    min-height:44px !important;
+    margin: auto 0 0 !important;
+    padding:12px 16px !important;
+  }
+}
