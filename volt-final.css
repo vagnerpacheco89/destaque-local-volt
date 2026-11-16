@@ -1903,3 +1903,18 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     }
   }
 }
+
+/* Rodada 13: H2 de Serviços; linhas reais são critério de QA da copy. */
+@layer volt-services-title {
+  #servicos .services-heading > #servicos-title {
+    width:100% !important;
+    max-width:min(620px,100%) !important;
+    min-height:1lh !important;
+    height:auto !important;
+  }
+  @media (max-width:620px) {
+    #servicos .services-heading > #servicos-title {
+      min-height:2lh !important;
+    }
+  }
+}
