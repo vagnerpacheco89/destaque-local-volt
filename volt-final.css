@@ -1811,7 +1811,8 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 }
 
 
-/* Cartões de confiança da Hero: disposição e medidas aprovadas. */
+
+/* Badges de confiança da Hero: regras visuais aprovadas. */
 @layer volt-hero-trust {
   .hero__copy { container-type:inline-size !important; container-name:volt-hero-trust-layout !important; }
   .hero__trust-grid {
@@ -1819,12 +1820,18 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     max-width:100% !important;
     min-width:0 !important;
     grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:6px !important;
+    border:0 !important;
   }
-  .hero__trust-card {
+  .hero__trust-grid .hero__trust-card:nth-child(n) {
     min-width:0 !important;
     grid-template-columns:30px minmax(0,1fr) !important;
     column-gap:9px !important;
     align-items:center !important;
+    padding:12px 8px !important;
+    border:1px solid #4b514d !important;
+    border-radius:var(--radius,10px) !important;
+    background:rgba(8,12,10,.82) !important;
   }
   .hero__trust-card .hero__trust-title {
     min-width:0 !important;
@@ -1832,29 +1839,21 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     min-height:3lh !important;
     margin:0 !important;
   }
-  .hero__trust-card .trust-icon {
-    width:28px !important;
-    height:28px !important;
-  }
-  .hero__trust-card .trust-icon svg {
-    width:22px !important;
-    height:22px !important;
-  }
-  .hero__trust-grid--desktop .hero__trust-card:nth-child(2) { border-right:0 !important; }
-  .hero__trust-grid--desktop .hero__trust-card:nth-child(-n+2) { border-bottom:1px solid #292d2d !important; }
+  .hero__trust-card .trust-icon { width:28px !important; height:28px !important; }
+  .hero__trust-card .trust-icon svg { width:22px !important; height:22px !important; }
   @container volt-hero-trust-layout (min-width:572px) {
     .hero__trust-grid--desktop { grid-template-columns:repeat(4,minmax(0,1fr)) !important; }
-    .hero__trust-grid--desktop .hero__trust-card:nth-child(-n+2) { border-bottom:0 !important; }
-    .hero__trust-grid--desktop .hero__trust-card:nth-child(2) { border-right:1px solid #292d2d !important; }
+    .hero__trust-grid--desktop .hero__trust-card:nth-child(n) { padding-inline:3px !important; }
   }
   @media (max-width:620px) {
-    .hero__trust-card {
+    .hero__trust-grid .hero__trust-card:nth-child(n) {
       grid-template-columns:26px minmax(0,1fr) !important;
+      padding:14px 10px !important;
     }
     .hero__trust-card .trust-icon { width:24px !important; height:24px !important; }
     .hero__trust-card .trust-icon svg { width:19px !important; height:19px !important; }
   }
   @media (max-width:360px) {
-    .hero__trust-grid--mobile .hero__trust-card { padding-inline:8px !important; }
+    .hero__trust-grid--mobile .hero__trust-card:nth-child(n) { padding-inline:6px !important; }
   }
 }
