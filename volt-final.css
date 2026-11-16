@@ -1770,3 +1770,13 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     .hero__copy > #hero-title { font-size:60px !important; }
   }
 }
+
+/* Apresentação da Hero: largura limitada e altura natural aprovadas.
+   Linhas são critério de QA da copy, sem corte ou quebras forçadas. */
+@layer volt-hero-lead {
+  .hero__copy > .hero__lead {
+    max-width:min(620px,100%) !important;
+    height:auto !important;
+    min-height:0 !important;
+  }
+}
