@@ -1756,3 +1756,17 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     .hero-eyebrow__short { display:inline !important; }
   }
 }
+
+/* H1 da Hero: limites visuais e ajuste responsivo aprovados. */
+@layer volt-hero-title {
+  .hero__copy > #hero-title {
+    max-width:100% !important;
+    min-height:2lh !important;
+  }
+  @media (max-width:620px) {
+    .hero__copy > #hero-title { min-height:3lh !important; }
+  }
+  @media (max-width:340px) {
+    .hero__copy > #hero-title { font-size:60px !important; }
+  }
+}
