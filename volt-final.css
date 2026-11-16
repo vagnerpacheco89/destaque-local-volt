@@ -1696,6 +1696,10 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     -webkit-box-orient:initial !important;
     flex:0 0 auto;
   }
+  /* Quebras editoriais da copy: linhas de texto reais, sem preenchimento vazio. */
+  #servicos .service-card__description-line {
+    display:block !important;
+  }
   #servicos .service-card__cta {
     align-self:flex-start !important;
     flex:0 0 auto !important;
