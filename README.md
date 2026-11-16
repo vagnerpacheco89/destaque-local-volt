@@ -10,7 +10,7 @@ Consultar esse manual antes de adaptar o template. Não manter outra especifica�
 
 ## Matriz e arquivos
 
-A matriz conferida na consolidação de 16/11/2026 está na branch [`release/volt-master-v1.0`](https://github.com/vagnerpacheco89/destaque-local-volt/tree/release/volt-master-v1.0), no commit de código [1fc1943](https://github.com/vagnerpacheco89/destaque-local-volt/commit/1fc1943ceed16f6530760ab57a8602d436fb66f7). A branch `main` tem código diferente; não presumir equivalência. A organização documental não altera HTML, CSS, JavaScript nem a publicação do site.
+A matriz vigente está na branch [`release/volt-master-v1.0`](https://github.com/vagnerpacheco89/destaque-local-volt/tree/release/volt-master-v1.0). A referência de código e as regras aprovadas estão no manual único. A branch `main` tem código diferente; não presumir equivalência. A organização documental não altera HTML, CSS, JavaScript nem a publicação do site.
 
 - `index.html`: estrutura, conteúdo e metadados.
 - `styles.css` e `volt-final.css`: estilos base, composição final e responsividade.
