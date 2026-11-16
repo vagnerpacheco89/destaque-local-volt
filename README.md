@@ -1,50 +1,27 @@
-# Destaque Local — VOLT MASTER v1.0
+# Destaque Local — VOLT
 
-Template one-page VOLT para eletricistas locais, mantido como base demonstrativa e master de produto da Destaque Local | SITES.
+Template de página única para eletricistas locais. Este repositório mantém o código executável, os recursos e o histórico da matriz demonstrativa.
 
-**Status: MASTER v1.0 — consolidação e QA pós-refatoração concluídas em 2026-09-05.**
+## Manual de implementação
 
-## Estrutura final
+A fonte principal de funcionamento, estrutura das seções, regras visuais aprovadas, personalização para o cliente, implementação e QA é o **[Manual de implementação do VOLT](https://github.com/vagnerpacheco89/destaque-local-core/blob/main/sites/nichos/eletricistas/templates/volt/manual-implementacao.md)**, no repositório `destaque-local-core`.
 
-A versão aprovada foi consolidada para evitar a antiga cadeia de arquivos `*-current.js` usada durante o polimento.
+Consultar esse manual antes de adaptar o template. Não manter outra especificação operacional neste README, não usar `sites/producao.md` e não depender do Google Drive como base operacional.
 
-- `index.html` — HTML final, conteúdo, estrutura semântica, SEO e Schema do demo
-- `styles.css` — estilos base do VOLT
-- `volt-final.css` — direção visual final aprovada e responsividade
-- `volt-final.js` — somente comportamentos de interface: menu mobile, FAQ, modal demo, navegação interna e reveal
-- `assets/` — imagens do template
-- `robots.txt` — regras de crawling do demo
-- `sitemap.xml` — sitemap do demo
-- `SEO-CLIENT-CHECKLIST.md` — checklist para transformar o demo em um site real indexável
-- `QA-MASTER-v1.0.md` — registro da revisão pós-refatoração que aprovou esta versão como master
+## Matriz e arquivos
 
-O HTML não depende mais de JavaScript para criar, reescrever ou reorganizar as seções aprovadas. O JavaScript ficou restrito a comportamentos interativos.
+A matriz conferida na consolidação de 16/11/2026 está na branch [`release/volt-master-v1.0`](https://github.com/vagnerpacheco89/destaque-local-volt/tree/release/volt-master-v1.0), no commit de código [1fc1943](https://github.com/vagnerpacheco89/destaque-local-volt/commit/1fc1943ceed16f6530760ab57a8602d436fb66f7). A branch `main` tem código diferente; não presumir equivalência. A organização documental não altera HTML, CSS, JavaScript nem a publicação do site.
 
-## Estado do demo
+- `index.html`: estrutura, conteúdo e metadados.
+- `styles.css` e `volt-final.css`: estilos base, composição final e responsividade.
+- `volt-final.js`: comportamentos de interface, inclusive proteção dos CTAs demonstrativos.
+- `assets/`: imagens.
+- `robots.txt` e `sitemap.xml`: rastreamento e endereços.
 
-- Dados, personagem, avaliações, contatos e WhatsApp são fictícios/demonstrativos.
-- O demo usa `noindex,follow` para não disputar busca local com negócios reais.
-- A versão de cliente deve receber dados reais, domínio real, WhatsApp real e a configuração de indexação descrita em `SEO-CLIENT-CHECKLIST.md`.
+## Demonstração e histórico
 
-## Operação
+O [VOLT publicado](https://volt.destaquelocal.com.br/) é demonstrativo. Não transportar seus dados fictícios como fatos do cliente. A conversão dos contatos e do convite para avaliar exige tratar os bloqueios demonstrativos do JavaScript, conforme o manual.
 
-- GitHub = source of truth do código executável e histórico.
-- `destaque-local-core/sites/producao.md` = referência operacional aprovada de produto e produção.
-- O preview via GitHub Pages é usado para revisão rápida do template.
+`QA-MASTER-v1.0.md` preserva o registro histórico da refatoração de setembro de 2026; não substitui a QA vigente nem comprova uma implementação atual. `SEO-CLIENT-CHECKLIST.md` apenas aponta para o manual. As branches `archive/*` preservam estados antigos para consulta histórica.
 
-Fluxo normal: Founder dá feedback → ChatGPT analisa → implementa no repo → preview atualiza → Founder avalia.
-
-Codex não é etapa padrão; fica reservado para tarefas que realmente exijam engenharia especializada.
-
-## Segurança e versões
-
-- `archive/volt-pre-consolidation-20260905` preserva o estado anterior à consolidação, com os antigos overrides de desenvolvimento.
-- `archive/volt-post-consolidation-pre-qa` preserva a versão consolidada imediatamente antes da QA final.
-- `release/volt-master-v1.0` é o branch congelado da versão aprovada para servir de base às adaptações de clientes.
-
-## Polimento — convite para avaliação — 14/11/2026
-
-- Convite para avaliar no Google após os depoimentos e antes de Sobre, adaptado da implementação da AR Instalações.
-- O MASTER continua demonstrativo: o botão de avaliação abre um aviso próprio, sem direcionar para o perfil de um cliente real.
-- Em um site de cliente, conectar somente o link confirmado do negócio e adequar a orientação ao destino (perfil ou tela de avaliação).
-- Publicação desta seção autorizada pelo Founder em 14/11/2026. Esta rodada não declara o polimento completo nem substitui a versão congelada aprovada.
+A biblioteca de copy, a centralização completa das variáveis e a montagem automática ainda não estão concluídas.
