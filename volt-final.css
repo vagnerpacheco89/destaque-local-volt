@@ -1790,3 +1790,22 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     min-height:0 !important;
   }
 }
+
+/* Microcopy abaixo dos CTAs da Hero: uma linha, dentro da coluna.
+   Frases atuais aprovadas; a biblioteca de cinco copys será definida depois. */
+@layer volt-hero-micro {
+  .hero__copy > .hero__micro {
+    width:100% !important;
+    max-width:min(620px,100%) !important;
+    height:auto !important;
+    min-height:0 !important;
+    container-type:inline-size !important;
+    container-name:volt-hero-micro !important;
+  }
+  .hero-micro__full { display:inline !important; }
+  .hero-micro__short { display:none !important; }
+  @container volt-hero-micro (max-width:410px) {
+    .hero-micro__full { display:none !important; }
+    .hero-micro__short { display:inline !important; }
+  }
+}
