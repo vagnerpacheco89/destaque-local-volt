@@ -444,6 +444,7 @@
  const params=new URLSearchParams(location.search);
  const active=params.get('secao')==='diagnostico'||(!params.has('secao')&&location.hash==='#diagnostico');
  if(params.get('limites')!=='1'||!active)return;
+ document.documentElement.dataset.voltDiagnosticAnalysis='true';
  const section=document.querySelector('#diagnostico');
  const copy=section.querySelector('.diagnostic__copy'),eye=copy.querySelector('.eyebrow'),title=copy.querySelector('h2');
  const ps=[...copy.querySelectorAll('.diagnostic__body')],panelBox=section.querySelector('.problem-panel');

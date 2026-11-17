@@ -2151,3 +2151,8 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 }
 
 #volt-analysis-marks .volt-analysis-outline--dg-amber {outline:1px solid #ffc875;}
+
+/* A análise mede a posição final, sem deslocamentos temporários de entrada. */
+html[data-volt-diagnostic-analysis] .diagnostic .reveal-item {
+ opacity:1 !important; transform:none !important; transition:none !important;
+}
