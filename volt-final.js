@@ -286,7 +286,7 @@
       const r = otherEyebrow.getBoundingClientRect();
       if (r.bottom >= 0 && r.top <= height) {
         box(r, 'volt-analysis-outline volt-analysis-outline--heading');
-        label(r.left, r.top - 16, r.width, 'Identificação · 1 linha · teto 280 px', 'volt-analysis-blue volt-analysis-label--small');
+        label(r.left, r.top - 16, r.width, 'Identificação · 1 linha', 'volt-analysis-blue volt-analysis-label--small');
         const t = otherEyebrow.nextElementSibling.getBoundingClientRect();
         box({left:r.left,top:r.bottom,width:r.width,height:t.top-r.bottom}, 'volt-analysis-gap');
       }
