@@ -2174,10 +2174,6 @@ html[data-volt-diagnostic-analysis] .diagnostic .reveal-item {
  #trabalhos .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
  #trabalhos h2 {width:100% !important;max-width:min(620px,100%) !important;min-height:1lh !important;height:auto !important;}
  #trabalhos .portfolio-intro {width:100% !important;max-width:min(760px,100%) !important;min-height:0 !important;height:auto !important;}
- #trabalhos .portfolio-card figcaption,
- #trabalhos .portfolio-card:first-child figcaption {box-sizing:border-box !important;display:flex !important;flex-direction:column !important;align-items:flex-start !important;justify-content:flex-end !important;gap:12px !important;padding:20px !important;}
- #trabalhos .portfolio-card figcaption h3 {flex:0 0 auto !important;width:100% !important;max-width:100% !important;min-height:2lh !important;display:flex !important;align-items:flex-end !important;margin:0 !important;}
- #trabalhos .portfolio-card figcaption span {box-sizing:border-box !important;flex:0 0 auto !important;align-self:flex-start !important;width:max-content !important;max-width:100% !important;min-width:0 !important;white-space:normal !important;text-align:left !important;overflow-wrap:normal !important;}
  #trabalhos .portfolio-closing {position:relative !important;max-width:min(760px,100%) !important;margin:40px auto 0 !important;padding-top:0 !important;border-top:0 !important;}
  #trabalhos .portfolio-closing::before {content:"";position:absolute;left:0;right:0;top:-20px;height:2px;background:var(--volt-section-divider);pointer-events:none;}
  #trabalhos .portfolio-closing h3 {width:100% !important;max-width:min(620px,100%) !important;margin:0 auto 12px !important;min-height:0 !important;height:auto !important;}
@@ -2197,9 +2193,24 @@ html[data-volt-diagnostic-analysis] .diagnostic .reveal-item {
  @media(max-width:620px) {
   #trabalhos h2 {min-height:2lh !important;}
   #trabalhos .portfolio-grid {grid-template-columns:minmax(0,1fr) !important;grid-auto-rows:clamp(260px,75vw,380px) !important;}
-  #trabalhos .portfolio-card figcaption,
-  #trabalhos .portfolio-card:first-child figcaption {padding:16px !important;}
   #trabalhos .portfolio-closing__cta {width:100% !important;min-width:0 !important;max-width:100% !important;}
  }
 }
 html[data-volt-portfolio-analysis] #trabalhos .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
+
+/* Trabalhos: fotos limpas e apresentação responsiva, solicitado em 17/11/2026. */
+@layer volt-portfolio-photos-intro {
+ #trabalhos .portfolio-heading__copy {min-width:0 !important;container:volt-portfolio-copy / inline-size;}
+ #trabalhos .portfolio-card::before, #trabalhos .portfolio-card::after {content:none !important;display:none !important;}
+ #trabalhos .portfolio-card img, #trabalhos .portfolio-card:hover img {filter:none !important;}
+ #trabalhos .portfolio-intro__full {display:inline !important;}
+ #trabalhos .portfolio-intro__medium, #trabalhos .portfolio-intro__compact {display:none !important;}
+ @container volt-portfolio-copy (width < 600px) {
+  #trabalhos .portfolio-intro__full {display:none !important;}
+  #trabalhos .portfolio-intro__medium {display:inline !important;}
+ }
+ @container volt-portfolio-copy (width < 320px) {
+  #trabalhos .portfolio-intro__medium {display:none !important;}
+  #trabalhos .portfolio-intro__compact {display:inline !important;}
+ }
+}
