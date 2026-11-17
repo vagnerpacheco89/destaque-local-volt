@@ -1971,10 +1971,10 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
   /* O fallback CSS anterior permanece para ausência de JavaScript.
      Após medir o botão, o atributo prevalece sobre a aproximação de 255 px. */
-  :is(.services-other__cta, .diagnostic__cta)[data-copy-fit="full"] .volt-cta__full { display:inline !important; }
-  :is(.services-other__cta, .diagnostic__cta)[data-copy-fit="full"] .volt-cta__short { display:none !important; }
-  :is(.services-other__cta, .diagnostic__cta)[data-copy-fit="short"] .volt-cta__full { display:none !important; }
-  :is(.services-other__cta, .diagnostic__cta)[data-copy-fit="short"] .volt-cta__short { display:inline !important; }
+  :is(.services-other__cta, .diagnostic__cta, .portfolio-closing__cta)[data-copy-fit="full"] .volt-cta__full { display:inline !important; }
+  :is(.services-other__cta, .diagnostic__cta, .portfolio-closing__cta)[data-copy-fit="full"] .volt-cta__short { display:none !important; }
+  :is(.services-other__cta, .diagnostic__cta, .portfolio-closing__cta)[data-copy-fit="short"] .volt-cta__full { display:none !important; }
+  :is(.services-other__cta, .diagnostic__cta, .portfolio-closing__cta)[data-copy-fit="short"] .volt-cta__short { display:inline !important; }
 
   @container volt-diagnostic-cta-fit (width < 360px) {
     .diagnostic__cta .volt-cta__full { display:none !important; }
@@ -2160,3 +2160,41 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 html[data-volt-diagnostic-analysis] .diagnostic .reveal-item {
  opacity:1 !important; transform:none !important; transition:none !important;
 }
+
+/* Trabalhos: parametrização aplicada para revisão do Founder. */
+@layer volt-portfolio-review {
+ #trabalhos .section-heading {position:relative !important;padding-bottom:0 !important;border-bottom:0 !important;margin-bottom:40px !important;}
+ #trabalhos .section-heading::after {content:"";position:absolute;left:0;right:0;bottom:-20px;height:2px;background:var(--volt-section-divider);pointer-events:none;}
+ #trabalhos .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}
+ #trabalhos .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
+ #trabalhos h2 {width:100% !important;max-width:min(620px,100%) !important;min-height:1lh !important;height:auto !important;}
+ #trabalhos .portfolio-intro {width:100% !important;max-width:min(760px,100%) !important;min-height:0 !important;height:auto !important;}
+ #trabalhos .portfolio-card figcaption,
+ #trabalhos .portfolio-card:first-child figcaption {box-sizing:border-box !important;display:flex !important;flex-direction:column !important;align-items:flex-start !important;justify-content:flex-end !important;gap:12px !important;padding:20px !important;}
+ #trabalhos .portfolio-card figcaption h3 {flex:0 0 auto !important;width:100% !important;max-width:100% !important;min-height:2lh !important;display:flex !important;align-items:flex-end !important;margin:0 !important;}
+ #trabalhos .portfolio-card figcaption span {box-sizing:border-box !important;flex:0 0 auto !important;align-self:flex-start !important;width:max-content !important;max-width:100% !important;min-width:0 !important;white-space:normal !important;text-align:left !important;overflow-wrap:normal !important;}
+ #trabalhos .portfolio-closing {position:relative !important;max-width:min(760px,100%) !important;margin:40px auto 0 !important;padding-top:0 !important;border-top:0 !important;}
+ #trabalhos .portfolio-closing::before {content:"";position:absolute;left:0;right:0;top:-20px;height:2px;background:var(--volt-section-divider);pointer-events:none;}
+ #trabalhos .portfolio-closing h3 {width:100% !important;max-width:min(620px,100%) !important;margin:0 auto 12px !important;min-height:0 !important;height:auto !important;}
+ #trabalhos .portfolio-closing p {width:100% !important;max-width:min(620px,100%) !important;margin:0 auto 24px !important;min-height:0 !important;height:auto !important;}
+ #trabalhos .portfolio-closing__cta {width:max-content !important;min-width:min(320px,100%) !important;max-width:min(440px,100%) !important;min-height:54px !important;height:auto !important;padding:0 25px !important;}
+ @media(max-width:1080px) {
+  #trabalhos .portfolio-grid {grid-template-columns:repeat(2,minmax(0,1fr)) !important;grid-template-rows:none !important;grid-auto-rows:320px !important;}
+  #trabalhos .portfolio-card:nth-child(n) {grid-column:auto !important;grid-row:auto !important;}
+  #trabalhos .portfolio-card:first-child {grid-column:1 / -1 !important;}
+ }
+ @media(max-width:860px) {
+  #trabalhos .section-heading {margin-bottom:32px !important;}
+  #trabalhos .section-heading::after {bottom:-16px;}
+  #trabalhos .portfolio-closing {margin-top:32px !important;}
+  #trabalhos .portfolio-closing::before {top:-16px;}
+ }
+ @media(max-width:620px) {
+  #trabalhos h2 {min-height:2lh !important;}
+  #trabalhos .portfolio-grid {grid-template-columns:minmax(0,1fr) !important;grid-auto-rows:clamp(260px,75vw,380px) !important;}
+  #trabalhos .portfolio-card figcaption,
+  #trabalhos .portfolio-card:first-child figcaption {padding:16px !important;}
+  #trabalhos .portfolio-closing__cta {width:100% !important;min-width:0 !important;max-width:100% !important;}
+ }
+}
+html[data-volt-portfolio-analysis] #trabalhos .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}

@@ -1,6 +1,6 @@
 /* CTAs: seleção pela largura útil real. */
 (() => {
-  document.querySelectorAll('.services-other__cta, .diagnostic__cta').forEach(cta => {
+  document.querySelectorAll('.services-other__cta, .diagnostic__cta, .portfolio-closing__cta').forEach(cta => {
   const full = cta.querySelector('.volt-cta__full');
   const short = cta.querySelector('.volt-cta__short');
   const measure = text => {
@@ -255,7 +255,7 @@
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
-        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a>
+        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
@@ -266,7 +266,7 @@
   panel.querySelector('.volt-analysis-exit').href = normalURL.href;
   const serviceDetails = document.createElement('details');
   serviceDetails.dataset.analysisSection = 'servicos';
-  serviceDetails.open = location.hash !== '#diagnostico';
+  serviceDetails.open = !['#diagnostico','#trabalhos'].includes(location.hash);
   serviceDetails.innerHTML = '<summary>Serviços · limites definidos</summary>';
   const body = panel.querySelector('.volt-analysis-body');
   const actions = body.querySelector('.volt-analysis-actions');
@@ -544,3 +544,72 @@
  window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});section.addEventListener('transitionend',schedule);window.addEventListener('load',schedule,{once:true});document.fonts.ready.then(schedule);schedule();
 })();
 /* END DIAGNOSTIC REVIEW */
+
+/* BEGIN PORTFOLIO REVIEW — marcações temporárias; regras em revisão. */
+(() => {
+ 'use strict';
+ if(new URLSearchParams(location.search).get('limites')!=='1')return;
+ const section=document.querySelector('#trabalhos'),overlay=document.querySelector('#volt-analysis-marks'),shared=document.querySelector('#volt-analysis-panel');
+ if(!section||!overlay||!shared)return;
+ document.documentElement.dataset.voltPortfolioAnalysis='true';
+ const eye=section.querySelector('.eyebrow'),title=section.querySelector('h2'),intro=section.querySelector('.portfolio-intro'),grid=section.querySelector('.portfolio-grid');
+ const cards=[...grid.querySelectorAll('figure')],closing=section.querySelector('.portfolio-closing'),closeTitle=closing.querySelector('h3'),closeBody=closing.querySelector('p'),cta=closing.querySelector('button');
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='trabalhos';overlay.append(marks);
+ const panel=document.createElement('details');panel.dataset.analysisSection='trabalhos';panel.open=location.hash==='#trabalhos';
+ panel.innerHTML='<summary>Trabalhos · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para avaliação do Founder. Marcações não alteram o layout.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrow</dt><dd data-pf="eye"></dd><dt class="volt-analysis-green">Verde · H2</dt><dd data-pf="title"></dd><dt class="volt-analysis-purple">Roxo · apresentação</dt><dd data-pf="intro"></dd><dt class="volt-analysis-blue">Azul · títulos das fotos</dt><dd data-pf="titles"></dd><dt class="volt-analysis-amber">Amarelo · legendas de localização</dt><dd data-pf="captions"></dd><dt class="volt-analysis-green">Verde / roxo · fechamento</dt><dd data-pf="closing"></dd><dt class="volt-analysis-blue">Azul · Copy do CTA</dt><dd data-pf="cta"></dd><dt class="volt-analysis-amber">Amarelo · intervalos e composição</dt><dd data-pf="gaps"></dd></dl><p data-pf="fit"></p><p>Oito imagens demonstrativas preservadas; não apresentar como trabalhos reais de um cliente. Sem cortes, redução de fonte ou abreviações automáticas. Assets e biblioteca de copy continuam para depois.</p></div>';
+ shared.append(panel);
+ const R=e=>e.getBoundingClientRect(),px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
+ const rows=e=>{
+  const ys=[],walker=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);
+  while(walker.nextNode()){
+   const n=walker.currentNode;if(!n.textContent.trim()||n.parentElement.closest('[aria-hidden="true"]'))continue;
+   const range=document.createRange();range.selectNodeContents(n);
+   for(const r of range.getClientRects())if(r.width&&r.height){
+    const line=ys.find(x=>Math.abs(x.y-r.y)<2);
+    if(line){line.l=Math.min(line.l,r.left);line.r=Math.max(line.r,r.right);}else ys.push({y:r.y,l:r.left,r:r.right});
+   }
+  }return ys;
+ };
+ const lines=e=>rows(e).length;
+ const write=(k,v)=>{const e=panel.querySelector('[data-pf="'+k+'"]');if(e.textContent!==v)e.textContent=v;};
+ const box=(r,cls)=>{if(r.bottom<0||r.top>innerHeight)return;const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:r.left+'px',top:r.top+'px',width:Math.max(0,r.width)+'px',height:Math.max(0,r.height)+'px'});marks.append(e);};
+ const mark=(e,cls)=>box(R(e),'volt-analysis-outline '+cls);
+ const gap=(a,b)=>{const x=R(a),y=R(b);box({left:x.left,top:x.bottom,bottom:y.top,width:Math.min(x.width,y.width),height:y.top-x.bottom},'volt-analysis-gap');};
+ let queued=false;
+ const render=()=>{
+  queued=false;
+  const narrow=innerWidth<=620,stacked=innerWidth<=860,issues=[];
+  const er=R(eye),tr=R(title),pr=R(intro),gr=R(grid),ct=R(closeTitle),cb=R(closeBody),cr=R(cta);
+  const hLines=cards.map(c=>lines(c.querySelector('h3'))),cLines=cards.map(c=>lines(c.querySelector('figcaption span')));
+  const hMax=Math.max(0,...rows(title).map(r=>r.r-r.l));
+  if(lines(eye)!==1||er.width>280.1||er.width>=hMax)issues.push('Eyebrow');
+  if(lines(title)<1||lines(title)>2||tr.width>620.1)issues.push('H2');
+  if(lines(intro)<2||lines(intro)>(narrow?5:4)||pr.width>760.1)issues.push('apresentação');
+  if(hLines.some(n=>n<1||n>2))issues.push('H3 das fotos');
+  if(cLines.some(n=>n<1||n>2))issues.push('legendas');
+  cards.forEach((c,i)=>{const cap=c.querySelector('figcaption'),capr=R(cap),r=R(c);if(capr.top<r.top-.2||capr.right>r.right+.2||capr.bottom>r.bottom+.2)issues.push('encaixe foto '+(i+1));for(const e of cap.children){const b=R(e);if(b.left<r.left||b.right>r.right||rows(e).some(x=>x.l<b.left-.2||x.r>b.right+.2))issues.push('texto foto '+(i+1));}});
+  if(lines(closeTitle)<1||lines(closeTitle)>2||ct.width>620.1)issues.push('H3 do fechamento');
+  if(lines(closeBody)<(narrow?2:1)||lines(closeBody)>(narrow?4:3)||cb.width>620.1)issues.push('apresentação do fechamento');
+  if(lines(cta)!==1||cta.dataset.copyOverflow==='true'||cr.height<53.9)issues.push('CTA');
+  const expected=stacked?32:40;
+  if(Math.abs(tr.top-er.bottom-12)>.2||Math.abs(pr.top-tr.bottom-16)>.2||Math.abs(gr.top-pr.bottom-expected)>.2||Math.abs(ct.top-gr.bottom-expected)>.2||Math.abs(cb.top-ct.bottom-12)>.2||Math.abs(cr.top-cb.bottom-24)>.2)issues.push('intervalos');
+  write('eye',px(er.width)+' · '+lines(eye)+' linha · teto 280 px com traço de 34 px; menor que a maior linha do H2.');
+  write('title',px(tr.width)+' · '+lines(title)+' linha(s), máximo 2 · teto 620 px. Reserva mínima: '+(narrow?'2 linhas.':'1 linha.'));
+  write('intro',px(pr.width)+' · '+lines(intro)+' linhas · faixa '+(narrow?'2–5':'2–4')+' · teto 760 px · altura natural. Inter 16 px / 1,6.');
+  write('titles','Linhas nos 8 H3: '+hLines.join(' / ')+'. Máximo e reserva de 2 linhas por foto; Barlow Condensed 800, '+(narrow?'24':'28')+' px / 1,05. Texto na base da reserva.');
+  write('captions','Linhas nas 8 legendas: '+cLines.join(' / ')+'. Até 2, altura natural, Inter 12 px / 700 / 1,5. Título → legenda: 12 px. Recuos da foto: '+(narrow?'16':'20')+' px; selo amarelo dentro da coluna, recuos 8 / 11 px e borda de 1 px.');
+  write('closing','H3: '+px(ct.width)+' / '+lines(closeTitle)+' linha(s), máximo 2, teto 620 px. Apresentação: '+px(cb.width)+' / '+lines(closeBody)+' linha(s), faixa '+(narrow?'2–4':'1–3')+', teto 620 px. Alturas naturais, centralizados.');
+  write('cta',px(cr.width)+' × '+px(cr.height)+' · '+lines(cta)+' linha · copy '+(cta.dataset.copyFit==='short'?'curta':'completa')+'. Mínimo 54 px de altura; recuos 25 px. '+(narrow?'Largura inteira da coluna.':'Natural de 320–440 px dentro da coluna.'));
+  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(pr.top-tr.bottom)+'; apresentação → fotos: '+px(gr.top-pr.bottom)+'; fotos → fechamento: '+px(ct.top-gr.bottom)+'; H3 → apresentação: '+px(cb.top-ct.bottom)+'; apresentação → CTA: '+px(cr.top-cb.bottom)+'. Grade: '+(narrow?'1 coluna':innerWidth<=1080?'2 colunas com primeira foto ampla':'mosaico original')+', intervalo de 12 px. Divisórias dentro dos intervalos.');
+  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+  marks.replaceChildren();if(overlay.hidden)return;
+  mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');
+  cards.forEach(c=>{mark(c.querySelector('h3'),'volt-analysis-outline--heading');mark(c.querySelector('figcaption span'),'volt-analysis-outline--dg-amber');gap(c.querySelector('h3'),c.querySelector('figcaption span'));});
+  mark(closeTitle,'volt-analysis-outline--intro');mark(closeBody,'volt-analysis-outline--other-intro');mark(cta,'volt-analysis-outline--heading');
+  gap(eye,title);gap(title,intro);gap(intro,grid);gap(grid,closeTitle);gap(closeTitle,closeBody);gap(closeBody,cta);
+ };
+ const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render);}};
+ const observer=new ResizeObserver(schedule);[section,eye,title,intro,grid,closing,...cards].forEach(e=>observer.observe(e));
+ window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);window.addEventListener('load',schedule,{once:true});section.addEventListener('transitionend',schedule);document.fonts.ready.then(schedule);schedule();
+})();
+/* END PORTFOLIO REVIEW */
