@@ -5,9 +5,7 @@
   const title = eyebrow?.nextElementSibling;
   if (!eyebrow || !title) return;
   const full = eyebrow.querySelector('.services-other__eyebrow-full');
-  let queued = false;
   const fit = () => {
-    queued = false;
     const style = getComputedStyle(eyebrow);
     const probe = document.createElement('span');
     probe.textContent = full.textContent;
@@ -22,7 +20,7 @@
     const available = Math.min(280, eyebrow.parentElement.clientWidth);
     eyebrow.classList.toggle('services-other__eyebrow--full', fullWidth <= available && fullWidth < titleWidth);
   };
-  const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(fit); } };
+  const schedule = fit;
   const observer = new ResizeObserver(schedule);
   observer.observe(eyebrow.parentElement);
   observer.observe(title);
