@@ -2154,7 +2154,7 @@ html[data-volt-diagnostic-analysis] .diagnostic .reveal-item {
  opacity:1 !important; transform:none !important; transition:none !important;
 }
 
-/* Trabalhos: parametrização aplicada para revisão do Founder. */
+/* Trabalhos: parametrização aprovada pelo Founder em 17/11/2026. */
 @layer volt-portfolio-review {
  /* Mosaico AR: mesmas posições e proporções; 10 fotos padrão, até 20. */
  @media(min-width:761px) {

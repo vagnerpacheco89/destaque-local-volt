@@ -562,7 +562,7 @@
 })();
 /* END DIAGNOSTIC REVIEW */
 
-/* BEGIN PORTFOLIO REVIEW — marcações temporárias; regras em revisão. */
+/* BEGIN PORTFOLIO REVIEW — marcações temporárias; regras aprovadas. */
 (() => {
  'use strict';
  if(new URLSearchParams(location.search).get('limites')!=='1')return;
@@ -573,7 +573,7 @@
  const cards=[...grid.querySelectorAll('figure')],closing=section.querySelector('.portfolio-closing'),closeTitle=closing.querySelector('h3'),closeBody=closing.querySelector('p'),cta=closing.querySelector('button');
  const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='trabalhos';overlay.append(marks);
  const panel=document.createElement('details');panel.dataset.analysisSection='trabalhos';panel.open=location.hash==='#trabalhos';
- panel.innerHTML='<summary>Trabalhos · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para avaliação do Founder. Marcações não alteram o layout.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrow</dt><dd data-pf="eye"></dd><dt class="volt-analysis-green">Verde · H2</dt><dd data-pf="title"></dd><dt class="volt-analysis-purple">Roxo · apresentação</dt><dd data-pf="intro"></dd><dt class="volt-analysis-amber">Amarelo · fotos sem sobreposição</dt><dd data-pf="photos"></dd><dt class="volt-analysis-green">Verde / roxo · fechamento</dt><dd data-pf="closing"></dd><dt class="volt-analysis-blue">Azul · Copy do CTA</dt><dd data-pf="cta"></dd><dt class="volt-analysis-amber">Amarelo · intervalos e composição</dt><dd data-pf="gaps"></dd></dl><p data-pf="fit"></p><p>Dez fotos demonstrativas (oito imagens distintas e duas repetições temporárias); padrão 10, permitido de 10 a 20 fotos; não apresentar como trabalhos reais de um cliente. Sem cortes, redução de fonte ou abreviações automáticas. Assets e biblioteca de copy continuam para depois.</p></div>';
+ panel.innerHTML='<summary>Trabalhos · limites definidos</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · aprovada</p><p>Regras aprovadas pelo Founder e aplicadas. Marcações não alteram o layout.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrow</dt><dd data-pf="eye"></dd><dt class="volt-analysis-green">Verde · H2</dt><dd data-pf="title"></dd><dt class="volt-analysis-purple">Roxo · apresentação</dt><dd data-pf="intro"></dd><dt class="volt-analysis-amber">Amarelo · fotos sem sobreposição</dt><dd data-pf="photos"></dd><dt class="volt-analysis-green">Verde / roxo · fechamento</dt><dd data-pf="closing"></dd><dt class="volt-analysis-blue">Azul · Copy do CTA</dt><dd data-pf="cta"></dd><dt class="volt-analysis-amber">Amarelo · intervalos e composição</dt><dd data-pf="gaps"></dd></dl><p data-pf="fit"></p><p>Dez fotos demonstrativas (oito imagens distintas e duas repetições temporárias); padrão 10, permitido de 10 a 20 fotos; não apresentar como trabalhos reais de um cliente. Sem cortes, redução de fonte ou abreviações automáticas. Assets e biblioteca de copy continuam para depois.</p></div>';
  shared.append(panel);
  const R=e=>e.getBoundingClientRect(),px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
  const rows=e=>{
@@ -615,7 +615,7 @@
   write('closing','H3: '+px(ct.width)+' / '+lines(closeTitle)+' linha(s), máximo 2, teto 620 px. Apresentação: '+px(cb.width)+' / '+lines(closeBody)+' linha(s), faixa '+(narrow?'2–4':'1–3')+', teto 620 px. Alturas naturais, centralizados.');
   write('cta',px(cr.width)+' × '+px(cr.height)+' · '+lines(cta)+' linha · copy '+(cta.dataset.copyFit==='short'?'curta':'completa')+'. Mínimo 54 px de altura; recuos 25 px. '+(narrow?'Largura inteira da coluna.':'Natural de 320–440 px dentro da coluna.'));
   write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(pr.top-tr.bottom)+'; apresentação → fotos: '+px(gr.top-pr.bottom)+'; fotos → fechamento: '+px(ct.top-gr.bottom)+'; H3 → apresentação: '+px(cb.top-ct.bottom)+'; apresentação → CTA: '+px(cr.top-cb.bottom)+'. Grade: '+(innerWidth<=560?'1 coluna, primeira foto alta':innerWidth<=760?'2 colunas, primeira foto alta e foto 8 ampla':'mosaico AR: foto alta + quatro; faixa de três; faixa de duas; extensão 11–20 em faixas de três e duas')+', intervalo de 12 px. Divisórias dentro dos intervalos.');
-  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras aprovadas pelo Founder.');
   marks.replaceChildren();if(overlay.hidden)return;
   mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');
   cards.forEach(c=>mark(c,'volt-analysis-outline--dg-amber'));
