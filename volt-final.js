@@ -354,6 +354,7 @@
   window.addEventListener('scroll', schedule, {passive:true});
   window.addEventListener('load', schedule, {once:true});
   heading.parentElement.addEventListener('transitionend', schedule);
+  otherTitle?.closest('.services-other')?.addEventListener('transitionend', schedule);
   document.fonts.ready.then(schedule);
   schedule();
 })();
