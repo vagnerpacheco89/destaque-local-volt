@@ -31,7 +31,7 @@
   });
 })();
 
-/* Rodada 16: identificação do complemento; fallback curto sem JavaScript. */
+/* Rodada 16: eyebrow do complemento; fallback curto sem JavaScript. */
 (() => {
   const eyebrow = document.querySelector('.services-other__eyebrow');
   const title = eyebrow?.nextElementSibling;
@@ -243,7 +243,7 @@
         <dd><output data-analysis="intro"></output><br><span data-analysis="rule"></span><br><output data-analysis="fit"></output></dd>
         <dt class="volt-analysis-blue">Azul · CTAs dos cartões</dt>
         <dd><output data-analysis="cta"></output><br>Uma linha · teto de 240 px dentro da coluna.</dd>
-        <dt class="volt-analysis-blue">Azul · identificação do complemento</dt><dd><output data-analysis="other"></output><br>Uma linha · teto de 280 px · menor que a maior linha do H3 · 8 px até o título.</dd>\n        <dt class="volt-analysis-green">Verde · H3 do complemento</dt>
+        <dt class="volt-analysis-blue">Azul · eyebrow do complemento</dt><dd><output data-analysis="other"></output><br>Uma linha · teto de 280 px · menor que a maior linha do H3 · 8 px até o título.</dd>\n        <dt class="volt-analysis-green">Verde · H3 do complemento</dt>
         <dd><output data-analysis="other-title"></output><br>Até 2 linhas · teto de 620 px dentro da coluna · altura natural.<br><output data-analysis="other-title-gaps"></output><br><output data-analysis="other-title-fit"></output></dd>
         <dt class="volt-analysis-purple">Roxo · apresentação do complemento</dt>
         <dd><output data-analysis="other-intro"></output><br><output data-analysis="other-intro-rule"></output><br><output data-analysis="other-intro-gaps"></output><br><output data-analysis="other-intro-fit"></output></dd>
@@ -348,7 +348,7 @@
       const before = r.top - otherEyebrow.getBoundingClientRect().bottom;
       const after = otherTitle.nextElementSibling.getBoundingClientRect().top - r.bottom;
       write('other-title', pixels(r.width) + ' · ' + count + ' linha(s) · altura natural: ' + pixels(r.height));
-      write('other-title-gaps', pixels(before) + ' após a identificação · ' + pixels(after) + ' até a apresentação');
+      write('other-title-gaps', pixels(before) + ' após a eyebrow · ' + pixels(after) + ' até a apresentação');
       write('other-title-fit', count >= 1 && count <= 2 ? 'Título atual dentro do limite de linhas.' : 'Pendência de copy: título fora do limite; confirmar nome de atendimento e alternativa aprovada.');
     }
     if (otherIntro) {
@@ -380,7 +380,7 @@
       const r = otherEyebrow.getBoundingClientRect();
       if (r.bottom >= 0 && r.top <= height) {
         box(r, 'volt-analysis-outline volt-analysis-outline--heading');
-        label(r.left, r.top - 16, r.width, 'Identificação · 1 linha', 'volt-analysis-blue volt-analysis-label--small');
+        label(r.left, r.top - 16, r.width, 'Eyebrow · 1 linha', 'volt-analysis-blue volt-analysis-label--small');
         const t = otherEyebrow.nextElementSibling.getBoundingClientRect();
         box({left:r.left,top:r.bottom,width:r.width,height:t.top-r.bottom}, 'volt-analysis-gap');
       }
@@ -477,10 +477,10 @@
  const panel=document.createElement('details');panel.dataset.analysisSection='diagnostico';panel.open=location.hash==='#diagnostico';
  panel.innerHTML=`<summary>Diagnóstico · EM REVISÃO</summary><div class="volt-analysis-body">
  <p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para sua avaliação. Marcações não alteram o layout.</p><dl>
- <dt class="volt-analysis-blue">Azul · identificação</dt><dd data-dg="eye"></dd>
+ <dt class="volt-analysis-blue">Azul · eyebrow</dt><dd data-dg="eye"></dd>
  <dt class="volt-analysis-green">Verde · H2</dt><dd data-dg="title"></dd>
  <dt class="volt-analysis-purple">Roxo · apresentação e orientação</dt><dd data-dg="body"></dd>
- <dt class="volt-analysis-amber">Amarelo · identificação do painel</dt><dd data-dg="label"></dd>
+ <dt class="volt-analysis-amber">Amarelo · cabeçalho do painel</dt><dd data-dg="label"></dd>
  <dt class="volt-analysis-blue">Azul · seis situações atendidas</dt><dd data-dg="cells"></dd>
  <dt class="volt-analysis-blue">Azul · Copy do CTA</dt><dd data-dg="cta"></dd>
  <dt class="volt-analysis-amber">Amarelo · intervalos e composição</dt><dd data-dg="gaps"></dd>
@@ -514,20 +514,20 @@
   const limit=compact?6:5,itemMax=narrow?2:3,after=cr.top-Math.max(co.bottom,pb.bottom);
   const maxLine=Math.max(0,...textRows(title).map(x=>x.r-x.l));
   const issues=[];
-  if(eLines!==1||e.width>280.1||e.width>=maxLine)issues.push('identificação');
+  if(eLines!==1||e.width>280.1||e.width>=maxLine)issues.push('eyebrow');
   if(tLines<1||tLines>2||t.width>620.1)issues.push('H2');
   if(pLines.some(n=>n<3||n>limit)||p.some(r=>r.width>760.1))issues.push('parágrafos');
-  if(lLines!==1)issues.push('identificação do painel');
+  if(lLines!==1)issues.push('cabeçalho do painel');
   if(cLines.some(n=>n<1||n>itemMax))issues.push('situações atendidas');
   if(lines(cta)!==1||cta.dataset.copyOverflow==='true')issues.push('CTA');
   if(Math.abs(t.top-e.bottom-12)>.2||Math.abs(p[0].top-t.bottom-16)>.2||Math.abs(p[1].top-p[0].bottom-12)>.2||Math.abs(after-(stacked?32:40))>.2)issues.push('intervalos');
   write('eye',px(e.width)+' · '+eLines+' linha · teto 280 px com traço de 34 px; menor que a maior linha do H2.');
   write('title',px(t.width)+' · '+tLines+' linha(s) · máximo 2 · teto 620 px. Reserva mínima: '+(narrow?'2 linhas':'1 linha')+'.');
   write('body','P1: '+pLines[0]+' linhas / '+px(p[0].width)+'; P2: '+pLines[1]+' linhas / '+px(p[1].width)+'. Formato '+(compact?'compacto: 3–6':'regular: 3–5')+' linhas por parágrafo; teto 760 px dentro da coluna; altura natural. Inter 16 px / 1,6.');
-  write('label',lLines+' linha · teto do texto 280 px; dentro da faixa amarela. Recuos '+(narrow?'16':'20')+' px.');
+  write('label',lLines+' linha · Inter 14 px, peso 700, texto preto · teto do texto 280 px; dentro da faixa amarela. Recuos '+(narrow?'16':'20')+' px.');
   write('cells',cLines.length+' itens · linhas: '+cLines.join(' / ')+'. Máximo '+itemMax+' por item; reserva '+itemMax+' linhas. '+(narrow?'1 coluna':'2 colunas')+'; intervalo 12 px; texto Inter 16 px / 1,4.');
   write('cta',px(cr.width)+' × '+px(cr.height)+' · '+lines(cta)+' linha · copy '+(cta.dataset.copyFit==='short'?'curta':'completa')+'. Altura mínima 54 px, recuos laterais 30 px. '+(narrow?'Toda a coluna.':'Natural: 360–440 px dentro do espaço disponível.'));
-  write('gaps','Identificação → H2: '+px(t.top-e.bottom)+'; H2 → P1: '+px(p[0].top-t.bottom)+'; P1 → P2: '+px(p[1].top-p[0].bottom)+'. '+(stacked?'Textos → painel: '+px(pb.top-co.bottom):'Coluna → painel: '+px(pb.left-co.right))+'. Blocos → CTA: '+px(after)+'; divisória dentro desse intervalo.');
+  write('gaps','Eyebrow → H2: '+px(t.top-e.bottom)+'; H2 → P1: '+px(p[0].top-t.bottom)+'; P1 → P2: '+px(p[1].top-p[0].bottom)+'. '+(stacked?'Textos → painel: '+px(pb.top-co.bottom):'Coluna → painel: '+px(pb.left-co.right))+'. Blocos → CTA: '+px(after)+'; divisória dentro desse intervalo.');
   write('fit',issues.length?'Conferir nesta tela: '+issues.join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras ainda em revisão pelo Founder.');
   marks.replaceChildren();if(overlay.hidden)return;
   mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');

@@ -2134,7 +2134,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
  }
  .diagnostic .diagnostic__grid {align-items:start !important;}
  .diagnostic .problem-panel {align-self:start !important;}
- .diagnostic .problem-panel__label {padding:20px !important;}
+ .diagnostic .problem-panel__label {padding:20px !important;--type-size:14px;}
  .diagnostic__panel-title {display:inline-block !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;}
  .diagnostic .problem-panel ul {gap:12px !important;}
  .diagnostic .problem-panel li {min-height:calc(3lh + 34px) !important;font-size:16px !important;line-height:1.4 !important;}
