@@ -249,7 +249,7 @@
       const rect = cta.getBoundingClientRect();
       if (rect.width && rect.bottom >= 0 && rect.top <= height) {
         box(rect, 'volt-analysis-outline volt-analysis-outline--heading');
-        label(rect.left, rect.top - 16, rect.width, 'CTA · 1 linha · teto 240 px', 'volt-analysis-blue volt-analysis-label--small');
+        label(rect.left, rect.top - 16, rect.width, rect.width < 180 ? 'CTA · 1 linha' : 'CTA · 1 linha · teto 240 px', 'volt-analysis-blue volt-analysis-label--small');
       }
     }
     if (p.bottom < 0 || h.top > height) return;
