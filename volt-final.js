@@ -1,8 +1,6 @@
-
-/* Rodada 19: seleção pela largura útil real, incluindo recuos e bordas. */
+/* CTAs: seleção pela largura útil real. */
 (() => {
-  const cta = document.querySelector('.services-other__cta');
-  if (!cta) return;
+  document.querySelectorAll('.services-other__cta, .diagnostic__cta').forEach(cta => {
   const full = cta.querySelector('.volt-cta__full');
   const short = cta.querySelector('.volt-cta__short');
   const measure = text => {
@@ -30,6 +28,7 @@
   window.addEventListener('load', fit, {once:true});
   document.fonts.ready.then(fit);
   fit();
+  });
 })();
 
 /* Rodada 16: identificação do complemento; fallback curto sem JavaScript. */
@@ -210,7 +209,7 @@
 /* BEGIN VOLT TEMPORARY LIMITS MODE — remove this block after review. */
 (() => {
   'use strict';
-  if (new URLSearchParams(window.location.search).get('limites') !== '1') return;
+  if (new URLSearchParams(location.search).get('limites') !== '1' || new URLSearchParams(location.search).get('secao') === 'diagnostico' || (!new URLSearchParams(location.search).has('secao') && location.hash === '#diagnostico')) return;
 
   const heading = document.querySelector('#servicos-title');
   const intro = document.querySelector('#servicos .services-heading__intro');
@@ -252,6 +251,7 @@
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
+        <a href="?limites=1&amp;secao=diagnostico#diagnostico">Ver Diagnóstico</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
@@ -437,3 +437,88 @@
   schedule();
 })();
 /* END VOLT TEMPORARY LIMITS MODE */
+
+/* Diagnóstico inteiro — modo temporário para revisão do Founder. */
+(() => {
+ 'use strict';
+ const params=new URLSearchParams(location.search);
+ const active=params.get('secao')==='diagnostico'||(!params.has('secao')&&location.hash==='#diagnostico');
+ if(params.get('limites')!=='1'||!active)return;
+ const section=document.querySelector('#diagnostico');
+ const copy=section.querySelector('.diagnostic__copy'),eye=copy.querySelector('.eyebrow'),title=copy.querySelector('h2');
+ const ps=[...copy.querySelectorAll('.diagnostic__body')],panelBox=section.querySelector('.problem-panel');
+ const labelText=section.querySelector('.diagnostic__panel-title'),cells=[...section.querySelectorAll('.problem-panel li')];
+ const cta=section.querySelector('.diagnostic__cta'),row=cta.parentElement;
+ const marks=document.createElement('div');marks.id='volt-analysis-marks';marks.setAttribute('aria-hidden','true');
+ const panel=document.createElement('details');panel.id='volt-analysis-panel';panel.open=innerWidth>620;
+ panel.innerHTML=`<summary>Análise visual · Diagnóstico</summary><div class="volt-analysis-body">
+ <p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para sua avaliação. Marcações não alteram o layout.</p><dl>
+ <dt class="volt-analysis-blue">Azul · identificação</dt><dd data-dg="eye"></dd>
+ <dt class="volt-analysis-green">Verde · H2</dt><dd data-dg="title"></dd>
+ <dt class="volt-analysis-purple">Roxo · apresentação e orientação</dt><dd data-dg="body"></dd>
+ <dt class="volt-analysis-amber">Amarelo · identificação do painel</dt><dd data-dg="label"></dd>
+ <dt class="volt-analysis-blue">Azul · seis situações atendidas</dt><dd data-dg="cells"></dd>
+ <dt class="volt-analysis-blue">Azul · Copy do CTA</dt><dd data-dg="cta"></dd>
+ <dt class="volt-analysis-amber">Amarelo · intervalos e composição</dt><dd data-dg="gaps"></dd>
+ </dl><p data-dg="fit"></p><p>Sem cortes ou redução de fonte para caber. As variantes compactas preservam avaliação, orçamento antes do serviço e limites das urgências.</p>
+ <div class="volt-analysis-actions"><button type="button" aria-pressed="true">Ocultar marcas</button>
+ <a href="?limites=1&amp;secao=servicos#servicos">Ver Serviços</a><a class="volt-analysis-exit">Sair da análise</a></div></div>`;
+ const normal=new URL(location.href);normal.searchParams.delete('limites');normal.searchParams.delete('secao');
+ panel.querySelector('.volt-analysis-exit').href=normal.href;document.body.append(marks,panel);
+ const px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
+ const R=e=>e.getBoundingClientRect(),S=e=>getComputedStyle(e);
+ const textRows=e=>{
+  const rows=[],walker=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);
+  while(walker.nextNode()){
+   const n=walker.currentNode;if(!n.textContent.trim()||n.parentElement.closest('[aria-hidden=true]'))continue;
+   const range=document.createRange();range.selectNodeContents(n);
+   for(const r of range.getClientRects())if(r.width&&r.height){
+    const line=rows.find(x=>Math.abs(x.y-r.y)<2);
+    if(line){line.l=Math.min(line.l,r.left);line.r=Math.max(line.r,r.right);}else rows.push({y:r.y,l:r.left,r:r.right});
+   }
+  }return rows;
+ };
+ const lines=e=>textRows(e).length;
+ const write=(key,value)=>{const e=panel.querySelector('[data-dg="'+key+'"]');if(e.textContent!==value)e.textContent=value;};
+ const box=(r,cls)=>{const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:r.left+'px',top:r.top+'px',width:Math.max(0,r.width)+'px',height:Math.max(0,r.height)+'px'});marks.append(e);};
+ const visible=r=>r.width&&r.bottom>=0&&r.top<=innerHeight;
+ const mark=(e,cls)=>{const r=R(e);if(visible(r))box(r,'volt-analysis-outline '+cls);};
+ const gap=(a,b,width)=>{if(b>a)box({left:R(copy).left,top:a,width,height:b-a},'volt-analysis-gap');};
+ let queued=false;
+ const render=()=>{
+  queued=false;const narrow=innerWidth<=620,stacked=innerWidth<=860,compact=S(ps[0].querySelector('.diagnostic-copy__compact')).display!=='none';
+  const e=R(eye),t=R(title),p=ps.map(R),pb=R(panelBox),cr=R(cta),co=R(copy);
+  const eLines=lines(eye),tLines=lines(title),pLines=ps.map(lines),lLines=lines(labelText),cLines=cells.map(lines);
+  const limit=compact?6:5,itemMax=narrow?2:3,after=cr.top-Math.max(co.bottom,pb.bottom);
+  const maxLine=Math.max(0,...textRows(title).map(x=>x.r-x.l));
+  const issues=[];
+  if(eLines!==1||e.width>280.1||e.width>=maxLine)issues.push('identificação');
+  if(tLines<1||tLines>2||t.width>620.1)issues.push('H2');
+  if(pLines.some(n=>n<3||n>limit)||p.some(r=>r.width>760.1))issues.push('parágrafos');
+  if(lLines!==1)issues.push('identificação do painel');
+  if(cLines.some(n=>n<1||n>itemMax))issues.push('situações atendidas');
+  if(lines(cta)!==1||cta.dataset.copyOverflow==='true')issues.push('CTA');
+  if(Math.abs(t.top-e.bottom-12)>.2||Math.abs(p[0].top-t.bottom-16)>.2||Math.abs(p[1].top-p[0].bottom-12)>.2||Math.abs(after-(stacked?32:40))>.2)issues.push('intervalos');
+  write('eye',px(e.width)+' · '+eLines+' linha · teto 280 px com traço de 34 px; menor que a maior linha do H2.');
+  write('title',px(t.width)+' · '+tLines+' linha(s) · máximo 2 · teto 620 px. Reserva mínima: '+(narrow?'2 linhas':'1 linha')+'.');
+  write('body','P1: '+pLines[0]+' linhas / '+px(p[0].width)+'; P2: '+pLines[1]+' linhas / '+px(p[1].width)+'. Formato '+(compact?'compacto: 3–6':'regular: 3–5')+' linhas por parágrafo; teto 760 px dentro da coluna; altura natural. Inter 16 px / 1,6.');
+  write('label',lLines+' linha · teto do texto 280 px; dentro da faixa amarela. Recuos '+(narrow?'16':'20')+' px.');
+  write('cells',cLines.length+' itens · linhas: '+cLines.join(' / ')+'. Máximo '+itemMax+' por item; reserva '+itemMax+' linhas. '+(narrow?'1 coluna':'2 colunas')+'; intervalo 12 px; texto Inter 16 px / 1,4.');
+  write('cta',px(cr.width)+' × '+px(cr.height)+' · '+lines(cta)+' linha · copy '+(cta.dataset.copyFit==='short'?'curta':'completa')+'. Altura mínima 54 px, recuos laterais 30 px. '+(narrow?'Toda a coluna.':'Natural: 360–440 px dentro do espaço disponível.'));
+  write('gaps','Identificação → H2: '+px(t.top-e.bottom)+'; H2 → P1: '+px(p[0].top-t.bottom)+'; P1 → P2: '+px(p[1].top-p[0].bottom)+'. '+(stacked?'Textos → painel: '+px(pb.top-co.bottom):'Coluna → painel: '+px(pb.left-co.right))+'. Blocos → CTA: '+px(after)+'; divisória dentro desse intervalo.');
+  write('fit',issues.length?'Conferir nesta tela: '+issues.join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras ainda em revisão pelo Founder.');
+  marks.replaceChildren();if(marks.hidden)return;
+  mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');
+  ps.forEach(x=>mark(x,'volt-analysis-outline--other-intro'));mark(labelText,'volt-analysis-outline--dg-amber');
+  cells.forEach(x=>mark(x,'volt-analysis-outline--heading'));mark(cta,'volt-analysis-outline--heading');
+  if(visible({top:e.top,bottom:p[1].bottom,width:co.width})){gap(e.bottom,t.top,Math.min(co.width,280));gap(t.bottom,p[0].top,p[0].width);gap(p[0].bottom,p[1].top,p[1].width);}
+  if(stacked){if(pb.top>=0&&co.bottom<=innerHeight)gap(co.bottom,pb.top,Math.min(co.width,pb.width));}
+  else if(visible(pb))box({left:co.right,top:Math.min(co.top,pb.top),width:pb.left-co.right,height:Math.max(co.height,pb.height)},'volt-analysis-gap');
+  if(cr.top>=0&&Math.max(co.bottom,pb.bottom)<=innerHeight)box({left:R(row).left,top:Math.max(co.bottom,pb.bottom),width:R(row).width,height:after},'volt-analysis-gap');
+ };
+ const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render);}};
+ const toggle=panel.querySelector('button');toggle.addEventListener('click',()=>{marks.hidden=!marks.hidden;toggle.setAttribute('aria-pressed',String(!marks.hidden));toggle.textContent=marks.hidden?'Mostrar marcas':'Ocultar marcas';schedule();});
+ const observer=new ResizeObserver(schedule);[copy,eye,title,...ps,panelBox,labelText,...cells,cta,row].forEach(e=>observer.observe(e));
+ window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});section.addEventListener('transitionend',schedule);window.addEventListener('load',schedule,{once:true});document.fonts.ready.then(schedule);schedule();
+})();
+/* END DIAGNOSTIC REVIEW */

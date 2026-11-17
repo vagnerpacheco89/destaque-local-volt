@@ -1971,10 +1971,10 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
   /* O fallback CSS anterior permanece para ausência de JavaScript.
      Após medir o botão, o atributo prevalece sobre a aproximação de 255 px. */
-  .services-other__cta[data-copy-fit="full"] .volt-cta__full { display:inline !important; }
-  .services-other__cta[data-copy-fit="full"] .volt-cta__short { display:none !important; }
-  .services-other__cta[data-copy-fit="short"] .volt-cta__full { display:none !important; }
-  .services-other__cta[data-copy-fit="short"] .volt-cta__short { display:inline !important; }
+  :is(.services-other__cta, .diagnostic__cta)[data-copy-fit="full"] .volt-cta__full { display:inline !important; }
+  :is(.services-other__cta, .diagnostic__cta)[data-copy-fit="full"] .volt-cta__short { display:none !important; }
+  :is(.services-other__cta, .diagnostic__cta)[data-copy-fit="short"] .volt-cta__full { display:none !important; }
+  :is(.services-other__cta, .diagnostic__cta)[data-copy-fit="short"] .volt-cta__short { display:inline !important; }
 
   @container volt-diagnostic-cta-fit (width < 360px) {
     .diagnostic__cta .volt-cta__full { display:none !important; }
@@ -2114,3 +2114,40 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     }
   }
 }
+
+/* Diagnóstico: parametrização em revisão pelo Founder; não é definição final. */
+@layer volt-diagnostic-review {
+ .diagnostic__copy {padding-top:0 !important;min-width:0 !important;container:volt-diagnostic-copy / inline-size !important;}
+ .diagnostic .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}
+ .diagnostic .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
+ .diagnostic #diagnostico-title {width:100% !important;max-width:min(620px,100%) !important;height:auto !important;min-height:1lh !important;}
+ .diagnostic .diagnostic__body {width:100% !important;max-width:min(760px,100%) !important;height:auto !important;min-height:0 !important;font-size:16px !important;line-height:1.6 !important;}
+ .diagnostic-copy__regular {display:inline !important;}
+ .diagnostic-copy__compact {display:none !important;}
+ @container volt-diagnostic-copy (width < 400px) {
+  .diagnostic-copy__regular {display:none !important;}
+  .diagnostic-copy__compact {display:inline !important;}
+ }
+ .diagnostic .diagnostic__grid {align-items:start !important;}
+ .diagnostic .problem-panel {align-self:start !important;}
+ .diagnostic .problem-panel__label {padding:20px !important;}
+ .diagnostic__panel-title {display:inline-block !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;}
+ .diagnostic .problem-panel ul {gap:12px !important;}
+ .diagnostic .problem-panel li {min-height:calc(3lh + 34px) !important;font-size:16px !important;line-height:1.4 !important;}
+ .diagnostic__symptom-text {display:block !important;width:100% !important;min-width:0 !important;}
+ .diagnostic .diagnostic__cta-row {position:relative !important;margin-top:8px !important;padding-top:0 !important;border-top:0 !important;}
+ .diagnostic__cta-row::before {content:"";position:absolute;left:0;right:0;top:-20px;height:2px;background:var(--volt-section-divider);pointer-events:none;}
+ .diagnostic .diagnostic__cta {box-sizing:border-box !important;width:max-content !important;min-width:min(360px,100%) !important;max-width:min(440px,100%) !important;min-height:54px !important;height:auto !important;padding:0 30px !important;align-items:center !important;justify-content:center !important;}
+ @media(max-width:860px) {
+  .diagnostic .diagnostic__cta-row {margin-top:0 !important;}
+  .diagnostic__cta-row::before {top:-16px;}
+ }
+ @media(max-width:620px) {
+  .diagnostic #diagnostico-title {min-height:2lh !important;}
+  .diagnostic .problem-panel__label {padding:16px !important;}
+  .diagnostic .problem-panel li {min-height:calc(2lh + 34px) !important;}
+  .diagnostic .diagnostic__cta-row .diagnostic__cta {width:100% !important;min-width:0 !important;max-width:100% !important;}
+ }
+}
+
+#volt-analysis-marks .volt-analysis-outline--dg-amber {outline:1px solid #ffc875;}

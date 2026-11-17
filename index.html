@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=20261115-classificacao-titulos" />
-  <link rel="stylesheet" href="volt-final.css?v=20261117-round19" />
+  <link rel="stylesheet" href="volt-final.css?v=20261117-diagnostic-review" />
 
   <script type="application/ld+json">
   {
@@ -213,23 +213,23 @@
       </div>
     </section>
 
-    <section class="section section--elevated diagnostic" aria-labelledby="diagnostico-title">
+    <section id="diagnostico" class="section section--elevated diagnostic" data-review-status="em-revisao" aria-labelledby="diagnostico-title">
       <div class="container diagnostic__grid">
-        <div>
-          <p class="eyebrow">SINAIS DE ATENÇÃO</p>
-          <h2 id="diagnostico-title">QUANDO CHAMAR UM PROFISSIONAL?</h2>
-          <p class="diagnostic__body">Se algo está desarmando, aquecendo ou funcionando de forma irregular, o primeiro passo é entender a causa antes de mexer na instalação. Envie pelo WhatsApp uma descrição do problema e, se possível, fotos ou vídeos.</p>
-          <p class="diagnostic__body diagnostic__body--second">Rafael avalia as informações e orienta o próximo passo; quando for necessária uma visita, o orçamento é apresentado antes de qualquer serviço. Urgências são atendidas conforme disponibilidade dentro do horário de funcionamento.</p>
+        <div class="diagnostic__copy">
+          <p class="eyebrow" data-max-lines="1">SINAIS DE ATENÇÃO</p>
+          <h2 id="diagnostico-title" data-min-lines="1" data-max-lines="2">QUANDO CHAMAR UM ELETRICISTA?</h2>
+          <p class="diagnostic__body"><span class="diagnostic-copy__regular">Se algo está desarmando, aquecendo ou funcionando de forma irregular, o primeiro passo é entender a causa antes de mexer na instalação. Envie pelo WhatsApp uma descrição do problema e, se possível, fotos ou vídeos.</span><span class="diagnostic-copy__compact">Disjuntor desarmando, aquecimento ou falta de energia? Descreva o problema pelo WhatsApp e, se possível, envie fotos ou vídeos para orientar a avaliação.</span></p>
+          <p class="diagnostic__body diagnostic__body--second"><span class="diagnostic-copy__regular">Rafael avalia as informações e orienta o próximo passo; quando for necessária uma visita, o orçamento é apresentado antes de qualquer serviço. Urgências são atendidas conforme disponibilidade dentro do horário de funcionamento.</span><span class="diagnostic-copy__compact">Rafael avalia o caso e combina uma visita quando necessária. O orçamento vem antes do serviço. Urgências dependem da disponibilidade e do horário de atendimento.</span></p>
         </div>
         <div class="problem-panel" aria-label="Situações atendidas">
-          <p class="problem-panel__label" data-typography="label" data-ink="primary">SINAIS QUE MERECEM ATENÇÃO</p>
+          <p class="problem-panel__label" data-typography="label" data-ink="primary"><span class="diagnostic__panel-title">SINAIS QUE MERECEM ATENÇÃO</span></p>
           <ul>
-            <li>Disjuntor desarmando</li>
-            <li>Parte do imóvel sem energia</li>
-            <li>Tomada aquecendo</li>
-            <li>Cheiro de queimado ou falha elétrica</li>
-            <li>Chuveiro com problema</li>
-            <li>Curto-circuito interno</li>
+            <li><span class="diagnostic__symptom-text">Disjuntor desarmando</span></li>
+            <li><span class="diagnostic__symptom-text">Parte do imóvel sem energia</span></li>
+            <li><span class="diagnostic__symptom-text">Tomada aquecendo</span></li>
+            <li><span class="diagnostic__symptom-text">Cheiro de queimado ou falha elétrica</span></li>
+            <li><span class="diagnostic__symptom-text">Chuveiro com problema</span></li>
+            <li><span class="diagnostic__symptom-text">Curto-circuito interno</span></li>
           </ul>
         </div>
         <div class="diagnostic__cta-row">
@@ -581,6 +581,6 @@
     </form>
   </dialog>
 
-  <script src="volt-final.js?v=20261117-round19" defer></script>
+  <script src="volt-final.js?v=20261117-diagnostic-review" defer></script>
 </body>
 </html>
