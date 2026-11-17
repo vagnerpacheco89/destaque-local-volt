@@ -1,3 +1,20 @@
+
+/* Eyebrow de Trabalhos: variante curta pelo espaço e maior linha do H2. */
+(() => {
+ const eye=document.querySelector('.portfolio-eyebrow'),title=document.querySelector('#trabalhos-title');
+ if(!eye||!title)return;
+ const fit=()=>{
+  const s=getComputedStyle(eye),probe=document.createElement('span');
+  probe.textContent=eye.querySelector('.portfolio-eyebrow__full').textContent;
+  Object.assign(probe.style,{position:'fixed',visibility:'hidden',width:'max-content',whiteSpace:'nowrap',font:s.font,letterSpacing:s.letterSpacing});
+  document.body.append(probe);const width=probe.getBoundingClientRect().width+43;probe.remove();
+  const range=document.createRange();range.selectNodeContents(title);
+  const max=Math.max(0,...[...range.getClientRects()].map(r=>r.width));
+  eye.classList.toggle('portfolio-eyebrow--full',width<=Math.min(280,eye.parentElement.clientWidth)&&width<max);
+ };
+ const observer=new ResizeObserver(fit);observer.observe(eye.parentElement);observer.observe(title);
+ window.addEventListener('resize',fit,{passive:true});document.fonts.ready.then(fit);window.addEventListener('load',fit,{once:true});fit();
+})();
 /* CTAs: seleção pela largura útil real. */
 (() => {
   document.querySelectorAll('.services-other__cta, .diagnostic__cta, .portfolio-closing__cta').forEach(cta => {
@@ -521,7 +538,7 @@
   if(cLines.some(n=>n<1||n>itemMax))issues.push('situações atendidas');
   if(lines(cta)!==1||cta.dataset.copyOverflow==='true')issues.push('CTA');
   if(Math.abs(t.top-e.bottom-12)>.2||Math.abs(p[0].top-t.bottom-16)>.2||Math.abs(p[1].top-p[0].bottom-12)>.2||Math.abs(after-(stacked?32:40))>.2)issues.push('intervalos');
-  write('eye',px(e.width)+' · '+eLines+' linha · teto 280 px com traço de 34 px; menor que a maior linha do H2.');
+  write('eye',px(e.width)+' · '+eLines+' linha · teto 280 px com traço de 34 px; menor que a maior linha do H2. Copy '+(eye.classList.contains('portfolio-eyebrow--full')?'completa.':'curta: TRABALHOS.')+'');
   write('title',px(t.width)+' · '+tLines+' linha(s) · máximo 2 · teto 620 px. Reserva mínima: '+(narrow?'2 linhas':'1 linha')+'.');
   write('body','P1: '+pLines[0]+' linhas / '+px(p[0].width)+'; P2: '+pLines[1]+' linhas / '+px(p[1].width)+'. Formato '+(compact?'compacto: 3–6':'regular: 3–5')+' linhas por parágrafo; teto 760 px dentro da coluna; altura natural. Inter 16 px / 1,6.');
   write('label',lLines+' linha · Inter 14 px, peso 700, texto preto · teto do texto 280 px; dentro da faixa amarela. Recuos '+(narrow?'16':'20')+' px.');

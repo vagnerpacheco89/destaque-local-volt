@@ -2166,6 +2166,10 @@ html[data-volt-diagnostic-analysis] .diagnostic .reveal-item {
  #trabalhos .section-heading {position:relative !important;padding-bottom:0 !important;border-bottom:0 !important;margin-bottom:40px !important;}
  #trabalhos .section-heading::after {content:"";position:absolute;left:0;right:0;bottom:-20px;height:2px;background:var(--volt-section-divider);pointer-events:none;}
  #trabalhos .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}
+ #trabalhos .portfolio-eyebrow__full {display:none !important;}
+ #trabalhos .portfolio-eyebrow__short {display:inline !important;}
+ #trabalhos .portfolio-eyebrow--full .portfolio-eyebrow__full {display:inline !important;}
+ #trabalhos .portfolio-eyebrow--full .portfolio-eyebrow__short {display:none !important;}
  #trabalhos .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
  #trabalhos h2 {width:100% !important;max-width:min(620px,100%) !important;min-height:1lh !important;height:auto !important;}
  #trabalhos .portfolio-intro {width:100% !important;max-width:min(760px,100%) !important;min-height:0 !important;height:auto !important;}
