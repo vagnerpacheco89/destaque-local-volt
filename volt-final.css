@@ -2163,6 +2163,7 @@ html[data-volt-diagnostic-analysis] .diagnostic .reveal-item {
 
 /* Trabalhos: parametrização aplicada para revisão do Founder. */
 @layer volt-portfolio-review {
+ #trabalhos .portfolio-card {min-height:0 !important;min-width:0 !important;height:100% !important;}
  #trabalhos .section-heading {position:relative !important;padding-bottom:0 !important;border-bottom:0 !important;margin-bottom:40px !important;}
  #trabalhos .section-heading::after {content:"";position:absolute;left:0;right:0;bottom:-20px;height:2px;background:var(--volt-section-divider);pointer-events:none;}
  #trabalhos .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}

@@ -603,6 +603,7 @@
   if(lines(title)<1||lines(title)>2||tr.width>620.1)issues.push('H2');
   if(lines(intro)<2||lines(intro)>(narrow?5:4)||pr.width>760.1)issues.push('apresentação');
   if(hLines.some(n=>n<1||n>2))issues.push('H3 das fotos');
+  cards.forEach((card,i)=>{const a=R(card);if(a.bottom>gr.bottom+.2||a.right>gr.right+.2)issues.push('limite da grade');for(const other of cards.slice(i+1)){const b=R(other);if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>.2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>.2)issues.push('sobreposição entre fotos');}});
   if(cLines.some(n=>n<1||n>2))issues.push('legendas');
   cards.forEach((c,i)=>{const cap=c.querySelector('figcaption'),capr=R(cap),r=R(c);if(capr.top<r.top-.2||capr.right>r.right+.2||capr.bottom>r.bottom+.2)issues.push('encaixe foto '+(i+1));for(const e of cap.children){const b=R(e);if(b.left<r.left||b.right>r.right||rows(e).some(x=>x.l<b.left-.2||x.r>b.right+.2))issues.push('texto foto '+(i+1));}});
   if(lines(closeTitle)<1||lines(closeTitle)>2||ct.width>620.1)issues.push('H3 do fechamento');
