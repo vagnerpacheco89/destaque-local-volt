@@ -1927,6 +1927,14 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     max-width:min(760px,100%) !important;
     height:auto !important;
     min-height:0 !important;
+    container-type:inline-size !important;
+    container-name:volt-services-intro-copy !important;
+  }
+  #servicos .services-intro__regular { display:inline !important; }
+  #servicos .services-intro__compact { display:none !important; }
+  @container volt-services-intro-copy (width < 400px) {
+    #servicos .services-intro__regular { display:none !important; }
+    #servicos .services-intro__compact { display:inline !important; }
   }
 }
 
