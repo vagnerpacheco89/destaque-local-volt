@@ -1969,6 +1969,13 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     .services-other__cta .volt-cta__full { display:none !important; }
     .services-other__cta .volt-cta__short { display:inline !important; }
   }
+  /* O fallback CSS anterior permanece para ausência de JavaScript.
+     Após medir o botão, o atributo prevalece sobre a aproximação de 255 px. */
+  .services-other__cta[data-copy-fit="full"] .volt-cta__full { display:inline !important; }
+  .services-other__cta[data-copy-fit="full"] .volt-cta__short { display:none !important; }
+  .services-other__cta[data-copy-fit="short"] .volt-cta__full { display:none !important; }
+  .services-other__cta[data-copy-fit="short"] .volt-cta__short { display:inline !important; }
+
   @container volt-diagnostic-cta-fit (width < 360px) {
     .diagnostic__cta .volt-cta__full { display:none !important; }
     .diagnostic__cta .volt-cta__short { display:inline !important; }
@@ -2087,3 +2094,23 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   outline:2px solid #d7abff; background:rgba(215,171,255,.04);
 }
 #volt-analysis-panel .volt-analysis-purple { color:#d7abff; }
+
+/* Rodada 19: CTA do complemento, medidas externas incluem bordas e recuos. */
+@layer volt-services-other-cta {
+  .services-other .services-other__cta {
+    box-sizing:border-box !important;
+    width:max-content !important;
+    min-width:min(215px,100%) !important;
+    max-width:min(280px,100%) !important;
+    height:auto !important; min-height:50px !important;
+    padding:0 22px !important; border-width:1px !important;
+    align-items:center !important; justify-content:center !important;
+    align-self:center !important; justify-self:end !important;
+  }
+  @media (max-width:620px) {
+    .services-other .services-other__cta {
+      width:100% !important; min-width:0 !important; max-width:100% !important;
+      justify-self:stretch !important;
+    }
+  }
+}

@@ -1,4 +1,37 @@
 
+/* Rodada 19: seleção pela largura útil real, incluindo recuos e bordas. */
+(() => {
+  const cta = document.querySelector('.services-other__cta');
+  if (!cta) return;
+  const full = cta.querySelector('.volt-cta__full');
+  const short = cta.querySelector('.volt-cta__short');
+  const measure = text => {
+    const s = getComputedStyle(cta);
+    const probe = document.createElement('span');
+    probe.textContent = text;
+    Object.assign(probe.style, {position:'fixed',visibility:'hidden',width:'max-content',
+      whiteSpace:'nowrap',font:s.font,letterSpacing:s.letterSpacing,textTransform:s.textTransform});
+    document.body.append(probe);
+    const width = probe.getBoundingClientRect().width;
+    probe.remove();
+    return width;
+  };
+  const fit = () => {
+    cta.dataset.copyFit = 'full';
+    const s = getComputedStyle(cta);
+    const insets = parseFloat(s.paddingLeft) + parseFloat(s.paddingRight) + parseFloat(s.borderLeftWidth) + parseFloat(s.borderRightWidth);
+    const fullFits = measure(full.textContent) + insets <= cta.getBoundingClientRect().width + 0.01;
+    cta.dataset.copyFit = fullFits ? 'full' : 'short';
+    const selected = fullFits ? full : short;
+    cta.dataset.copyOverflow = String(measure(selected.textContent) + insets > cta.getBoundingClientRect().width + 0.01);
+  };
+  new ResizeObserver(fit).observe(cta.parentElement);
+  window.addEventListener('resize', fit, {passive:true});
+  window.addEventListener('load', fit, {once:true});
+  document.fonts.ready.then(fit);
+  fit();
+})();
+
 /* Rodada 16: identificação do complemento; fallback curto sem JavaScript. */
 (() => {
   const eyebrow = document.querySelector('.services-other__eyebrow');
@@ -182,6 +215,7 @@
   const heading = document.querySelector('#servicos-title');
   const intro = document.querySelector('#servicos .services-heading__intro');
   const grid = document.querySelector('#servicos .services-grid');
+  const otherCTA = document.querySelector('.services-other__cta');
   const otherIntro = document.querySelector('.services-other__intro');
   const otherTitle = document.querySelector('.services-other__title');
   const otherEyebrow = document.querySelector('.services-other__eyebrow');
@@ -197,7 +231,7 @@
   panel.innerHTML = `
     <summary>Análise visual · Serviços</summary>
     <div class="volt-analysis-body">
-      <p class="volt-analysis-status">Rodadas 13–18 · limites definidos</p>
+      <p class="volt-analysis-status">Rodadas 13–19 · limites definidos</p>
       <p>As marcações acompanham o conteúdo real, sem mudar seu encaixe.</p>
       <dl>
         <dt class="volt-analysis-blue">Azul · caixa do H2</dt>
@@ -210,6 +244,8 @@
         <dd><output data-analysis="other-title"></output><br>Até 2 linhas · teto de 620 px dentro da coluna · altura natural.<br><output data-analysis="other-title-gaps"></output><br><output data-analysis="other-title-fit"></output></dd>
         <dt class="volt-analysis-purple">Roxo · apresentação do complemento</dt>
         <dd><output data-analysis="other-intro"></output><br><output data-analysis="other-intro-rule"></output><br><output data-analysis="other-intro-gaps"></output><br><output data-analysis="other-intro-fit"></output></dd>
+        <dt class="volt-analysis-blue">Azul · CTA do complemento</dt>
+        <dd><output data-analysis="other-cta"></output><br>Uma linha · mínimo de 50 px de altura · recuos laterais de 22 px.<br>Acima de 620 px: natural, de 215 a 280 px dentro do espaço disponível. Até 620 px: toda a coluna.<br><output data-analysis="other-cta-fit"></output></dd>
         <dt class="volt-analysis-amber">Amarelo · intervalos medidos</dt>
         <dd><output data-analysis="gaps"></output></dd>
       </dl>
@@ -308,6 +344,14 @@
       write('other-intro-gaps', pixels(before) + ' após o H3 · ' + pixels(gap) + (narrow ? ' até o botão abaixo.' : ' entre a coluna e o botão ao lado.'));
       write('other-intro-fit', count >= min && count <= max ? 'Texto atual dentro da faixa de linhas.' : 'Pendência de copy: apresentação fora da faixa aprovada.');
     }
+    if (otherCTA) {
+      const r = otherCTA.getBoundingClientRect();
+      const count = lineCount(otherCTA);
+      write('other-cta', pixels(r.width) + ' × ' + pixels(r.height) + ' · ' + count + ' linha(s)');
+      write('other-cta-fit', count === 1 && otherCTA.dataset.copyOverflow !== 'true'
+        ? 'Copy ' + (otherCTA.dataset.copyFit === 'short' ? 'curta' : 'completa') + ' dentro do espaço útil.'
+        : 'Pendência: aprovar alternativa que caiba sem corte ou redução de fonte.');
+    }
     marks.replaceChildren();
     if (marks.hidden) return;
     const height = window.innerHeight;
@@ -337,6 +381,12 @@
         box(narrow
           ? {left:r.left,top:r.bottom,width:r.width,height:cta.top-r.bottom}
           : {left:column.right,top:column.top,width:cta.left-column.right,height:column.height}, 'volt-analysis-gap');
+      }
+    }
+    if (otherCTA) {
+      const r = otherCTA.getBoundingClientRect();
+      if (r.bottom >= 0 && r.top <= height) {
+        box(r, 'volt-analysis-outline volt-analysis-outline--heading');
       }
     }
     for (const cta of serviceCTAs) {
@@ -377,7 +427,7 @@
     schedule();
   });
   const observer = new ResizeObserver(schedule);
-  [heading, intro, grid, otherEyebrow, otherTitle, otherIntro, ...serviceCTAs].filter(Boolean).forEach(element => observer.observe(element));
+  [heading, intro, grid, otherEyebrow, otherTitle, otherIntro, otherCTA, ...serviceCTAs].filter(Boolean).forEach(element => observer.observe(element));
   window.addEventListener('resize', schedule, {passive:true});
   window.addEventListener('scroll', schedule, {passive:true});
   window.addEventListener('load', schedule, {once:true});
