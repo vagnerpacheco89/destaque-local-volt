@@ -209,7 +209,7 @@
 /* BEGIN VOLT TEMPORARY LIMITS MODE — remove this block after review. */
 (() => {
   'use strict';
-  if (new URLSearchParams(location.search).get('limites') !== '1' || new URLSearchParams(location.search).get('secao') === 'diagnostico' || (!new URLSearchParams(location.search).has('secao') && location.hash === '#diagnostico')) return;
+  if (new URLSearchParams(location.search).get('limites') !== '1') return;
 
   const heading = document.querySelector('#servicos-title');
   const intro = document.querySelector('#servicos .services-heading__intro');
@@ -221,14 +221,18 @@
   const serviceCTAs = [...document.querySelectorAll('#servicos .service-card__cta')];
   if (!heading || !intro || !grid) return;
 
+  const overlay = document.createElement('div');
+  overlay.id = 'volt-analysis-marks';
+  overlay.setAttribute('aria-hidden', 'true');
   const marks = document.createElement('div');
-  marks.id = 'volt-analysis-marks';
-  marks.setAttribute('aria-hidden', 'true');
+  marks.className = 'volt-analysis-group';
+  marks.dataset.section = 'servicos';
+  overlay.append(marks);
   const panel = document.createElement('details');
   panel.id = 'volt-analysis-panel';
   panel.open = !window.matchMedia('(max-width:620px)').matches;
   panel.innerHTML = `
-    <summary>Análise visual · Serviços</summary>
+    <summary>Análise visual · VOLT</summary>
     <div class="volt-analysis-body">
       <p class="volt-analysis-status">Rodadas 13–19 · limites definidos</p>
       <p>As marcações acompanham o conteúdo real, sem mudar seu encaixe.</p>
@@ -251,14 +255,31 @@
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
-        <a href="?limites=1&amp;secao=diagnostico#diagnostico">Ver Diagnóstico</a>
+        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
   const normalURL = new URL(window.location.href);
   normalURL.searchParams.delete('limites');
+  normalURL.searchParams.delete('secao');
+  normalURL.searchParams.delete('rev');
   panel.querySelector('.volt-analysis-exit').href = normalURL.href;
-  document.body.append(marks, panel);
+  const serviceDetails = document.createElement('details');
+  serviceDetails.dataset.analysisSection = 'servicos';
+  serviceDetails.open = location.hash !== '#diagnostico';
+  serviceDetails.innerHTML = '<summary>Serviços · limites definidos</summary>';
+  const body = panel.querySelector('.volt-analysis-body');
+  const actions = body.querySelector('.volt-analysis-actions');
+  panel.append(actions, serviceDetails);
+  serviceDetails.append(body);
+  document.body.append(overlay, panel);
+  panel.querySelectorAll('.volt-analysis-actions a[href^="#"]').forEach(link => {
+    link.addEventListener('click', () => {
+      panel.querySelectorAll('[data-analysis-section]').forEach(detail => {
+        detail.open = '#' + detail.dataset.analysisSection === link.hash;
+      });
+    });
+  });
 
   const number = value => Math.round(value * 10) / 10;
   const pixels = value => number(value).toLocaleString('pt-BR') + ' px';
@@ -353,7 +374,7 @@
         : 'Pendência: aprovar alternativa que caiba sem corte ou redução de fonte.');
     }
     marks.replaceChildren();
-    if (marks.hidden) return;
+    if (overlay.hidden) return;
     const height = window.innerHeight;
     if (otherEyebrow) {
       const r = otherEyebrow.getBoundingClientRect();
@@ -421,9 +442,10 @@
   };
   const toggle = panel.querySelector('button');
   toggle.addEventListener('click', () => {
-    marks.hidden = !marks.hidden;
-    toggle.setAttribute('aria-pressed', String(!marks.hidden));
-    toggle.textContent = marks.hidden ? 'Mostrar marcas' : 'Ocultar marcas';
+    overlay.hidden = !overlay.hidden;
+    toggle.setAttribute('aria-pressed', String(!overlay.hidden));
+    toggle.textContent = overlay.hidden ? 'Mostrar marcas' : 'Ocultar marcas';
+    window.dispatchEvent(new Event('volt-analysis-toggle'));
     schedule();
   });
   const observer = new ResizeObserver(schedule);
@@ -442,17 +464,18 @@
 (() => {
  'use strict';
  const params=new URLSearchParams(location.search);
- const active=params.get('secao')==='diagnostico'||(!params.has('secao')&&location.hash==='#diagnostico');
- if(params.get('limites')!=='1'||!active)return;
+ if(params.get('limites')!=='1')return;
  document.documentElement.dataset.voltDiagnosticAnalysis='true';
  const section=document.querySelector('#diagnostico');
  const copy=section.querySelector('.diagnostic__copy'),eye=copy.querySelector('.eyebrow'),title=copy.querySelector('h2');
  const ps=[...copy.querySelectorAll('.diagnostic__body')],panelBox=section.querySelector('.problem-panel');
  const labelText=section.querySelector('.diagnostic__panel-title'),cells=[...section.querySelectorAll('.problem-panel li')];
  const cta=section.querySelector('.diagnostic__cta'),row=cta.parentElement;
- const marks=document.createElement('div');marks.id='volt-analysis-marks';marks.setAttribute('aria-hidden','true');
- const panel=document.createElement('details');panel.id='volt-analysis-panel';panel.open=innerWidth>620;
- panel.innerHTML=`<summary>Análise visual · Diagnóstico</summary><div class="volt-analysis-body">
+ const overlay=document.querySelector('#volt-analysis-marks'),sharedPanel=document.querySelector('#volt-analysis-panel');
+ if(!overlay||!sharedPanel)return;
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='diagnostico';overlay.append(marks);
+ const panel=document.createElement('details');panel.dataset.analysisSection='diagnostico';panel.open=location.hash==='#diagnostico';
+ panel.innerHTML=`<summary>Diagnóstico · EM REVISÃO</summary><div class="volt-analysis-body">
  <p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para sua avaliação. Marcações não alteram o layout.</p><dl>
  <dt class="volt-analysis-blue">Azul · identificação</dt><dd data-dg="eye"></dd>
  <dt class="volt-analysis-green">Verde · H2</dt><dd data-dg="title"></dd>
@@ -462,10 +485,8 @@
  <dt class="volt-analysis-blue">Azul · Copy do CTA</dt><dd data-dg="cta"></dd>
  <dt class="volt-analysis-amber">Amarelo · intervalos e composição</dt><dd data-dg="gaps"></dd>
  </dl><p data-dg="fit"></p><p>Sem cortes ou redução de fonte para caber. As variantes compactas preservam avaliação, orçamento antes do serviço e limites das urgências.</p>
- <div class="volt-analysis-actions"><button type="button" aria-pressed="true">Ocultar marcas</button>
- <a href="?limites=1&amp;secao=servicos#servicos">Ver Serviços</a><a class="volt-analysis-exit">Sair da análise</a></div></div>`;
- const normal=new URL(location.href);normal.searchParams.delete('limites');normal.searchParams.delete('secao');
- panel.querySelector('.volt-analysis-exit').href=normal.href;document.body.append(marks,panel);
+ </div>`;
+ sharedPanel.append(panel);
  const px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
  const R=e=>e.getBoundingClientRect(),S=e=>getComputedStyle(e);
  const textRows=e=>{
@@ -508,7 +529,7 @@
   write('cta',px(cr.width)+' × '+px(cr.height)+' · '+lines(cta)+' linha · copy '+(cta.dataset.copyFit==='short'?'curta':'completa')+'. Altura mínima 54 px, recuos laterais 30 px. '+(narrow?'Toda a coluna.':'Natural: 360–440 px dentro do espaço disponível.'));
   write('gaps','Identificação → H2: '+px(t.top-e.bottom)+'; H2 → P1: '+px(p[0].top-t.bottom)+'; P1 → P2: '+px(p[1].top-p[0].bottom)+'. '+(stacked?'Textos → painel: '+px(pb.top-co.bottom):'Coluna → painel: '+px(pb.left-co.right))+'. Blocos → CTA: '+px(after)+'; divisória dentro desse intervalo.');
   write('fit',issues.length?'Conferir nesta tela: '+issues.join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras ainda em revisão pelo Founder.');
-  marks.replaceChildren();if(marks.hidden)return;
+  marks.replaceChildren();if(overlay.hidden)return;
   mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');
   ps.forEach(x=>mark(x,'volt-analysis-outline--other-intro'));mark(labelText,'volt-analysis-outline--dg-amber');
   cells.forEach(x=>mark(x,'volt-analysis-outline--heading'));mark(cta,'volt-analysis-outline--heading');
@@ -518,7 +539,7 @@
   if(cr.top>=0&&Math.max(co.bottom,pb.bottom)<=innerHeight)box({left:R(row).left,top:Math.max(co.bottom,pb.bottom),width:R(row).width,height:after},'volt-analysis-gap');
  };
  const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render);}};
- const toggle=panel.querySelector('button');toggle.addEventListener('click',()=>{marks.hidden=!marks.hidden;toggle.setAttribute('aria-pressed',String(!marks.hidden));toggle.textContent=marks.hidden?'Mostrar marcas':'Ocultar marcas';schedule();});
+ window.addEventListener('volt-analysis-toggle',schedule);
  const observer=new ResizeObserver(schedule);[copy,eye,title,...ps,panelBox,labelText,...cells,cta,row].forEach(e=>observer.observe(e));
  window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});section.addEventListener('transitionend',schedule);window.addEventListener('load',schedule,{once:true});document.fonts.ready.then(schedule);schedule();
 })();

@@ -2003,7 +2003,8 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   position:fixed; inset:0; overflow:clip; z-index:2147483000;
   pointer-events:none; font-family:Inter,Arial,sans-serif;
 }
-#volt-analysis-marks > div { position:absolute; box-sizing:border-box; }
+#volt-analysis-marks .volt-analysis-group { display:contents; }
+#volt-analysis-marks .volt-analysis-group > div { position:absolute; box-sizing:border-box; }
 #volt-analysis-marks[hidden] { display:none !important; }
 #volt-analysis-marks .volt-analysis-outline { outline-offset:0; }
 #volt-analysis-marks .volt-analysis-outline--heading { outline:1px dashed #78cfff; }
@@ -2053,7 +2054,10 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   border:0 !important; border-radius:0 !important; background:none !important;
   color:inherit !important; box-shadow:none !important;
 }
-#volt-analysis-panel[open] summary::after { content:"−" !important; }
+#volt-analysis-panel[open] > summary::after,
+#volt-analysis-panel details[open] > summary::after { content:"−" !important; }
+#volt-analysis-panel > .volt-analysis-actions { padding:0 14px 12px; }
+#volt-analysis-panel > details { border-top:1px solid #63716a; }
 /* END VOLT TEMPORARY LIMITS MODE */
 
 /* Rodada 16: uma linha reservada; teto e relação com o H3 conferidos na QA. */
