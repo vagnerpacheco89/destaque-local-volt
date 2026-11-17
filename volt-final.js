@@ -1,3 +1,36 @@
+
+/* Rodada 16: identificação do complemento; fallback curto sem JavaScript. */
+(() => {
+  const eyebrow = document.querySelector('.services-other__eyebrow');
+  const title = eyebrow?.nextElementSibling;
+  if (!eyebrow || !title) return;
+  const full = eyebrow.querySelector('.services-other__eyebrow-full');
+  let queued = false;
+  const fit = () => {
+    queued = false;
+    const style = getComputedStyle(eyebrow);
+    const probe = document.createElement('span');
+    probe.textContent = full.textContent;
+    Object.assign(probe.style, {position:'fixed', visibility:'hidden', width:'max-content',
+      whiteSpace:'nowrap', font:style.font, letterSpacing:style.letterSpacing});
+    document.body.append(probe);
+    const fullWidth = probe.getBoundingClientRect().width;
+    probe.remove();
+    const range = document.createRange();
+    range.selectNodeContents(title);
+    const titleWidth = Math.max(0, ...[...range.getClientRects()].map(rect => rect.width));
+    const available = Math.min(280, eyebrow.parentElement.clientWidth);
+    eyebrow.classList.toggle('services-other__eyebrow--full', fullWidth <= available && fullWidth < titleWidth);
+  };
+  const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(fit); } };
+  const observer = new ResizeObserver(schedule);
+  observer.observe(eyebrow.parentElement);
+  observer.observe(title);
+  window.addEventListener('resize', schedule, {passive:true});
+  document.fonts.ready.then(schedule);
+  window.addEventListener('load', schedule, {once:true});
+  schedule();
+})();
 (() => {
   'use strict';
 
@@ -151,6 +184,7 @@
   const heading = document.querySelector('#servicos-title');
   const intro = document.querySelector('#servicos .services-heading__intro');
   const grid = document.querySelector('#servicos .services-grid');
+  const otherEyebrow = document.querySelector('.services-other__eyebrow');
   const serviceCTAs = [...document.querySelectorAll('#servicos .service-card__cta')];
   if (!heading || !intro || !grid) return;
 
@@ -163,7 +197,7 @@
   panel.innerHTML = `
     <summary>Análise visual · Serviços</summary>
     <div class="volt-analysis-body">
-      <p class="volt-analysis-status">Rodadas 13–15 · limites definidos</p>
+      <p class="volt-analysis-status">Rodadas 13–16 · limites definidos</p>
       <p>As marcações acompanham o conteúdo real, sem mudar seu encaixe.</p>
       <dl>
         <dt class="volt-analysis-blue">Azul · caixa do H2</dt>
@@ -172,7 +206,7 @@
         <dd><output data-analysis="intro"></output><br><span data-analysis="rule"></span><br><output data-analysis="fit"></output></dd>
         <dt class="volt-analysis-blue">Azul · CTAs dos cartões</dt>
         <dd><output data-analysis="cta"></output><br>Uma linha · teto de 240 px dentro da coluna.</dd>
-        <dt class="volt-analysis-amber">Amarelo · intervalos medidos</dt>
+        <dt class="volt-analysis-blue">Azul · identificação do complemento</dt><dd><output data-analysis="other"></output><br>Uma linha · teto de 280 px · menor que a maior linha do H3 · 8 px até o título.</dd>\n        <dt class="volt-analysis-amber">Amarelo · intervalos medidos</dt>
         <dd><output data-analysis="gaps"></output></dd>
       </dl>
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
@@ -242,9 +276,23 @@
     write('gaps', pixels(before) + ' após o H2 · ' + pixels(after) + ' até os cartões');
     const counts = serviceCTAs.map(lineCount);
     write('cta', counts.every(n => n === 1) ? 'Todos os ' + counts.length + ' CTAs em uma linha.' : 'Pendência: há CTA fora de uma linha.');
+    if (otherEyebrow) {
+      const r = otherEyebrow.getBoundingClientRect();
+      const title = otherEyebrow.nextElementSibling.getBoundingClientRect();
+      write('other', pixels(r.width) + ' · ' + lineCount(otherEyebrow) + ' linha(s) · reserva: ' + pixels(r.height) + ' · intervalo: ' + pixels(title.top-r.bottom));
+    }
     marks.replaceChildren();
     if (marks.hidden) return;
     const height = window.innerHeight;
+    if (otherEyebrow) {
+      const r = otherEyebrow.getBoundingClientRect();
+      if (r.bottom >= 0 && r.top <= height) {
+        box(r, 'volt-analysis-outline volt-analysis-outline--heading');
+        label(r.left, r.top - 16, r.width, 'Identificação · 1 linha · teto 280 px', 'volt-analysis-blue volt-analysis-label--small');
+        const t = otherEyebrow.nextElementSibling.getBoundingClientRect();
+        box({left:r.left,top:r.bottom,width:r.width,height:t.top-r.bottom}, 'volt-analysis-gap');
+      }
+    }
     for (const cta of serviceCTAs) {
       const rect = cta.getBoundingClientRect();
       if (rect.width && rect.bottom >= 0 && rect.top <= height) {
@@ -283,7 +331,7 @@
     schedule();
   });
   const observer = new ResizeObserver(schedule);
-  [heading, intro, grid, ...serviceCTAs].forEach(element => observer.observe(element));
+  [heading, intro, grid, otherEyebrow, ...serviceCTAs].filter(Boolean).forEach(element => observer.observe(element));
   window.addEventListener('resize', schedule, {passive:true});
   window.addEventListener('scroll', schedule, {passive:true});
   window.addEventListener('load', schedule, {once:true});

@@ -2048,3 +2048,18 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 }
 #volt-analysis-panel[open] summary::after { content:"−" !important; }
 /* END VOLT TEMPORARY LIMITS MODE */
+
+/* Rodada 16: uma linha reservada; teto e relação com o H3 conferidos na QA. */
+@layer volt-services-other-eyebrow {
+  .services-other__eyebrow {
+    display:block !important; width:max-content !important;
+    max-width:min(280px,100%) !important; height:19.2px !important;
+    min-height:19.2px !important; line-height:19.2px !important;
+    white-space:nowrap !important; margin:0 0 8px !important;
+  }
+  .services-other__eyebrow-full { display:none !important; }
+  .services-other__eyebrow-short { display:inline !important; }
+  .services-other__eyebrow--full .services-other__eyebrow-full { display:inline !important; }
+  .services-other__eyebrow--full .services-other__eyebrow-short { display:none !important; }
+  .services-other h3 { margin-top:0 !important; }
+}
