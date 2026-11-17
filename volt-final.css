@@ -1964,4 +1964,15 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 #volt-analysis-panel .volt-analysis-green, #volt-analysis-marks .volt-analysis-green { color:#6affb0; }
 #volt-analysis-panel .volt-analysis-amber, #volt-analysis-marks .volt-analysis-amber { color:#ffc875; }
 @media print { #volt-analysis-panel, #volt-analysis-marks { display:none !important; } }
+
+/* Keep the temporary panel independent of the site's FAQ summary decoration. */
+#volt-analysis-panel summary { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+#volt-analysis-panel summary::after {
+  content:"+" !important; position:static !important; inset:auto !important;
+  display:block !important; flex:0 0 auto !important; width:auto !important; height:auto !important;
+  margin:0 !important; padding:0 !important; transform:none !important;
+  border:0 !important; border-radius:0 !important; background:none !important;
+  color:inherit !important; box-shadow:none !important;
+}
+#volt-analysis-panel[open] summary::after { content:"−" !important; }
 /* END VOLT TEMPORARY LIMITS MODE */
