@@ -162,13 +162,13 @@
   panel.innerHTML = `
     <summary>Análise visual · Serviços</summary>
     <div class="volt-analysis-body">
-      <p class="volt-analysis-status">Rodada 14 · proposta em análise</p>
+      <p class="volt-analysis-status">Rodadas 13–14 · limites definidos</p>
       <p>As marcações acompanham o conteúdo real, sem mudar seu encaixe.</p>
       <dl>
         <dt class="volt-analysis-blue">Azul · caixa do H2</dt>
         <dd><output data-analysis="heading"></output></dd>
         <dt class="volt-analysis-green">Verde · apresentação</dt>
-        <dd><output data-analysis="intro"></output><br><span data-analysis="proposal"></span></dd>
+        <dd><output data-analysis="intro"></output><br><span data-analysis="rule"></span><br><output data-analysis="fit"></output></dd>
         <dt class="volt-analysis-amber">Amarelo · intervalos medidos</dt>
         <dd><output data-analysis="gaps"></output></dd>
       </dl>
@@ -226,9 +226,16 @@
     const narrow = window.matchMedia('(max-width:620px)').matches;
     const before = p.top - h.bottom;
     const after = g.top - p.bottom;
-    write('heading', pixels(h.width) + ' · ' + lineCount(heading) + ' linha(s) · teto aprovado: 620 px');
-    write('intro', pixels(p.width) + ' · ' + lineCount(intro) + ' linha(s) atuais');
-    write('proposal', 'Proposta: até 760 px · ' + (narrow ? '3–6' : '2–3') + ' linhas, dentro da seção.');
+    const hLines = lineCount(heading);
+    const pLines = lineCount(intro);
+    const hMax = Number(narrow ? heading.dataset.mobileMaxLines : heading.dataset.maxLines);
+    const pMin = Number(narrow ? intro.dataset.mobileMinLines : intro.dataset.minLines);
+    const pMax = Number(narrow ? intro.dataset.mobileMaxLines : intro.dataset.maxLines);
+    const fits = pLines >= pMin && pLines <= pMax;
+    write('heading', pixels(h.width) + ' · ' + hLines + ' linha(s) · máximo: ' + hMax + ' · teto: 620 px');
+    write('intro', pixels(p.width) + ' · ' + pLines + ' linha(s) atuais');
+    write('rule', 'Regra: até 760 px · ' + pMin + '–' + pMax + ' linhas, dentro da seção.');
+    write('fit', fits ? 'Texto atual dentro da faixa de linhas.' : 'Pendência de copy: texto atual ' + (pLines < pMin ? 'abaixo do mínimo' : 'acima do máximo') + '.');
     write('gaps', pixels(before) + ' após o H2 · ' + pixels(after) + ' até os cartões');
     marks.replaceChildren();
     if (marks.hidden) return;
@@ -240,10 +247,10 @@
     box({left:p.left, top:p.bottom, width:p.width, height:after}, 'volt-analysis-gap');
     const room = document.documentElement.clientWidth - p.right - 30;
     if (room >= 235) {
-      label(h.right + 16, h.top + 10, 235, 'H2 · teto aprovado: 620 px', 'volt-analysis-blue');
+      label(h.right + 16, h.top + 10, 235, 'H2 · até 2 linhas · teto: 620 px', 'volt-analysis-blue');
       label(p.right + 16, p.top - 19, room, pixels(before) + ' após o H2', 'volt-analysis-amber');
-      label(p.right + 16, p.top + 4, room, 'Apresentação · teto proposto: 760 px', 'volt-analysis-green');
-      label(p.right + 16, p.top + 27, room, lineCount(intro) + ' linhas atuais · proposta: 2–3');
+      label(p.right + 16, p.top + 4, room, 'Apresentação · teto: 760 px', 'volt-analysis-green');
+      label(p.right + 16, p.top + 27, room, pLines + ' linhas atuais · regra: ' + pMin + '–' + pMax);
       label(p.right + 16, p.bottom + 14, room, pixels(after) + ' até os cartões', 'volt-analysis-amber');
     } else {
       if (before >= 13) label(p.left + 2, h.bottom, p.width - 4, pixels(before), 'volt-analysis-amber volt-analysis-label--small');

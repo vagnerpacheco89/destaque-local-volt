@@ -1919,6 +1919,17 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
 }
 
+
+/* Rodada 14: limites aprovados; linhas reais dependem da copy, sem corte ou área vazia. */
+@layer volt-services-intro {
+  #servicos .services-heading > .services-heading__intro {
+    width:100% !important;
+    max-width:min(760px,100%) !important;
+    height:auto !important;
+    min-height:0 !important;
+  }
+}
+
 /* BEGIN VOLT TEMPORARY LIMITS MODE — inactive without ?limites=1. */
 #volt-analysis-marks {
   position:fixed; inset:0; overflow:clip; z-index:2147483000;
