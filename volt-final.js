@@ -182,6 +182,7 @@
   const heading = document.querySelector('#servicos-title');
   const intro = document.querySelector('#servicos .services-heading__intro');
   const grid = document.querySelector('#servicos .services-grid');
+  const otherIntro = document.querySelector('.services-other__intro');
   const otherTitle = document.querySelector('.services-other__title');
   const otherEyebrow = document.querySelector('.services-other__eyebrow');
   const serviceCTAs = [...document.querySelectorAll('#servicos .service-card__cta')];
@@ -196,7 +197,7 @@
   panel.innerHTML = `
     <summary>Análise visual · Serviços</summary>
     <div class="volt-analysis-body">
-      <p class="volt-analysis-status">Rodadas 13–17 · limites definidos</p>
+      <p class="volt-analysis-status">Rodadas 13–18 · limites definidos</p>
       <p>As marcações acompanham o conteúdo real, sem mudar seu encaixe.</p>
       <dl>
         <dt class="volt-analysis-blue">Azul · caixa do H2</dt>
@@ -207,6 +208,8 @@
         <dd><output data-analysis="cta"></output><br>Uma linha · teto de 240 px dentro da coluna.</dd>
         <dt class="volt-analysis-blue">Azul · identificação do complemento</dt><dd><output data-analysis="other"></output><br>Uma linha · teto de 280 px · menor que a maior linha do H3 · 8 px até o título.</dd>\n        <dt class="volt-analysis-green">Verde · H3 do complemento</dt>
         <dd><output data-analysis="other-title"></output><br>Até 2 linhas · teto de 620 px dentro da coluna · altura natural.<br><output data-analysis="other-title-gaps"></output><br><output data-analysis="other-title-fit"></output></dd>
+        <dt class="volt-analysis-purple">Roxo · apresentação do complemento</dt>
+        <dd><output data-analysis="other-intro"></output><br><output data-analysis="other-intro-rule"></output><br><output data-analysis="other-intro-gaps"></output><br><output data-analysis="other-intro-fit"></output></dd>
         <dt class="volt-analysis-amber">Amarelo · intervalos medidos</dt>
         <dd><output data-analysis="gaps"></output></dd>
       </dl>
@@ -291,6 +294,20 @@
       write('other-title-gaps', pixels(before) + ' após a identificação · ' + pixels(after) + ' até a apresentação');
       write('other-title-fit', count >= 1 && count <= 2 ? 'Título atual dentro do limite de linhas.' : 'Pendência de copy: título fora do limite; confirmar nome de atendimento e alternativa aprovada.');
     }
+    if (otherIntro) {
+      const r = otherIntro.getBoundingClientRect();
+      const column = otherIntro.parentElement.getBoundingClientRect();
+      const cta = otherIntro.closest('.services-other').querySelector('.services-other__cta').getBoundingClientRect();
+      const count = lineCount(otherIntro);
+      const max = Number(window.innerWidth <= Number(otherIntro.dataset.compactBreakpoint) ? otherIntro.dataset.compactMaxLines : otherIntro.dataset.maxLines);
+      const min = Number(otherIntro.dataset.minLines);
+      const before = r.top - otherTitle.getBoundingClientRect().bottom;
+      const gap = narrow ? cta.top-r.bottom : cta.left-column.right;
+      write('other-intro', pixels(r.width) + ' · ' + count + ' linha(s) · altura natural: ' + pixels(r.height));
+      write('other-intro-rule', 'Regra: ' + min + '–' + max + ' linhas · teto de 760 px dentro da coluna.');
+      write('other-intro-gaps', pixels(before) + ' após o H3 · ' + pixels(gap) + (narrow ? ' até o botão abaixo.' : ' entre a coluna e o botão ao lado.'));
+      write('other-intro-fit', count >= min && count <= max ? 'Texto atual dentro da faixa de linhas.' : 'Pendência de copy: apresentação fora da faixa aprovada.');
+    }
     marks.replaceChildren();
     if (marks.hidden) return;
     const height = window.innerHeight;
@@ -309,6 +326,17 @@
         box(r, 'volt-analysis-outline volt-analysis-outline--intro');
         const p = otherTitle.nextElementSibling.getBoundingClientRect();
         box({left:r.left,top:r.bottom,width:r.width,height:p.top-r.bottom}, 'volt-analysis-gap');
+      }
+    }
+    if (otherIntro) {
+      const r = otherIntro.getBoundingClientRect();
+      if (r.bottom >= 0 && r.top <= height) {
+        box(r, 'volt-analysis-outline volt-analysis-outline--other-intro');
+        const column = otherIntro.parentElement.getBoundingClientRect();
+        const cta = otherIntro.closest('.services-other').querySelector('.services-other__cta').getBoundingClientRect();
+        box(narrow
+          ? {left:r.left,top:r.bottom,width:r.width,height:cta.top-r.bottom}
+          : {left:column.right,top:column.top,width:cta.left-column.right,height:column.height}, 'volt-analysis-gap');
       }
     }
     for (const cta of serviceCTAs) {
@@ -349,7 +377,7 @@
     schedule();
   });
   const observer = new ResizeObserver(schedule);
-  [heading, intro, grid, otherEyebrow, otherTitle, ...serviceCTAs].filter(Boolean).forEach(element => observer.observe(element));
+  [heading, intro, grid, otherEyebrow, otherTitle, otherIntro, ...serviceCTAs].filter(Boolean).forEach(element => observer.observe(element));
   window.addEventListener('resize', schedule, {passive:true});
   window.addEventListener('scroll', schedule, {passive:true});
   window.addEventListener('load', schedule, {once:true});

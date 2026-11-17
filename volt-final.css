@@ -2073,3 +2073,17 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     margin-bottom:12px !important;
   }
 }
+
+/* Rodada 18: apresentação do complemento; linhas reais são critério de QA. */
+@layer volt-services-other-intro {
+  #servicos .services-other { gap:34px !important; }
+  #servicos .services-other__intro {
+    width:100% !important; max-width:min(760px,100%) !important;
+    height:auto !important; min-height:0 !important; margin:0 !important;
+    text-align:left !important; line-height:1.6 !important;
+  }
+}
+#volt-analysis-marks .volt-analysis-outline--other-intro {
+  outline:2px solid #d7abff; background:rgba(215,171,255,.04);
+}
+#volt-analysis-panel .volt-analysis-purple { color:#d7abff; }
