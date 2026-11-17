@@ -151,6 +151,7 @@
   const heading = document.querySelector('#servicos-title');
   const intro = document.querySelector('#servicos .services-heading__intro');
   const grid = document.querySelector('#servicos .services-grid');
+  const serviceCTAs = [...document.querySelectorAll('#servicos .service-card__cta')];
   if (!heading || !intro || !grid) return;
 
   const marks = document.createElement('div');
@@ -162,13 +163,15 @@
   panel.innerHTML = `
     <summary>Análise visual · Serviços</summary>
     <div class="volt-analysis-body">
-      <p class="volt-analysis-status">Rodadas 13–14 · limites definidos</p>
+      <p class="volt-analysis-status">Rodadas 13–15 · limites definidos</p>
       <p>As marcações acompanham o conteúdo real, sem mudar seu encaixe.</p>
       <dl>
         <dt class="volt-analysis-blue">Azul · caixa do H2</dt>
         <dd><output data-analysis="heading"></output></dd>
         <dt class="volt-analysis-green">Verde · apresentação</dt>
         <dd><output data-analysis="intro"></output><br><span data-analysis="rule"></span><br><output data-analysis="fit"></output></dd>
+        <dt class="volt-analysis-blue">Azul · CTAs dos cartões</dt>
+        <dd><output data-analysis="cta"></output><br>Uma linha · teto de 240 px dentro da coluna.</dd>
         <dt class="volt-analysis-amber">Amarelo · intervalos medidos</dt>
         <dd><output data-analysis="gaps"></output></dd>
       </dl>
@@ -190,7 +193,7 @@
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
     while (walker.nextNode()) {
       const node = walker.currentNode;
-      if (!node.textContent.trim()) continue;
+      if (!node.textContent.trim() || node.parentElement.closest('[aria-hidden="true"]')) continue;
       const range = document.createRange();
       range.selectNodeContents(node);
       for (const rect of range.getClientRects()) {
@@ -237,9 +240,18 @@
     write('rule', 'Regra: até 760 px · ' + pMin + '–' + pMax + ' linhas, dentro da seção.');
     write('fit', fits ? 'Texto atual dentro da faixa de linhas.' : 'Pendência de copy: texto atual ' + (pLines < pMin ? 'abaixo do mínimo' : 'acima do máximo') + '.');
     write('gaps', pixels(before) + ' após o H2 · ' + pixels(after) + ' até os cartões');
+    const counts = serviceCTAs.map(lineCount);
+    write('cta', counts.every(n => n === 1) ? 'Todos os ' + counts.length + ' CTAs em uma linha.' : 'Pendência: há CTA fora de uma linha.');
     marks.replaceChildren();
     if (marks.hidden) return;
     const height = window.innerHeight;
+    for (const cta of serviceCTAs) {
+      const rect = cta.getBoundingClientRect();
+      if (rect.width && rect.bottom >= 0 && rect.top <= height) {
+        box(rect, 'volt-analysis-outline volt-analysis-outline--heading');
+        label(rect.left, rect.top - 16, rect.width, 'CTA · 1 linha · teto 240 px', 'volt-analysis-blue volt-analysis-label--small');
+      }
+    }
     if (p.bottom < 0 || h.top > height) return;
     box(h, 'volt-analysis-outline volt-analysis-outline--heading');
     box(p, 'volt-analysis-outline volt-analysis-outline--intro');
@@ -271,7 +283,7 @@
     schedule();
   });
   const observer = new ResizeObserver(schedule);
-  [heading, intro, grid].forEach(element => observer.observe(element));
+  [heading, intro, grid, ...serviceCTAs].forEach(element => observer.observe(element));
   window.addEventListener('resize', schedule, {passive:true});
   window.addEventListener('scroll', schedule, {passive:true});
   window.addEventListener('load', schedule, {once:true});

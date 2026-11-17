@@ -1491,7 +1491,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   [data-typography="cta"] {
     --type-size:14px; --type-weight:700; --type-leading:1.4;
     text-transform:uppercase !important;
-    white-space:normal !important;
+    white-space:nowrap !important;
     text-align:center;
     max-width:100%;
   }
@@ -1724,8 +1724,10 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     align-self:flex-start !important;
     flex:0 0 auto !important;
     width:fit-content !important;
-    max-width:100% !important;
+    max-width:min(240px,100%) !important;
     min-height:44px !important;
+    height:auto !important;
+    column-gap:8px !important;
     margin: auto 0 0 !important;
     padding:12px 16px !important;
   }
@@ -1935,6 +1937,57 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   @container volt-services-intro-copy (width < 400px) {
     #servicos .services-intro__regular { display:none !important; }
     #servicos .services-intro__compact { display:inline !important; }
+  }
+}
+
+
+/* Rodada 15: CTAs em uma linha; alternativas curtas somente quando necessário. */
+@layer volt-cta-fit {
+  .volt-cta__full { display:inline !important; }
+  .volt-cta__short { display:none !important; }
+  .volt-cta__full, .volt-cta__short {
+    font:inherit !important; color:inherit !important; letter-spacing:inherit !important;
+    white-space:nowrap !important;
+  }
+  #servicos .service-card__cta > [aria-hidden="true"] { flex-shrink:0 !important; }
+  @container volt-service-copy (width < 237px) {
+    .service-card__cta .volt-cta__full { display:none !important; }
+    .service-card__cta .volt-cta__short { display:inline !important; }
+  }
+  .nav-wrap { container:volt-nav-cta-fit / inline-size !important; }
+  .services-other { container:volt-other-cta-fit / inline-size !important; }
+  .diagnostic__cta-row { container:volt-diagnostic-cta-fit / inline-size !important; }
+  .portfolio-closing { container:volt-portfolio-cta-fit / inline-size !important; }
+  .about__action, .faq__cta-wrap { container:volt-contact-cta-fit / inline-size !important; }
+  .final-cta__action { container:volt-final-cta-fit / inline-size !important; }
+  .footer-contact { container:volt-footer-cta-fit / inline-size !important; }
+  @container volt-nav-cta-fit (width < 1120px) {
+    .nav-cta .volt-cta__full { display:none !important; }
+    .nav-cta .volt-cta__short { display:inline !important; }
+  }
+  @container volt-other-cta-fit (width < 255px) {
+    .services-other__cta .volt-cta__full { display:none !important; }
+    .services-other__cta .volt-cta__short { display:inline !important; }
+  }
+  @container volt-diagnostic-cta-fit (width < 360px) {
+    .diagnostic__cta .volt-cta__full { display:none !important; }
+    .diagnostic__cta .volt-cta__short { display:inline !important; }
+  }
+  @container volt-portfolio-cta-fit (width < 350px) {
+    .portfolio-closing__cta .volt-cta__full { display:none !important; }
+    .portfolio-closing__cta .volt-cta__short { display:inline !important; }
+  }
+  @container volt-contact-cta-fit (width < 300px) {
+    :is(.about__action, .faq__cta-wrap) .volt-cta__full { display:none !important; }
+    :is(.about__action, .faq__cta-wrap) .volt-cta__short { display:inline !important; }
+  }
+  @container volt-final-cta-fit (width < 310px) {
+    .final-cta__action .volt-cta__full { display:none !important; }
+    .final-cta__action .volt-cta__short { display:inline !important; }
+  }
+  @container volt-footer-cta-fit (width < 230px) {
+    .footer-contact__cta .volt-cta__full { display:none !important; }
+    .footer-contact__cta .volt-cta__short { display:inline !important; }
   }
 }
 
