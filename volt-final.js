@@ -538,7 +538,7 @@
   if(cLines.some(n=>n<1||n>itemMax))issues.push('situações atendidas');
   if(lines(cta)!==1||cta.dataset.copyOverflow==='true')issues.push('CTA');
   if(Math.abs(t.top-e.bottom-12)>.2||Math.abs(p[0].top-t.bottom-16)>.2||Math.abs(p[1].top-p[0].bottom-12)>.2||Math.abs(after-(stacked?32:40))>.2)issues.push('intervalos');
-  write('eye',px(e.width)+' · '+eLines+' linha · teto 280 px com traço de 34 px; menor que a maior linha do H2. Copy '+(eye.classList.contains('portfolio-eyebrow--full')?'completa.':'curta: TRABALHOS.')+'');
+  write('eye',px(e.width)+' · '+eLines+' linha · teto 280 px com traço de 34 px; menor que a maior linha do H2.');
   write('title',px(t.width)+' · '+tLines+' linha(s) · máximo 2 · teto 620 px. Reserva mínima: '+(narrow?'2 linhas':'1 linha')+'.');
   write('body','P1: '+pLines[0]+' linhas / '+px(p[0].width)+'; P2: '+pLines[1]+' linhas / '+px(p[1].width)+'. Formato '+(compact?'compacto: 3–6':'regular: 3–5')+' linhas por parágrafo; teto 760 px dentro da coluna; altura natural. Inter 16 px / 1,6.');
   write('label',lLines+' linha · Inter 14 px, peso 700, texto preto · teto do texto 280 px; dentro da faixa amarela. Recuos '+(narrow?'16':'20')+' px.');
@@ -610,7 +610,7 @@
   if(lines(cta)!==1||cta.dataset.copyOverflow==='true'||cr.height<53.9)issues.push('CTA');
   const expected=stacked?32:40;
   if(Math.abs(tr.top-er.bottom-12)>.2||Math.abs(pr.top-tr.bottom-16)>.2||Math.abs(gr.top-pr.bottom-expected)>.2||Math.abs(ct.top-gr.bottom-expected)>.2||Math.abs(cb.top-ct.bottom-12)>.2||Math.abs(cr.top-cb.bottom-24)>.2)issues.push('intervalos');
-  write('eye',px(er.width)+' · '+lines(eye)+' linha · teto 280 px com traço de 34 px; menor que a maior linha do H2.');
+  write('eye',px(er.width)+' · '+lines(eye)+' linha · teto 280 px com traço de 34 px; menor que a maior linha do H2. Copy '+(eye.classList.contains('portfolio-eyebrow--full')?'completa.':'curta: TRABALHOS.'));
   write('title',px(tr.width)+' · '+lines(title)+' linha(s), máximo 2 · teto 620 px. Reserva mínima: '+(narrow?'2 linhas.':'1 linha.'));
   write('intro',px(pr.width)+' · '+lines(intro)+' linhas · faixa '+(narrow?'2–5':'2–4')+' · teto 760 px · altura natural. Inter 16 px / 1,6.');
   write('titles','Linhas nos 8 H3: '+hLines.join(' / ')+'. Máximo e reserva de 2 linhas por foto; Barlow Condensed 800, '+(narrow?'24':'28')+' px / 1,05. Texto na base da reserva.');
