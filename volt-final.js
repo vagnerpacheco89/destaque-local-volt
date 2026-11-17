@@ -142,3 +142,134 @@
     revealTargets.forEach((element) => revealObserver.observe(element));
   }
 })();
+
+/* BEGIN VOLT TEMPORARY LIMITS MODE — remove this block after review. */
+(() => {
+  'use strict';
+  if (new URLSearchParams(window.location.search).get('limites') !== '1') return;
+
+  const heading = document.querySelector('#servicos-title');
+  const intro = document.querySelector('#servicos .services-heading__intro');
+  const grid = document.querySelector('#servicos .services-grid');
+  if (!heading || !intro || !grid) return;
+
+  const marks = document.createElement('div');
+  marks.id = 'volt-analysis-marks';
+  marks.setAttribute('aria-hidden', 'true');
+  const panel = document.createElement('details');
+  panel.id = 'volt-analysis-panel';
+  panel.open = !window.matchMedia('(max-width:620px)').matches;
+  panel.innerHTML = `
+    <summary>Análise visual · Serviços</summary>
+    <div class="volt-analysis-body">
+      <p class="volt-analysis-status">Rodada 14 · proposta em análise</p>
+      <p>As marcações acompanham o conteúdo real, sem mudar seu encaixe.</p>
+      <dl>
+        <dt class="volt-analysis-blue">Azul · caixa do H2</dt>
+        <dd><output data-analysis="heading"></output></dd>
+        <dt class="volt-analysis-green">Verde · apresentação</dt>
+        <dd><output data-analysis="intro"></output><br><span data-analysis="proposal"></span></dd>
+        <dt class="volt-analysis-amber">Amarelo · intervalos medidos</dt>
+        <dd><output data-analysis="gaps"></output></dd>
+      </dl>
+      <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
+      <div class="volt-analysis-actions">
+        <button type="button" aria-pressed="true">Ocultar marcas</button>
+        <a class="volt-analysis-exit">Sair da análise</a>
+      </div>
+    </div>`;
+  const normalURL = new URL(window.location.href);
+  normalURL.searchParams.delete('limites');
+  panel.querySelector('.volt-analysis-exit').href = normalURL.href;
+  document.body.append(marks, panel);
+
+  const number = value => Math.round(value * 10) / 10;
+  const pixels = value => number(value).toLocaleString('pt-BR') + ' px';
+  const lineCount = element => {
+    const ys = [];
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      if (!node.textContent.trim()) continue;
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      for (const rect of range.getClientRects()) {
+        if (rect.width > 0 && rect.height > 0 && !ys.some(y => Math.abs(y - rect.top) < 2)) ys.push(rect.top);
+      }
+    }
+    return ys.length;
+  };
+  const write = (key, value) => {
+    const output = panel.querySelector('[data-analysis="' + key + '"]');
+    if (output.textContent !== value) output.textContent = value;
+  };
+  const box = (rect, className) => {
+    const element = document.createElement('div');
+    element.className = className;
+    Object.assign(element.style, {
+      left: rect.left + 'px', top: rect.top + 'px',
+      width: Math.max(0, rect.width) + 'px', height: Math.max(0, rect.height) + 'px'
+    });
+    marks.append(element);
+    return element;
+  };
+  const label = (left, top, width, text, className = '') => {
+    const element = box({left, top, width, height: 0}, 'volt-analysis-label ' + className);
+    element.textContent = text;
+    return element;
+  };
+  const render = () => {
+    scheduled = false;
+    const h = heading.getBoundingClientRect();
+    const p = intro.getBoundingClientRect();
+    const g = grid.getBoundingClientRect();
+    const narrow = window.matchMedia('(max-width:620px)').matches;
+    const before = p.top - h.bottom;
+    const after = g.top - p.bottom;
+    write('heading', pixels(h.width) + ' · ' + lineCount(heading) + ' linha(s) · teto aprovado: 620 px');
+    write('intro', pixels(p.width) + ' · ' + lineCount(intro) + ' linha(s) atuais');
+    write('proposal', 'Proposta: até 760 px · ' + (narrow ? '3–6' : '2–3') + ' linhas, dentro da seção.');
+    write('gaps', pixels(before) + ' após o H2 · ' + pixels(after) + ' até os cartões');
+    marks.replaceChildren();
+    if (marks.hidden) return;
+    const height = window.innerHeight;
+    if (p.bottom < 0 || h.top > height) return;
+    box(h, 'volt-analysis-outline volt-analysis-outline--heading');
+    box(p, 'volt-analysis-outline volt-analysis-outline--intro');
+    box({left:p.left, top:h.bottom, width:p.width, height:before}, 'volt-analysis-gap');
+    box({left:p.left, top:p.bottom, width:p.width, height:after}, 'volt-analysis-gap');
+    const room = document.documentElement.clientWidth - p.right - 30;
+    if (room >= 235) {
+      label(h.right + 16, h.top + 10, 235, 'H2 · teto aprovado: 620 px', 'volt-analysis-blue');
+      label(p.right + 16, p.top - 19, room, pixels(before) + ' após o H2', 'volt-analysis-amber');
+      label(p.right + 16, p.top + 4, room, 'Apresentação · teto proposto: 760 px', 'volt-analysis-green');
+      label(p.right + 16, p.top + 27, room, lineCount(intro) + ' linhas atuais · proposta: 2–3');
+      label(p.right + 16, p.bottom + 14, room, pixels(after) + ' até os cartões', 'volt-analysis-amber');
+    } else {
+      if (before >= 13) label(p.left + 2, h.bottom, p.width - 4, pixels(before), 'volt-analysis-amber volt-analysis-label--small');
+      if (after >= 22) label(p.left + 2, p.bottom + 3, p.width - 4, pixels(after) + ' até os cartões', 'volt-analysis-amber');
+    }
+  };
+  let scheduled = false;
+  const schedule = () => {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(render);
+  };
+  const toggle = panel.querySelector('button');
+  toggle.addEventListener('click', () => {
+    marks.hidden = !marks.hidden;
+    toggle.setAttribute('aria-pressed', String(!marks.hidden));
+    toggle.textContent = marks.hidden ? 'Mostrar marcas' : 'Ocultar marcas';
+    schedule();
+  });
+  const observer = new ResizeObserver(schedule);
+  [heading, intro, grid].forEach(element => observer.observe(element));
+  window.addEventListener('resize', schedule, {passive:true});
+  window.addEventListener('scroll', schedule, {passive:true});
+  window.addEventListener('load', schedule, {once:true});
+  heading.parentElement.addEventListener('transitionend', schedule);
+  document.fonts.ready.then(schedule);
+  schedule();
+})();
+/* END VOLT TEMPORARY LIMITS MODE */

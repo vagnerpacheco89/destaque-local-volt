@@ -1918,3 +1918,50 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
     }
   }
 }
+
+/* BEGIN VOLT TEMPORARY LIMITS MODE — inactive without ?limites=1. */
+#volt-analysis-marks {
+  position:fixed; inset:0; overflow:clip; z-index:2147483000;
+  pointer-events:none; font-family:Inter,Arial,sans-serif;
+}
+#volt-analysis-marks > div { position:absolute; box-sizing:border-box; }
+#volt-analysis-marks[hidden] { display:none !important; }
+#volt-analysis-marks .volt-analysis-outline { outline-offset:0; }
+#volt-analysis-marks .volt-analysis-outline--heading { outline:1px dashed #78cfff; }
+#volt-analysis-marks .volt-analysis-outline--intro { outline:2px solid #6affb0; background:rgba(80,255,150,.04); }
+#volt-analysis-marks .volt-analysis-gap { background:rgba(255,185,70,.15); }
+#volt-analysis-marks .volt-analysis-label {
+  height:auto !important; color:#f5f7f5; background:#080a09;
+  font-size:13px; font-weight:400; line-height:1.4;
+}
+#volt-analysis-marks .volt-analysis-label--small { font-size:11px; line-height:1.2; }
+#volt-analysis-panel {
+  position:fixed; z-index:2147483001; right:12px; bottom:12px;
+  width:340px; max-width:calc(100% - 24px); max-height:55vh;
+  overflow:auto; box-sizing:border-box; margin:0;
+  border:1px solid #63716a; border-radius:10px; background:#101612; color:#f5f7f5;
+  font:400 13px/1.5 Inter,Arial,sans-serif; box-shadow:0 6px 24px #0008;
+  text-transform:none; letter-spacing:normal;
+}
+#volt-analysis-panel summary {
+  min-height:44px; box-sizing:border-box; padding:12px 14px; cursor:pointer; font-weight:600;
+}
+#volt-analysis-panel .volt-analysis-body { padding:0 14px 14px; }
+#volt-analysis-panel p { margin:0 0 10px; color:inherit; font:inherit; }
+#volt-analysis-panel .volt-analysis-status { color:#ffc875; font-weight:600; }
+#volt-analysis-panel dl { margin:0 0 12px; }
+#volt-analysis-panel dt { margin-top:8px; font-weight:600; }
+#volt-analysis-panel dd { margin:2px 0 0; }
+#volt-analysis-panel .volt-analysis-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+#volt-analysis-panel button, #volt-analysis-panel a {
+  display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;
+  min-height:44px; max-width:100%; padding:8px 12px;
+  border:1px solid #7e8c83; border-radius:6px; background:#1b2820; color:#f5f7f5;
+  font:inherit; text-decoration:none; cursor:pointer;
+}
+#volt-analysis-panel :is(button,a,summary):focus-visible { outline:2px solid #f4c400; outline-offset:-3px; }
+#volt-analysis-panel .volt-analysis-blue, #volt-analysis-marks .volt-analysis-blue { color:#78cfff; }
+#volt-analysis-panel .volt-analysis-green, #volt-analysis-marks .volt-analysis-green { color:#6affb0; }
+#volt-analysis-panel .volt-analysis-amber, #volt-analysis-marks .volt-analysis-amber { color:#ffc875; }
+@media print { #volt-analysis-panel, #volt-analysis-marks { display:none !important; } }
+/* END VOLT TEMPORARY LIMITS MODE */
