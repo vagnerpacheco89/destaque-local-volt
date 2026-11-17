@@ -460,7 +460,7 @@
 })();
 /* END VOLT TEMPORARY LIMITS MODE */
 
-/* Diagnóstico inteiro — modo temporário para revisão do Founder. */
+/* Diagnóstico aprovado — marcações temporárias de análise visual. */
 (() => {
  'use strict';
  const params=new URLSearchParams(location.search);
@@ -475,8 +475,8 @@
  if(!overlay||!sharedPanel)return;
  const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='diagnostico';overlay.append(marks);
  const panel=document.createElement('details');panel.dataset.analysisSection='diagnostico';panel.open=location.hash==='#diagnostico';
- panel.innerHTML=`<summary>Diagnóstico · EM REVISÃO</summary><div class="volt-analysis-body">
- <p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para sua avaliação. Marcações não alteram o layout.</p><dl>
+ panel.innerHTML=`<summary>Diagnóstico · limites definidos</summary><div class="volt-analysis-body">
+ <p class="volt-analysis-status">Seção inteira · aprovada</p><p>Regras aprovadas pelo Founder e aplicadas. Marcações não alteram o layout.</p><dl>
  <dt class="volt-analysis-blue">Azul · eyebrow</dt><dd data-dg="eye"></dd>
  <dt class="volt-analysis-green">Verde · H2</dt><dd data-dg="title"></dd>
  <dt class="volt-analysis-purple">Roxo · apresentação e orientação</dt><dd data-dg="body"></dd>
@@ -528,7 +528,7 @@
   write('cells',cLines.length+' itens · linhas: '+cLines.join(' / ')+'. Máximo '+itemMax+' por item; reserva '+itemMax+' linhas. '+(narrow?'1 coluna':'2 colunas')+'; intervalo 12 px; texto Inter 16 px / 1,4.');
   write('cta',px(cr.width)+' × '+px(cr.height)+' · '+lines(cta)+' linha · copy '+(cta.dataset.copyFit==='short'?'curta':'completa')+'. Altura mínima 54 px, recuos laterais 30 px. '+(narrow?'Toda a coluna.':'Natural: 360–440 px dentro do espaço disponível.'));
   write('gaps','Eyebrow → H2: '+px(t.top-e.bottom)+'; H2 → P1: '+px(p[0].top-t.bottom)+'; P1 → P2: '+px(p[1].top-p[0].bottom)+'. '+(stacked?'Textos → painel: '+px(pb.top-co.bottom):'Coluna → painel: '+px(pb.left-co.right))+'. Blocos → CTA: '+px(after)+'; divisória dentro desse intervalo.');
-  write('fit',issues.length?'Conferir nesta tela: '+issues.join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras ainda em revisão pelo Founder.');
+  write('fit',issues.length?'Conferir nesta tela: '+issues.join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras aprovadas pelo Founder.');
   marks.replaceChildren();if(overlay.hidden)return;
   mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');
   ps.forEach(x=>mark(x,'volt-analysis-outline--other-intro'));mark(labelText,'volt-analysis-outline--dg-amber');
