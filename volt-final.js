@@ -272,7 +272,7 @@
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
-        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a>
+        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
@@ -283,7 +283,7 @@
   panel.querySelector('.volt-analysis-exit').href = normalURL.href;
   const serviceDetails = document.createElement('details');
   serviceDetails.dataset.analysisSection = 'servicos';
-  serviceDetails.open = !['#diagnostico','#trabalhos'].includes(location.hash);
+  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title'].includes(location.hash);
   serviceDetails.innerHTML = '<summary>Serviços · limites definidos</summary>';
   const body = panel.querySelector('.volt-analysis-body');
   const actions = body.querySelector('.volt-analysis-actions');
@@ -627,3 +627,69 @@
  window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);window.addEventListener('load',schedule,{once:true});section.addEventListener('transitionend',schedule);document.fonts.ready.then(schedule);schedule();
 })();
 /* END PORTFOLIO REVIEW */
+
+/* BEGIN PROCESS REVIEW — marcações temporárias; regras em revisão. */
+(() => {
+ 'use strict';
+ if(new URLSearchParams(location.search).get('limites')!=='1')return;
+ const section=document.querySelector('#atendimento'),overlay=document.querySelector('#volt-analysis-marks'),shared=document.querySelector('#volt-analysis-panel');
+ if(!section||!overlay||!shared)return;
+ document.documentElement.dataset.voltProcessAnalysis='true';
+ const eye=section.querySelector('.section-heading .eyebrow'),title=section.querySelector('h2'),intro=section.querySelector('.process-intro'),grid=section.querySelector('.process-grid'),steps=[...grid.children];
+ const diff=section.querySelector('.differentials'),de=diff.querySelector('.eyebrow'),dt=diff.querySelector('h3'),list=diff.querySelector('ul'),items=[...list.children];
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='atendimento';overlay.append(marks);
+ const panel=document.createElement('details');panel.dataset.analysisSection='atendimento';panel.open=['#atendimento','#process-title'].includes(location.hash);
+ panel.innerHTML='<summary>Atendimento e Diferenciais · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para avaliação do Founder. Marcações não alteram o layout.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrows</dt><dd data-pr="eyes"></dd><dt class="volt-analysis-green">Verde · H2 e apresentação</dt><dd data-pr="opening"></dd><dt class="volt-analysis-amber">Amarelo · números e sequência</dt><dd data-pr="numbers"></dd><dt class="volt-analysis-green">Verde · H3 das etapas</dt><dd data-pr="titles"></dd><dt class="volt-analysis-purple">Roxo · descrições das etapas</dt><dd data-pr="descriptions"></dd><dt class="volt-analysis-green">Verde · H3 de Diferenciais</dt><dd data-pr="diffTitle"></dd><dt class="volt-analysis-purple">Roxo · seis diferenciais</dt><dd data-pr="items"></dd><dt class="volt-analysis-amber">Amarelo · intervalos e recuos</dt><dd data-pr="gaps"></dd></dl><p data-pr="fit"></p><p>Quatro etapas e seis diferenciais preservados. Conteúdo permitido: funcionamento e práticas confirmadas do profissional; avaliação conforme o caso, orçamento antes da execução e materiais combinados. Não prometer visita gratuita, prazo, disponibilidade ou garantia sem confirmação. Sem cortes, compressão ou redução de fonte. Biblioteca de copy continua adiada.</p></div>';
+ shared.append(panel);
+ const R=e=>e.getBoundingClientRect(),S=e=>getComputedStyle(e),px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
+ const rows=e=>{
+  const ys=[],walker=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);
+  while(walker.nextNode()){
+   const n=walker.currentNode;if(!n.textContent.trim()||n.parentElement.closest('[aria-hidden="true"]'))continue;
+   const range=document.createRange();range.selectNodeContents(n);
+   for(const r of range.getClientRects())if(r.width&&r.height){const line=ys.find(x=>Math.abs(x.y-r.y)<2);if(line){line.l=Math.min(line.l,r.left);line.r=Math.max(line.r,r.right);}else ys.push({y:r.y,l:r.left,r:r.right});}
+  }return ys;
+ };
+ const lines=e=>rows(e).length;
+ const write=(k,v)=>{const e=panel.querySelector('[data-pr="'+k+'"]');if(e.textContent!==v)e.textContent=v;};
+ const box=(r,cls)=>{if(r.bottom<0||r.top>innerHeight)return;const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:r.left+'px',top:r.top+'px',width:Math.max(0,r.width)+'px',height:Math.max(0,r.height)+'px'});marks.append(e);};
+ const mark=(e,cls)=>box(R(e),'volt-analysis-outline '+cls);
+ const gap=(a,b)=>{const x=R(a),y=R(b);box({left:y.left,top:x.bottom,bottom:y.top,width:Math.min(x.width,y.width),height:Math.max(0,y.top-x.bottom)},'volt-analysis-gap');};
+ const inside=(e,host)=>{const a=R(e),b=R(host);return a.left>=b.left-.2&&a.right<=b.right+.2&&a.top>=b.top-.2&&a.bottom<=b.bottom+.2;};
+ let queued=false;
+ const render=()=>{
+  queued=false;const narrow=innerWidth<=620,vertical=innerWidth<=1080,issues=[];
+  const titles=steps.map(x=>x.querySelector('h3')),ps=steps.map(x=>x.querySelector('p')),numbers=steps.map(x=>x.querySelector('span'));
+  const tl=titles.map(lines),pl=ps.map(lines),il=items.map(lines);
+  for(const [e,t] of [[eye,title],[de,dt]]){const r=R(e),max=Math.max(0,...rows(t).map(x=>x.r-x.l));if(lines(e)!==1||r.width>280.1||r.width>=max)issues.push('Eyebrow');}
+  if(lines(title)<1||lines(title)>2||R(title).width>620.1)issues.push('H2');
+  if(lines(intro)<(narrow?2:1)||lines(intro)>(narrow?4:2)||R(intro).width>760.1)issues.push('apresentação');
+  titles.forEach((t,i)=>{if(tl[i]<1||tl[i]>2||!inside(t,steps[i])||R(t).width>(vertical?620:220)+.1)issues.push('H3 das etapas');if(Math.abs(R(ps[i]).top-R(t).bottom-12)>.2)issues.push('intervalo H3 → descrição');});
+  ps.forEach((p,i)=>{if(pl[i]<(vertical?1:3)||pl[i]>6||!inside(p,steps[i])||R(p).width>(vertical?620:235)+.1)issues.push('descrições');});
+  if(!vertical){if(Math.max(...ps.map(p=>R(p).top))-Math.min(...ps.map(p=>R(p).top))>.2)issues.push('alinhamento das descrições');}
+  numbers.forEach((n,i)=>{const r=R(n);if(lines(n)!==1||Math.abs(r.width-40)>.2||Math.abs(r.height-30)>.2||!inside(n,steps[i]))issues.push('numeração');});
+  if(lines(dt)<1||lines(dt)>2||R(dt).width>620.1||!inside(dt,diff))issues.push('H3 de Diferenciais');
+  items.forEach((e,i)=>{if(il[i]<1||il[i]>(narrow?3:2)||!inside(e,list))issues.push('lista de diferenciais');});
+  if(Math.abs(R(title).top-R(eye).bottom-12)>.2||Math.abs(R(intro).top-R(title).bottom-16)>.2||Math.abs(R(grid).top-R(intro).bottom-(innerWidth<=860?32:40))>.2||Math.abs(R(diff).top-R(grid).bottom-32)>.2||Math.abs(R(dt).top-R(de).bottom-12)>.2)issues.push('intervalos');
+  for(let i=0;i<steps.length;i++)for(let j=i+1;j<steps.length;j++){const a=R(steps[i]),b=R(steps[j]);if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>.2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>.2)issues.push('sobreposição entre etapas');}
+  write('eyes','Abertura: '+px(R(eye).width)+' / '+lines(eye)+' linha; Diferenciais: '+px(R(de).width)+' / '+lines(de)+' linha. Uma linha e teto 280 px incluindo traço de 34 px; menor que a maior linha do título seguinte. Reserva de uma linha.');
+  write('opening','H2: '+px(R(title).width)+' / '+lines(title)+' linha(s), máximo 2, teto 620 px. Reserva mínima '+(narrow?'2 linhas':'1 linha')+'. Apresentação: '+px(R(intro).width)+' / '+lines(intro)+' linha(s), faixa '+(narrow?'2–4':'1–2')+', teto 760 px, altura natural; Inter 16 px / 1,6.');
+  write('numbers','01 → 02 → 03 → 04; caixas 40 × 30 px, uma linha, preservando tipografia. '+(vertical?'Sequência vertical até 1080 px.':'Quatro colunas acima de 1080 px.')+' Linhas e conectores decorativos preservados.');
+  write('titles',tl.join(' / ')+' linha(s). De 1 a 2 por H3; teto '+(vertical?'620':'220')+' px dentro da etapa. '+(vertical?'Altura natural.':'Reserva de 2 linhas para alinhar as descrições.')+' Barlow Condensed 800, '+(narrow?'24':'28')+' px / 1,05.');
+  write('descriptions',pl.join(' / ')+' linha(s). Faixa '+(vertical?'1–6':'3–6')+'; teto '+(vertical?'620':'235')+' px. '+(vertical?'Altura natural.':'Reserva de 6 linhas.')+' Inter 16 px / 1,55; texto preservado.');
+  write('diffTitle',px(R(dt).width)+' / '+lines(dt)+' linha(s), máximo 2, teto 620 px dentro do painel. Altura natural; texto preto sobre amarelo. Painéis '+(vertical?'empilhados.':'lado a lado.'));
+  write('items',il.join(' / ')+' linha(s); seis itens, máximo '+(narrow?'3':'2')+' por item. '+(narrow?'Uma coluna, altura natural.':'Duas colunas, reserva mínima de 2 linhas.')+' Inter 16 px / 1,45; marcas de confirmação com 19 px de área lateral; intervalos 14 px entre linhas e 28 px entre colunas.');
+  write('gaps','Eyebrow → H2: '+px(R(title).top-R(eye).bottom)+'; H2 → apresentação: '+px(R(intro).top-R(title).bottom)+'; apresentação → etapas: '+px(R(grid).top-R(intro).bottom)+'; etapas → Diferenciais: '+px(R(diff).top-R(grid).bottom)+'; Eyebrow → H3 do painel: '+px(R(dt).top-R(de).bottom)+'. Etapas: '+S(steps[0]).padding+'; painéis de Diferenciais: '+S(de.parentElement).padding+'. Alturas das etapas naturais, com reservas somente no formato de quatro colunas.');
+  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+  marks.replaceChildren();if(overlay.hidden)return;
+  [eye,de].forEach(e=>mark(e,'volt-analysis-outline--heading'));
+  [title,...titles,dt].forEach(e=>mark(e,'volt-analysis-outline--intro'));
+  [intro,...ps,...items].forEach(e=>mark(e,'volt-analysis-outline--other-intro'));
+  numbers.forEach(e=>mark(e,'volt-analysis-outline--dg-amber'));
+  gap(eye,title);gap(title,intro);gap(intro,grid);gap(grid,diff);gap(de,dt);titles.forEach((t,i)=>gap(t,ps[i]));
+ };
+ const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render);}};
+ const observer=new ResizeObserver(schedule);[section,eye,title,intro,grid,...steps,diff,de,dt,list,...items].forEach(e=>observer.observe(e));
+ window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);window.addEventListener('load',schedule,{once:true});section.addEventListener('transitionend',schedule);document.fonts.ready.then(schedule);schedule();
+})();
+/* END PROCESS REVIEW */

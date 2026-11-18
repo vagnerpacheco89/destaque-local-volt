@@ -2240,3 +2240,41 @@ html[data-volt-portfolio-analysis] #trabalhos .reveal-item {opacity:1 !important
   #trabalhos .portfolio-intro__compact {display:inline !important;}
  }
 }
+
+/* Processo de atendimento e Diferenciais — aplicado para revisão do Founder. */
+@layer volt-process-review {
+ #atendimento .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}
+ #atendimento .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
+ #atendimento h2 {width:100% !important;max-width:min(620px,100%) !important;min-height:1lh !important;height:auto !important;}
+ #atendimento .process-intro {width:100% !important;max-width:min(760px,100%) !important;min-height:0 !important;height:auto !important;line-height:1.6 !important;}
+ #atendimento .process-grid {display:grid !important;grid-template-columns:repeat(4,minmax(0,1fr)) !important;gap:0 !important;margin:0 0 32px !important;align-items:stretch !important;}
+ #atendimento .process-grid li::after {left:auto !important;}
+ #atendimento .process-grid li {min-width:0 !important;min-height:0 !important;height:auto !important;padding:72px 24px 27px !important;}
+ #atendimento .process-grid h3 {width:100% !important;max-width:min(220px,100%) !important;min-height:2lh !important;height:auto !important;margin:0 0 12px !important;}
+ #atendimento .process-grid p {width:100% !important;max-width:min(235px,100%) !important;min-height:6lh !important;height:auto !important;margin:0 !important;line-height:1.55 !important;}
+ #atendimento .differentials {grid-template-columns:minmax(260px,.72fr) minmax(0,1.7fr) !important;}
+ #atendimento .differentials > div:first-child {min-width:0 !important;padding:28px !important;}
+ #atendimento .differentials h3 {width:100% !important;max-width:min(620px,100%) !important;min-height:0 !important;height:auto !important;margin:0 !important;}
+ #atendimento .differentials ul {grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:14px 28px !important;padding:28px !important;align-content:center !important;align-items:stretch !important;}
+ #atendimento .differentials li {min-width:0 !important;min-height:2lh !important;padding-left:19px !important;line-height:1.45 !important;}
+ @media(max-width:1080px) {
+  #atendimento .process-grid {display:block !important;}
+  #atendimento .process-grid::before {left:20px !important;right:auto !important;top:0 !important;bottom:0 !important;width:1px !important;height:auto !important;}
+  #atendimento .process-grid li {padding:26px 24px 26px 70px !important;border-left:0 !important;border-bottom:2px solid transparent !important;border-image-source:var(--volt-section-divider) !important;border-image-slice:1 !important;}
+  #atendimento .process-grid li:last-child {border-bottom:0 !important;}
+  #atendimento .process-grid li > span {top:25px !important;left:0 !important;}
+  #atendimento .process-grid li::after {top:auto !important;right:auto !important;left:17px !important;bottom:-3px !important;}
+  #atendimento .process-grid h3, #atendimento .process-grid p {max-width:min(620px,100%) !important;min-height:0 !important;}
+  #atendimento .differentials {grid-template-columns:minmax(0,1fr) !important;}
+  #atendimento .differentials ul {border-left:0 !important;border-top:2px solid transparent !important;border-image-source:var(--volt-section-divider) !important;border-image-slice:1 !important;}
+ }
+ @media(max-width:620px) {
+  #atendimento h2 {min-height:2lh !important;}
+  #atendimento .process-grid li {padding:24px 16px 24px 60px !important;}
+  #atendimento .process-grid li > span {top:24px !important;}
+  #atendimento .differentials > div:first-child, #atendimento .differentials ul {padding:20px 16px !important;}
+  #atendimento .differentials ul {grid-template-columns:minmax(0,1fr) !important;gap:14px !important;}
+  #atendimento .differentials li {min-height:0 !important;}
+ }
+}
+html[data-volt-process-analysis] #atendimento .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
