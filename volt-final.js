@@ -658,7 +658,7 @@
 })();
 /* END PORTFOLIO REVIEW */
 
-/* BEGIN PROCESS REVIEW — marcações temporárias; regras em revisão. */
+/* BEGIN PROCESS REVIEW — marcações temporárias; regras aprovadas. */
 (() => {
  'use strict';
  if(new URLSearchParams(location.search).get('limites')!=='1')return;
@@ -669,7 +669,7 @@
  const diff=section.querySelector('.differentials'),de=diff.querySelector('.eyebrow'),dt=diff.querySelector('h3'),list=diff.querySelector('ul'),items=[...list.children];
  const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='atendimento';overlay.append(marks);
  const panel=document.createElement('details');panel.dataset.analysisSection='atendimento';panel.open=['#atendimento','#process-title'].includes(location.hash);
- panel.innerHTML='<summary>Atendimento e Diferenciais · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para avaliação do Founder. Marcações não alteram o layout.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrows</dt><dd data-pr="eyes"></dd><dt class="volt-analysis-green">Verde · H2 e apresentação</dt><dd data-pr="opening"></dd><dt class="volt-analysis-amber">Amarelo · números e sequência</dt><dd data-pr="numbers"></dd><dt class="volt-analysis-green">Verde · H3 das etapas</dt><dd data-pr="titles"></dd><dt class="volt-analysis-purple">Roxo · descrições das etapas</dt><dd data-pr="descriptions"></dd><dt class="volt-analysis-green">Verde · H3 de Diferenciais</dt><dd data-pr="diffTitle"></dd><dt class="volt-analysis-purple">Roxo · seis diferenciais</dt><dd data-pr="items"></dd><dt class="volt-analysis-amber">Amarelo · intervalos e recuos</dt><dd data-pr="gaps"></dd></dl><p data-pr="fit"></p><p>Quatro etapas e seis diferenciais preservados. Conteúdo permitido: funcionamento e práticas confirmadas do profissional; avaliação conforme o caso, orçamento antes da execução e materiais combinados. Não prometer visita gratuita, prazo, disponibilidade ou garantia sem confirmação. Sem cortes, compressão ou redução de fonte. Biblioteca de copy continua adiada.</p></div>';
+ panel.innerHTML='<summary>Atendimento e Diferenciais · limites definidos</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · aprovada</p><p>Regras aprovadas pelo Founder e aplicadas. Marcações não alteram o layout.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrows</dt><dd data-pr="eyes"></dd><dt class="volt-analysis-green">Verde · H2 e apresentação</dt><dd data-pr="opening"></dd><dt class="volt-analysis-amber">Amarelo · números e sequência</dt><dd data-pr="numbers"></dd><dt class="volt-analysis-green">Verde · H3 das etapas</dt><dd data-pr="titles"></dd><dt class="volt-analysis-purple">Roxo · descrições das etapas</dt><dd data-pr="descriptions"></dd><dt class="volt-analysis-green">Verde · H3 de Diferenciais</dt><dd data-pr="diffTitle"></dd><dt class="volt-analysis-purple">Roxo · seis diferenciais</dt><dd data-pr="items"></dd><dt class="volt-analysis-amber">Amarelo · intervalos e recuos</dt><dd data-pr="gaps"></dd></dl><p data-pr="fit"></p><p>Quatro etapas e seis diferenciais preservados. Conteúdo permitido: funcionamento e práticas confirmadas do profissional; avaliação conforme o caso, orçamento antes da execução e materiais combinados. Não prometer visita gratuita, prazo, disponibilidade ou garantia sem confirmação. Sem cortes, compressão ou redução de fonte. Biblioteca de copy continua adiada.</p></div>';
  shared.append(panel);
  const R=e=>e.getBoundingClientRect(),S=e=>getComputedStyle(e),px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
  const rows=e=>{
@@ -711,7 +711,7 @@
   write('diffTitle',px(R(dt).width)+' / '+lines(dt)+' linha(s), máximo 2, teto 620 px dentro do painel. Altura natural; texto preto sobre amarelo. Painéis '+(vertical?'empilhados.':'lado a lado.'));
   write('items',il.join(' / ')+' linha(s); seis itens, máximo '+(narrow?'3':'2')+' por item. '+(narrow?'Uma coluna.':'Duas colunas.')+' Altura natural em cada item, sem reserva de segunda linha.'+' Inter 16 px / 1,45; marcas de confirmação com 19 px de área lateral; intervalos 14 px entre linhas e 28 px entre colunas.');
   write('gaps','Eyebrow → H2: '+px(R(title).top-R(eye).bottom)+'; H2 → apresentação: '+px(R(intro).top-R(title).bottom)+'; apresentação → etapas: '+px(R(grid).top-R(intro).bottom)+'; etapas → Diferenciais: '+px(R(diff).top-R(grid).bottom)+'; Eyebrow → H3 do painel: '+px(R(dt).top-R(de).bottom)+'. Etapas: '+S(steps[0]).padding+'; painéis de Diferenciais: '+S(de.parentElement).padding+'. Títulos e diferenciais com altura natural. Somente as descrições das quatro colunas reservam seis linhas.');
-  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras aprovadas pelo Founder.');
   marks.replaceChildren();if(overlay.hidden)return;
   [eye,de].forEach(e=>mark(e,'volt-analysis-outline--heading'));
   [title,...titles,dt].forEach(e=>mark(e,'volt-analysis-outline--intro'));

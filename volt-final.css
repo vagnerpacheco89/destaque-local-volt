@@ -2259,7 +2259,7 @@ html[data-volt-portfolio-analysis] #trabalhos .reveal-item {opacity:1 !important
  }
 }
 
-/* Processo de atendimento e Diferenciais — aplicado para revisão do Founder. */
+/* Processo de atendimento e Diferenciais — aprovado pelo Founder em 19/11/2026. */
 @layer volt-process-review {
  #atendimento .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}
  #atendimento .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
