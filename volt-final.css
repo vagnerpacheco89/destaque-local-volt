@@ -2283,3 +2283,8 @@ html[data-volt-portfolio-analysis] #trabalhos .reveal-item {opacity:1 !important
  }
 }
 html[data-volt-process-analysis] #atendimento .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
+
+/* Apresentação de Atendimento — máximo de três linhas, sem corte. */
+@layer volt-process-intro {
+ #atendimento .process-intro [data-process-intro-variant][hidden] {display:none !important;}
+}

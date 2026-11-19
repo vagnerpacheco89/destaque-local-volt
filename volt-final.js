@@ -1,3 +1,32 @@
+/* Apresentação de Atendimento: uma variante acessível, até três linhas reais. */
+(() => {
+ 'use strict';
+ const intro=document.querySelector('#atendimento .process-intro');
+ if(!intro)return;
+ const variants=[...intro.querySelectorAll('[data-process-intro-variant]')];
+ if(!variants.length)return;
+ const fit=()=>{
+  const s=getComputedStyle(intro),width=intro.getBoundingClientRect().width;
+  if(!width)return;
+  const probe=document.createElement('span');
+  Object.assign(probe.style,{position:'fixed',visibility:'hidden',display:'block',left:'0',top:'0',width:width+'px',maxWidth:'none',margin:'0',padding:'0',border:'0',font:s.font,lineHeight:s.lineHeight,letterSpacing:s.letterSpacing,wordSpacing:s.wordSpacing,textTransform:s.textTransform,whiteSpace:'normal'});
+  document.body.append(probe);
+  let selected=variants[variants.length-1],count=0;
+  for(const candidate of variants){
+   probe.textContent=candidate.textContent;
+   const range=document.createRange();range.selectNodeContents(probe);
+   count=[...range.getClientRects()].filter(r=>r.width&&r.height).length;
+   if(count<=3){selected=candidate;break;}
+  }
+  probe.remove();
+  for(const variant of variants)variant.hidden=variant!==selected;
+  intro.dataset.copyVariant=selected.dataset.processIntroVariant;
+  intro.dataset.copyOverflow=String(count>3);
+ };
+ let pending=false;const schedule=()=>{if(!pending){pending=true;requestAnimationFrame(()=>{pending=false;fit();});}};
+ new ResizeObserver(schedule).observe(intro);
+ document.fonts.ready.then(schedule);window.addEventListener('load',schedule,{once:true});window.addEventListener('resize',schedule,{passive:true});fit();
+})();
 
 /* Eyebrow de Trabalhos: variante curta pelo espaço e maior linha do H2. */
 (() => {
@@ -663,7 +692,7 @@
   const tl=titles.map(lines),pl=ps.map(lines),il=items.map(lines);
   for(const [e,t] of [[eye,title],[de,dt]]){const r=R(e),max=Math.max(0,...rows(t).map(x=>x.r-x.l));if(lines(e)!==1||r.width>280.1||r.width>=max)issues.push('Eyebrow');}
   if(lines(title)<1||lines(title)>2||R(title).width>(vertical?620:section.querySelector('.container').clientWidth)+.1)issues.push('H2');
-  if(lines(intro)<(narrow?2:1)||lines(intro)>(narrow?4:2)||R(intro).width>760.1)issues.push('apresentação');
+  if(lines(intro)<1||lines(intro)>3||R(intro).width>760.1||intro.dataset.copyOverflow==='true')issues.push('apresentação');
   titles.forEach((t,i)=>{if(tl[i]<1||tl[i]>2||!inside(t,steps[i])||R(t).width>(vertical?620:220)+.1)issues.push('H3 das etapas');if(Math.abs(R(ps[i]).top-R(t).bottom-12)>.2)issues.push('intervalo H3 → descrição');});
   ps.forEach((p,i)=>{if(pl[i]<(vertical?1:3)||pl[i]>6||!inside(p,steps[i])||R(p).width>(vertical?620:235)+.1)issues.push('descrições');});
   if(!vertical){if([...titles,...ps].some(e=>S(e).textAlign!=='center'))issues.push('centralização das etapas');if(ps.some(e=>R(e).height<parseFloat(S(e).lineHeight)*6-.2))issues.push('reserva das descrições');}
@@ -674,7 +703,7 @@
   if(Math.abs(R(title).top-R(eye).bottom-12)>.2||Math.abs(R(intro).top-R(title).bottom-16)>.2||Math.abs(R(grid).top-R(intro).bottom-(innerWidth<=860?32:40))>.2||Math.abs(R(diff).top-R(grid).bottom-32)>.2||Math.abs(R(dt).top-R(de).bottom-12)>.2)issues.push('intervalos');
   for(let i=0;i<steps.length;i++)for(let j=i+1;j<steps.length;j++){const a=R(steps[i]),b=R(steps[j]);if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>.2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>.2)issues.push('sobreposição entre etapas');}
   write('eyes','Abertura: '+px(R(eye).width)+' / '+lines(eye)+' linha; Diferenciais: '+px(R(de).width)+' / '+lines(de)+' linha. Uma linha e teto 280 px incluindo traço de 34 px; menor que a maior linha do título seguinte. Reserva de uma linha.');
-  write('opening','H2: '+px(R(title).width)+' / '+lines(title)+' linha(s), máximo 2, '+(vertical?'teto 620 px':'toda a coluna interna no computador, sem quebra forçada')+'. Reserva mínima '+(narrow?'2 linhas':'1 linha')+'. Apresentação: '+px(R(intro).width)+' / '+lines(intro)+' linha(s), faixa '+(narrow?'2–4':'1–2')+', teto 760 px, altura natural; Inter 16 px / 1,6.');
+  write('opening','H2: '+px(R(title).width)+' / '+lines(title)+' linha(s), máximo 2, '+(vertical?'teto 620 px':'toda a coluna interna no computador, sem quebra forçada')+'. Reserva mínima '+(narrow?'2 linhas':'1 linha')+'. Apresentação: '+px(R(intro).width)+' / '+lines(intro)+' linha(s), máximo 3 em todas as telas, teto 760 px, altura natural sem reserva; Inter 16 px / 1,6. Variante '+(intro.dataset.copyVariant||'compact')+' selecionada pelo espaço real.');
   write('numbers','01 → 02 → 03 → 04; caixas 40 × 30 px, uma linha, preservando tipografia. '+(vertical?'Sequência vertical até 1080 px.':'Quatro colunas acima de 1080 px.')+' Linhas e conectores decorativos preservados.');
   write('titles',tl.join(' / ')+' linha(s). De 1 a 2 por H3; teto '+(vertical?'620':'220')+' px dentro da etapa. '+(vertical?'Altura natural, à esquerda.':'Altura natural, sem reserva de segunda linha; centralizados.')+' Barlow Condensed 800, '+(narrow?'24':'28')+' px / 1,05.');
   write('descriptions',pl.join(' / ')+' linha(s). Faixa '+(vertical?'1–6':'3–6')+'; teto '+(vertical?'620':'235')+' px. '+(vertical?'Altura natural, à esquerda.':'Reserva de 6 linhas mantida; textos centralizados.')+' Inter 16 px / 1,55; texto preservado.');
