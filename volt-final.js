@@ -812,7 +812,7 @@
  const R=e=>e.getBoundingClientRect(),S=e=>getComputedStyle(e),px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
  const textRows=e=>{
   const result=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);
-  while(w.nextNode()){const n=w.currentNode;if(!n.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(n);for(const b of r.getClientRects())if(b.width&&b.height){const found=result.find(x=>Math.abs(x.y-b.y)<2);if(found){found.left=Math.min(found.left,b.left);found.right=Math.max(found.right,b.right);}else result.push({y:b.y,left:b.left,right:b.right});}}return result;
+  while(w.nextNode()){const n=w.currentNode;if(!n.textContent.trim()||n.parentElement.closest('.review-marquee-mark'))continue;const r=document.createRange();r.selectNodeContents(n);for(const b of r.getClientRects())if(b.width&&b.height){const found=result.find(x=>Math.abs(x.y-b.y)<2);if(found){found.left=Math.min(found.left,b.left);found.right=Math.max(found.right,b.right);}else result.push({y:b.y,left:b.left,right:b.right});}}return result;
  };
  const lines=e=>textRows(e).length;
  const write=(key,value)=>{const e=panel.querySelector('[data-rv="'+key+'"]');if(e.textContent!==value)e.textContent=value;};
@@ -837,13 +837,15 @@
   if(Math.abs(br.width-268)>.2||Math.abs(br.height-br.width*324/280)>.2||!inside(badge,head))issues.push('selo');
   for(const e of badge.querySelectorAll('.rating-badge__google,.rating-badge__stars,.rating-badge__text,.rating-badge__score'))if(!inside(e,badge))issues.push('conteúdo do selo');
   if(lines(badge.querySelector('.rating-badge__text'))!==3||lines(badge.querySelector('.rating-badge__score'))!==1)issues.push('linhas do selo');
-  if(ml.some(n=>n<1||n>4))issues.push('linhas dos depoimentos');
+  if(ml.some(n=>n<1||n>3))issues.push('linhas dos depoimentos');
   if(nl.some(n=>n<1||n>2)||pl.some(n=>n<1||n>2))issues.push('identificações/legendas');
   visible.forEach((c,i)=>{
    const p=messages[i],person=c.querySelector('.review-marquee-person'),row=c.closest('.review-marquee-row'),closing=c.querySelector('.review-marquee-mark--closing');
    if(!inside(p,c)||!inside(person,c)||R(c).width>R(row).width+.2)issues.push('conteúdo do cartão');
    if(S(p).webkitLineClamp!=='none'||S(p).overflow==='hidden')issues.push('corte de depoimento');
-   if(!closing||!inside(closing,c)||Math.abs(R(closing).top-R(p).bottom-8)>.2||R(person).top-R(closing).bottom<15.8)issues.push('aspas e intervalos');
+   const opening=c.querySelector('.review-marquee-mark:not(.review-marquee-mark--closing)');
+   if(!opening||!closing||opening.parentElement!==p||closing.parentElement!==p||!inside(opening,c)||!inside(closing,c)||R(person).top-R(p).bottom<15.8)issues.push('aspas e intervalos');
+   if(Math.abs(R(c).height-(narrow?210:innerWidth<=900?216:194))>.2)issues.push('altura do cartão');
    if(S(p).textAlign!=='center')issues.push('centralização dos relatos');
   });
   if(section.scrollWidth>section.clientWidth+.2)issues.push('transbordamento da seção');
@@ -856,9 +858,9 @@
   write('title',px(tr.width)+' / '+lines(title)+' linha(s), máximo 2; teto 620 px. Reserva mínima '+(narrow?'2 linhas':'1 linha')+'. Variante '+(section.dataset.reviewTitleVariant==='short'?'curta: O QUE DIZEM SOBRE RAFAEL.':'completa.'));
   write('intro',px(ir.width)+' / '+lines(intro)+' linha(s); máximo '+(narrow?'5':'3')+', teto 760 px, altura natural sem reserva. Copy remodelada com a AR como referência; Inter 16 px / 1,6. Variante '+(intro.dataset.copyVariant||'compact')+'. '+(lines(intro)===3?'Terceira linha: '+Math.round((textRows(intro)[2].right-textRows(intro)[2].left)/ir.width*100)+'% da largura.':'No computador com caixa de 760 px: três linhas, última pouco além da metade.')+'');
   write('badge',px(br.width)+' × '+px(br.height)+'; proporção 280:324. '+(stacked?'Abaixo do texto e centralizado até 860 px.':'À direita, alinhado ao topo acima de 860 px.')+' Texto preto, três linhas no selo e uma na nota. Valores demonstrativos preservados: 4,9/5 e 38 avaliações no rótulo acessível.');
-  write('messages',unique+' relatos distintos; '+cards.length+' cartões no HTML para o movimento, '+accessible+' relatos acessíveis. Linhas atuais visíveis: '+[...new Set(ml)].sort().join(' / ')+', máximo 4. Textos centralizados, entre aspas de abertura e fechamento. Sem line-clamp, cortes ou reserva de linhas; alturas naturais, cartões igualados pelo conteúdo do grupo. Inter 16 px / 1,5; larguras até '+(narrow?'282':innerWidth<=900?'306':'322')+' px, sempre dentro da faixa.');
+  write('messages',unique+' relatos distintos; '+cards.length+' cartões no HTML para o movimento, '+accessible+' relatos acessíveis. Linhas atuais visíveis: '+[...new Set(ml)].sort().join(' / ')+', máximo 3. Textos centralizados; aspas junto ao início e ao fim do relato, na mesma linha das palavras. Sem line-clamp ou cortes. Altura do cartão baseada na AR: '+(narrow?'210':innerWidth<=900?'216':'194')+' px; sem linhas vazias no texto. Inter 16 px / 1,5; larguras até '+(narrow?'282':innerWidth<=900?'306':'322')+' px, sempre dentro da faixa.');
   write('people','Nomes: '+[...new Set(nl)].sort().join(' / ')+' linha(s); localidades: '+[...new Set(pl)].sort().join(' / ')+'. Máximo 2 por elemento, alturas naturais. Identificação de pessoa: 14 px / 700 / 1,5; legenda: 12 px / 500 / 1,5. Avatar 36 × 36 px, intervalo 10 px; nome → localidade 4 px. Repetições decorativas ocultas dos leitores de tela.');
-  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(ir.top-tr.bottom)+'; abertura completa → faixas: '+px(mr.top-hr.bottom)+'. '+(stacked?'Texto → selo: '+px(br.top-R(copy).bottom):'Texto → selo: '+px(br.left-R(copy).right))+'. Faixas: '+(narrow?'12':'16')+' px entre linhas; 7 px acima/abaixo para hover. Cartões: recuos '+(narrow?'16':'18')+' px; aspas de abertura → texto 8 px; texto → aspas de fechamento 8 px; aspas de fechamento → autor mínimo 16 px. Recuos externos seguem a escala global de 67 / 50 / 45 px.');
+  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(ir.top-tr.bottom)+'; abertura completa → faixas: '+px(mr.top-hr.bottom)+'. '+(stacked?'Texto → selo: '+px(br.top-R(copy).bottom):'Texto → selo: '+px(br.left-R(copy).right))+'. Faixas: '+(narrow?'12':'16')+' px entre linhas; 7 px acima/abaixo para hover. Cartões: recuos verticais '+(narrow?'16':'18')+' px e laterais '+(innerWidth<=360?'12':narrow?'16':'18')+' px; aspas inline, junto à primeira e à última palavra; texto → autor mínimo 16 px, com autor alinhado ao rodapé. Recuos externos seguem a escala global de 67 / 50 / 45 px.');
   write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
   marks.replaceChildren();if(overlay.hidden)return;
   mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');mark(badge,'volt-analysis-outline--dg-amber');
