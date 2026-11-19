@@ -2309,6 +2309,7 @@ html[data-volt-process-analysis] #atendimento .reveal-item {opacity:1 !important
 
 /* Avaliações — seção parametrizada para revisão do Founder. */
 @layer volt-reviews-review {
+ #avaliacoes {scroll-margin-top:88px;}
  #avaliacoes .reviews-head {grid-template-columns:minmax(0,1fr) 268px !important;align-items:start !important;}
  #avaliacoes .reviews-head > div:first-child {min-width:0 !important;max-width:100% !important;padding-top:16px !important;}
  #avaliacoes .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}
@@ -2334,6 +2335,7 @@ html[data-volt-process-analysis] #atendimento .reveal-item {opacity:1 !important
   #avaliacoes .rating-demo.rating-badge {justify-self:center !important;}
  }
  @media(max-width:620px) {
+  #avaliacoes {scroll-margin-top:79px;}
   #avaliacoes h2 {min-height:2lh !important;}
   #avaliacoes .reviews-grid.reviews-marquee {gap:12px !important;}
   #avaliacoes .review-marquee-card {--volt-review-card-width:282px;padding:16px !important;}
