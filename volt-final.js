@@ -20,6 +20,7 @@
 
   const intro=section.querySelector('.reviews-intro'),variants=[...intro.querySelectorAll('[data-review-intro-variant]')];
   const maxLines=innerWidth<=620?5:3;
+  if(variants.length){
   let selected=variants[variants.length-1];
   for(const candidate of variants){
    variants.forEach(e=>e.hidden=e!==candidate);
@@ -27,6 +28,7 @@
   }
   intro.dataset.copyVariant=selected.dataset.reviewIntroVariant;
   intro.dataset.copyOverflow=String(visibleRows(intro).length>maxLines);
+  }
   window.dispatchEvent(new Event('volt-reviews-fit'));
  };
  let queued=false;const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(()=>{queued=false;fit();});}};
