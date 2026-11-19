@@ -724,3 +724,39 @@
  window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);window.addEventListener('volt-process-intro-fit',schedule);window.addEventListener('load',schedule,{once:true});section.addEventListener('transitionend',schedule);document.fonts.ready.then(schedule);schedule();
 })();
 /* END PROCESS REVIEW */
+
+/* Recuos externos aprovados — marcações no painel único. */
+(() => {
+ if(new URLSearchParams(location.search).get('limites')!=='1')return;
+ const overlay=document.querySelector('#volt-analysis-marks'),shared=document.querySelector('#volt-analysis-panel');
+ if(!overlay||!shared)return;
+ const sections=[...document.querySelectorAll('main>section')];
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='espacamentos';overlay.append(marks);
+ const panel=document.createElement('details');panel.dataset.analysisSection='espacamentos';
+ panel.innerHTML='<summary>Espaçamento entre seções · aprovado</summary><div class="volt-analysis-body"><p>Redução de aproximadamente 30% nos recuos externos de todas as seções, com arredondamento para pixels inteiros. Medidas de cada lado da divisória; bordas à parte. As marcações amarelas mostram somente esses recuos.</p><ul data-section-spaces></ul><p>Regra comum: 67 px acima de 860 px, 50 px entre 621 e 860 px e 45 px até 620 px. Hero, convite para avaliar e chamada final também reduzidos, preservando suas proporções.</p></div>';
+ shared.append(panel);
+ const output=panel.querySelector('[data-section-spaces]');
+ const px=n=>n.toLocaleString('pt-BR')+' px';
+ let queued=false;
+ const render=()=>{
+  queued=false;marks.replaceChildren();const labels=[];
+  for(const section of sections){
+   const s=getComputedStyle(section),r=section.getBoundingClientRect(),container=section.querySelector(':scope>.container'),c=container?.getBoundingClientRect();
+   const top=parseFloat(s.paddingTop),bottom=parseFloat(s.paddingBottom);
+   const name=section.classList.contains('hero')?'Hero':section.querySelector('h2')?.textContent.trim()||section.id;
+   labels.push(name+': '+px(top)+' acima / '+px(bottom)+' abaixo.');
+   if(overlay.hidden||!c||r.bottom<0||r.top>innerHeight)continue;
+   for(const [y,h]of [[r.top+parseFloat(s.borderTopWidth),top],[r.bottom-parseFloat(s.borderBottomWidth)-bottom,bottom]]){
+    if(y+h<0||y>innerHeight)continue;
+    const box=document.createElement('div');box.className='volt-analysis-gap';
+    Object.assign(box.style,{left:c.left+'px',top:y+'px',width:c.width+'px',height:h+'px'});marks.append(box);
+    const label=document.createElement('div');label.className='volt-analysis-label volt-analysis-amber volt-analysis-label--small';
+    Object.assign(label.style,{left:c.left+'px',top:(y+Math.max(0,(h-16)/2))+'px',width:Math.min(c.width,200)+'px'});label.textContent=px(h)+' · recuo externo';marks.append(label);
+   }
+  }
+  const text=labels.join('\n');if(output.dataset.value!==text){output.replaceChildren(...labels.map(t=>{const li=document.createElement('li');li.textContent=t;return li;}));output.dataset.value=text;}
+ };
+ const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render);}};
+ const observer=new ResizeObserver(schedule);sections.forEach(e=>observer.observe(e));
+ window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);document.fonts.ready.then(schedule);schedule();
+})();

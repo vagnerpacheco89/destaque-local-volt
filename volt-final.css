@@ -1531,7 +1531,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
    Divisórias decorativas ocupam o próprio intervalo, sem somar afastamentos. */
 @layer volt-spacing {
   :root {
-    --volt-section-space:96px;
+    --volt-section-space:67px;
     --volt-page-gutter:24px;
     --volt-eyebrow-title-gap:12px;
     --volt-title-content-gap:16px;
@@ -1541,7 +1541,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
   @media (max-width:860px) {
     :root {
-      --volt-section-space:72px;
+      --volt-section-space:50px;
       --volt-page-gutter:20px;
       --volt-heading-block-gap:32px;
       --volt-structural-column-gap:32px;
@@ -1549,7 +1549,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
   @media (max-width:620px) {
     :root {
-      --volt-section-space:64px;
+      --volt-section-space:45px;
       --volt-page-gutter:16px;
     }
   }
@@ -1560,6 +1560,24 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   main > section.section:not(.google-review) {
     padding-block:var(--volt-section-space) !important;
   }
+  /* Recuos externos reduzidos em aproximadamente 30% — 19/11/2026. */
+  main > section.hero {padding-block:52px 29px !important;min-height:655px !important;}
+  main > section.google-review {padding-block:39px !important;}
+  main > section.final-cta {padding-block:50px !important;}
+  @media(max-width:860px) {
+    main > section.hero {padding-block:27px 29px !important;min-height:auto !important;}
+  }
+  @media(max-width:760px) {
+    main > section.google-review {padding-block:31px !important;}
+  }
+  @media(max-width:620px) {
+    main > section.hero {padding-block:21px 29px !important;}
+    main > section.final-cta {padding-block:36px !important;}
+  }
+  @media(max-width:480px) {
+    main > section.google-review {padding-block:22px !important;}
+  }
+
   main > section:not(.hero) .eyebrow {
     margin-bottom:var(--volt-eyebrow-title-gap) !important;
   }
