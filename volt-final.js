@@ -22,6 +22,7 @@
   for(const variant of variants)variant.hidden=variant!==selected;
   intro.dataset.copyVariant=selected.dataset.processIntroVariant;
   intro.dataset.copyOverflow=String(count>3);
+  window.dispatchEvent(new Event('volt-process-intro-fit'));
  };
  let pending=false;const schedule=()=>{if(!pending){pending=true;requestAnimationFrame(()=>{pending=false;fit();});}};
  new ResizeObserver(schedule).observe(intro);
@@ -720,6 +721,6 @@
  };
  const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render);}};
  const observer=new ResizeObserver(schedule);[section,eye,title,intro,grid,...steps,diff,de,dt,list,...items].forEach(e=>observer.observe(e));
- window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);window.addEventListener('load',schedule,{once:true});section.addEventListener('transitionend',schedule);document.fonts.ready.then(schedule);schedule();
+ window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);window.addEventListener('volt-process-intro-fit',schedule);window.addEventListener('load',schedule,{once:true});section.addEventListener('transitionend',schedule);document.fonts.ready.then(schedule);schedule();
 })();
 /* END PROCESS REVIEW */
