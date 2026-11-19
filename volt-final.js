@@ -17,6 +17,16 @@
   if(eye.scrollWidth>Math.min(280,eye.parentElement.clientWidth)+.1||eye.getBoundingClientRect().width>=max){ef.hidden=true;es.hidden=false;}
   section.dataset.reviewTitleVariant=full.hidden?'short':'full';
   section.dataset.reviewEyebrowVariant=ef.hidden?'short':'full';
+
+  const intro=section.querySelector('.reviews-intro'),variants=[...intro.querySelectorAll('[data-review-intro-variant]')];
+  const maxLines=innerWidth<=620?5:3;
+  let selected=variants[variants.length-1];
+  for(const candidate of variants){
+   variants.forEach(e=>e.hidden=e!==candidate);
+   selected=candidate;if(visibleRows(intro).length<=maxLines)break;
+  }
+  intro.dataset.copyVariant=selected.dataset.reviewIntroVariant;
+  intro.dataset.copyOverflow=String(visibleRows(intro).length>maxLines);
   window.dispatchEvent(new Event('volt-reviews-fit'));
  };
  let queued=false;const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(()=>{queued=false;fit();});}};
@@ -820,17 +830,19 @@
   const ml=messages.map(lines),nl=names.map(lines),pl=places.map(lines),er=R(eye),tr=R(title),ir=R(intro),br=R(badge),hr=R(head),mr=R(marquee),maxLine=Math.max(0,...textRows(title).map(r=>r.right-r.left));
   if(lines(eye)!==1||er.width>280.1||er.width>=maxLine)issues.push('Eyebrow');
   if(lines(title)<1||lines(title)>2||tr.width>620.1)issues.push('H2');
-  if(lines(intro)<1||lines(intro)>(narrow?5:3)||ir.width>760.1)issues.push('apresentação');
+  if(lines(intro)<1||lines(intro)>(narrow?5:3)||ir.width>760.1||intro.dataset.copyOverflow==='true')issues.push('apresentação');
+  if(ir.width>=759&&intro.dataset.copyVariant==='full'){const actual=textRows(intro);const last=actual.at(-1);if(actual.length!==3||(last.right-last.left)/ir.width<.5||(last.right-last.left)/ir.width>.65)issues.push('preenchimento da apresentação');}
   if(Math.abs(br.width-268)>.2||Math.abs(br.height-br.width*324/280)>.2||!inside(badge,head))issues.push('selo');
   for(const e of badge.querySelectorAll('.rating-badge__google,.rating-badge__stars,.rating-badge__text,.rating-badge__score'))if(!inside(e,badge))issues.push('conteúdo do selo');
   if(lines(badge.querySelector('.rating-badge__text'))!==3||lines(badge.querySelector('.rating-badge__score'))!==1)issues.push('linhas do selo');
   if(ml.some(n=>n<1||n>4))issues.push('linhas dos depoimentos');
   if(nl.some(n=>n<1||n>2)||pl.some(n=>n<1||n>2))issues.push('identificações/legendas');
   visible.forEach((c,i)=>{
-   const p=messages[i],person=c.querySelector('.review-marquee-person'),row=c.closest('.review-marquee-row');
+   const p=messages[i],person=c.querySelector('.review-marquee-person'),row=c.closest('.review-marquee-row'),closing=c.querySelector('.review-marquee-mark--closing');
    if(!inside(p,c)||!inside(person,c)||R(c).width>R(row).width+.2)issues.push('conteúdo do cartão');
    if(S(p).webkitLineClamp!=='none'||S(p).overflow==='hidden')issues.push('corte de depoimento');
-   if(R(person).top-R(p).bottom<15.8)issues.push('intervalo do autor');
+   if(!closing||!inside(closing,c)||Math.abs(R(closing).top-R(p).bottom-8)>.2||R(person).top-R(closing).bottom<15.8)issues.push('aspas e intervalos');
+   if(S(p).textAlign!=='center')issues.push('centralização dos relatos');
   });
   if(section.scrollWidth>section.clientWidth+.2)issues.push('transbordamento da seção');
   if(Math.abs(tr.top-er.bottom-12)>.2||Math.abs(ir.top-tr.bottom-16)>.2||Math.abs(mr.top-hr.bottom-(stacked?32:40))>.2)issues.push('intervalos da abertura');
@@ -840,15 +852,15 @@
   const accessible=cards.filter(c=>!c.closest('[aria-hidden="true"]')).length;
   write('eye',px(er.width)+' / '+lines(eye)+' linha. Teto 280 px incluindo traço de 34 px; menor que a maior linha do H2. Variante '+(section.dataset.reviewEyebrowVariant==='short'?'curta: AVALIAÇÕES.':'completa.'));
   write('title',px(tr.width)+' / '+lines(title)+' linha(s), máximo 2; teto 620 px. Reserva mínima '+(narrow?'2 linhas':'1 linha')+'. Variante '+(section.dataset.reviewTitleVariant==='short'?'curta: O QUE DIZEM SOBRE RAFAEL.':'completa.'));
-  write('intro',px(ir.width)+' / '+lines(intro)+' linha(s); máximo '+(narrow?'5':'3')+', teto 760 px, altura natural sem reserva. Copy preservada; Inter 16 px / 1,6.');
+  write('intro',px(ir.width)+' / '+lines(intro)+' linha(s); máximo '+(narrow?'5':'3')+', teto 760 px, altura natural sem reserva. Copy remodelada com a AR como referência; Inter 16 px / 1,6. Variante '+(intro.dataset.copyVariant||'compact')+'. '+(lines(intro)===3?'Terceira linha: '+Math.round((textRows(intro)[2].right-textRows(intro)[2].left)/ir.width*100)+'% da largura.':'No computador com caixa de 760 px: três linhas, última pouco além da metade.')+'');
   write('badge',px(br.width)+' × '+px(br.height)+'; proporção 280:324. '+(stacked?'Abaixo do texto e centralizado até 860 px.':'À direita, alinhado ao topo acima de 860 px.')+' Texto preto, três linhas no selo e uma na nota. Valores demonstrativos preservados: 4,9/5 e 38 avaliações no rótulo acessível.');
-  write('messages',unique+' relatos distintos; '+cards.length+' cartões no HTML para o movimento, '+accessible+' relatos acessíveis. Linhas atuais visíveis: '+[...new Set(ml)].sort().join(' / ')+', máximo 4. Sem line-clamp, cortes ou reserva de linhas; alturas naturais, cartões igualados pelo conteúdo do grupo. Inter 16 px / 1,5; larguras até '+(narrow?'282':innerWidth<=900?'306':'322')+' px, sempre dentro da faixa.');
+  write('messages',unique+' relatos distintos; '+cards.length+' cartões no HTML para o movimento, '+accessible+' relatos acessíveis. Linhas atuais visíveis: '+[...new Set(ml)].sort().join(' / ')+', máximo 4. Textos centralizados, entre aspas de abertura e fechamento. Sem line-clamp, cortes ou reserva de linhas; alturas naturais, cartões igualados pelo conteúdo do grupo. Inter 16 px / 1,5; larguras até '+(narrow?'282':innerWidth<=900?'306':'322')+' px, sempre dentro da faixa.');
   write('people','Nomes: '+[...new Set(nl)].sort().join(' / ')+' linha(s); localidades: '+[...new Set(pl)].sort().join(' / ')+'. Máximo 2 por elemento, alturas naturais. Identificação de pessoa: 14 px / 700 / 1,5; legenda: 12 px / 500 / 1,5. Avatar 36 × 36 px, intervalo 10 px; nome → localidade 4 px. Repetições decorativas ocultas dos leitores de tela.');
-  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(ir.top-tr.bottom)+'; abertura completa → faixas: '+px(mr.top-hr.bottom)+'. '+(stacked?'Texto → selo: '+px(br.top-R(copy).bottom):'Texto → selo: '+px(br.left-R(copy).right))+'. Faixas: '+(narrow?'12':'16')+' px entre linhas; 7 px acima/abaixo para hover. Cartões: recuos '+(narrow?'16':'18')+' px; depoimento → autor mínimo 16 px; aspas → texto 8 px. Recuos externos seguem a escala global de 67 / 50 / 45 px.');
+  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(ir.top-tr.bottom)+'; abertura completa → faixas: '+px(mr.top-hr.bottom)+'. '+(stacked?'Texto → selo: '+px(br.top-R(copy).bottom):'Texto → selo: '+px(br.left-R(copy).right))+'. Faixas: '+(narrow?'12':'16')+' px entre linhas; 7 px acima/abaixo para hover. Cartões: recuos '+(narrow?'16':'18')+' px; aspas de abertura → texto 8 px; texto → aspas de fechamento 8 px; aspas de fechamento → autor mínimo 16 px. Recuos externos seguem a escala global de 67 / 50 / 45 px.');
   write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
   marks.replaceChildren();if(overlay.hidden)return;
   mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');mark(badge,'volt-analysis-outline--dg-amber');
-  visible.forEach((c,i)=>{const row=c.closest('.review-marquee-row');mark(messages[i],'volt-analysis-outline--other-intro',row);mark(names[i],'volt-analysis-outline--heading',row);mark(places[i],'volt-analysis-outline--heading',row);});
+  visible.forEach((c,i)=>{const row=c.closest('.review-marquee-row');mark(messages[i],'volt-analysis-outline--other-intro',row);c.querySelectorAll('.review-marquee-mark').forEach(e=>mark(e,'volt-analysis-outline--dg-amber',row));mark(names[i],'volt-analysis-outline--heading',row);mark(places[i],'volt-analysis-outline--heading',row);});
   gap(eye,title);gap(title,intro);gap(head,marquee);
   if(stacked)gap(copy,badge);else box({left:R(copy).right,top:hr.top,width:br.left-R(copy).right,height:hr.height},'volt-analysis-gap');
  };
