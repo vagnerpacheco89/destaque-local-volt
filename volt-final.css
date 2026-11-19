@@ -2306,3 +2306,38 @@ html[data-volt-process-analysis] #atendimento .reveal-item {opacity:1 !important
 @layer volt-process-intro {
  #atendimento .process-intro [data-process-intro-variant][hidden] {display:none !important;}
 }
+
+/* Avaliações — seção parametrizada para revisão do Founder. */
+@layer volt-reviews-review {
+ #avaliacoes .reviews-head {grid-template-columns:minmax(0,1fr) 268px !important;align-items:start !important;}
+ #avaliacoes .reviews-head > div:first-child {min-width:0 !important;max-width:100% !important;padding-top:16px !important;}
+ #avaliacoes .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}
+ #avaliacoes .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
+ #avaliacoes [data-review-copy][hidden] {display:none !important;}
+ #avaliacoes h2 {width:100% !important;max-width:min(620px,100%) !important;min-height:1lh !important;height:auto !important;}
+ #avaliacoes .reviews-intro {width:100% !important;max-width:min(760px,100%) !important;min-height:0 !important;height:auto !important;line-height:1.6 !important;}
+ #avaliacoes .rating-demo.rating-badge {width:268px !important;min-width:0 !important;max-width:100% !important;height:auto !important;min-height:0 !important;aspect-ratio:280 / 324 !important;justify-self:end !important;align-self:start !important;}
+ #avaliacoes .reviews-grid.reviews-marquee {container:volt-review-width / inline-size;min-width:0 !important;gap:16px !important;padding:0 !important;}
+ #avaliacoes .review-marquee-row {min-width:0 !important;padding:7px 0 !important;}
+ #avaliacoes .review-marquee-row:focus-visible {outline:2px solid var(--accent);outline-offset:2px;}
+ #avaliacoes:focus-within .review-marquee-track {animation-play-state:paused !important;}
+ #avaliacoes .review-marquee-card {--volt-review-card-width:322px;flex:0 0 min(var(--volt-review-card-width),100cqw) !important;width:min(var(--volt-review-card-width),100cqw) !important;min-width:0 !important;min-height:0 !important;height:auto !important;padding:18px !important;overflow:visible !important;}
+ #avaliacoes .review-marquee-message {display:block !important;-webkit-line-clamp:unset !important;line-clamp:none !important;overflow:visible !important;min-height:0 !important;height:auto !important;margin:0 0 16px !important;line-height:1.5 !important;}
+ #avaliacoes .review-marquee-identity {flex:1 !important;min-width:0 !important;}
+ #avaliacoes .review-marquee-location {white-space:normal !important;}
+ @media(max-width:900px) {
+  #avaliacoes .review-marquee-card {--volt-review-card-width:306px;}
+ }
+ @media(max-width:860px) {
+  #avaliacoes .reviews-head {grid-template-columns:minmax(0,1fr) !important;}
+  #avaliacoes .reviews-head > div:first-child {padding-top:0 !important;}
+  #avaliacoes .rating-demo.rating-badge {justify-self:center !important;}
+ }
+ @media(max-width:620px) {
+  #avaliacoes h2 {min-height:2lh !important;}
+  #avaliacoes .reviews-grid.reviews-marquee {gap:12px !important;}
+  #avaliacoes .review-marquee-card {--volt-review-card-width:282px;padding:16px !important;}
+ }
+}
+html[data-volt-reviews-analysis] #avaliacoes .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
+html[data-volt-reviews-analysis] #avaliacoes .review-marquee-track {animation-play-state:paused !important;}

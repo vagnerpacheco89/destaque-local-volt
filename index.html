@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=20261115-classificacao-titulos" />
-  <link rel="stylesheet" href="volt-final.css?v=20261119-process-approved-1" />
+  <link rel="stylesheet" href="volt-final.css?v=20261119-reviews-review-1" />
 
   <script type="application/ld+json">
   {
@@ -301,12 +301,12 @@
       </div>
     </section>
 
-    <section class="section reviews" aria-labelledby="reviews-title">
+    <section class="section reviews" id="avaliacoes" data-review-status="em-revisao" aria-labelledby="reviews-title">
       <div class="container">
         <div class="reviews-head">
           <div>
-            <p class="eyebrow">AVALIAÇÕES NO GOOGLE</p>
-            <h2 id="reviews-title">O QUE DIZEM SOBRE RAFAEL MARTINS</h2>
+            <p class="eyebrow"><span data-review-copy="full">AVALIAÇÕES NO GOOGLE</span><span data-review-copy="short" hidden>AVALIAÇÕES</span></p>
+            <h2 id="reviews-title"><span data-review-copy="full" hidden>O QUE DIZEM SOBRE RAFAEL MARTINS</span><span data-review-copy="short">O QUE DIZEM SOBRE RAFAEL</span></h2>
             <p class="reviews-intro">Eletricista em Palhoça para instalações, manutenção e reparos elétricos, com atendimento direto, orçamento claro e serviço bem executado.</p>
           </div>
           <div class="rating-demo rating-badge" role="img" aria-label="Demonstração: nota fictícia de 4,9 de 5, com 38 avaliações no Google.">
@@ -335,7 +335,7 @@
         </div>
 
         <div class="reviews-grid reviews-marquee">
-          <div class="review-marquee-row review-marquee-row--left">
+          <div class="review-marquee-row review-marquee-row--left" tabindex="0" role="region" aria-label="Depoimentos demonstrativos: seis relatos distintos">
             <div class="review-marquee-track">
               <div class="review-marquee-group">
                 <article class="review-marquee-card"><span class="review-marquee-mark" aria-hidden="true">“</span><p class="review-marquee-message">Explicou o problema com clareza e deixou o quadro muito organizado.</p><footer class="review-marquee-person"><span class="review-marquee-avatar" aria-hidden="true">MA</span><span class="review-marquee-identity"><strong data-typography="person" data-ink="primary">Marcelo A.</strong><small class="review-marquee-location" data-typography="caption" data-ink="muted">Pedra Branca • Palhoça</small></span></footer></article>
@@ -356,7 +356,7 @@
             </div>
           </div>
 
-          <div class="review-marquee-row review-marquee-row--right">
+          <div class="review-marquee-row review-marquee-row--right" aria-hidden="true">
             <div class="review-marquee-track">
               <div class="review-marquee-group">
                 <article class="review-marquee-card"><span class="review-marquee-mark" aria-hidden="true">“</span><p class="review-marquee-message">Muito organizado na instalação das luminárias e dos novos pontos.</p><footer class="review-marquee-person"><span class="review-marquee-avatar" aria-hidden="true">RS</span><span class="review-marquee-identity"><strong data-typography="person" data-ink="primary">Renata S.</strong><small class="review-marquee-location" data-typography="caption" data-ink="muted">Passa Vinte • Palhoça</small></span></footer></article>
@@ -584,6 +584,6 @@
     </form>
   </dialog>
 
-  <script src="volt-final.js?v=20261119-process-approved-1" defer></script>
+  <script src="volt-final.js?v=20261119-reviews-review-1" defer></script>
 </body>
 </html>

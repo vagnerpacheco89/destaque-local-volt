@@ -1,3 +1,28 @@
+
+/* Avaliações: H2 e Eyebrow selecionados pelo encaixe real. */
+(() => {
+ const section=document.querySelector('#avaliacoes');if(!section)return;
+ const title=section.querySelector('h2'),eye=section.querySelector('.eyebrow');
+ const visibleRows=e=>{
+  const rows=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);
+  while(w.nextNode()){const n=w.currentNode;if(!n.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(n);for(const b of r.getClientRects())if(b.width&&b.height){const row=rows.find(x=>Math.abs(x.y-b.y)<2);if(row){row.left=Math.min(row.left,b.left);row.right=Math.max(row.right,b.right);}else rows.push({y:b.y,left:b.left,right:b.right});}}return rows;
+ };
+ const fit=()=>{
+  const full=title.querySelector('[data-review-copy="full"]'),short=title.querySelector('[data-review-copy="short"]');
+  full.hidden=false;short.hidden=true;
+  if(visibleRows(title).length>2){full.hidden=true;short.hidden=false;}
+  const ef=eye.querySelector('[data-review-copy="full"]'),es=eye.querySelector('[data-review-copy="short"]');
+  ef.hidden=false;es.hidden=true;
+  const max=Math.max(0,...visibleRows(title).map(r=>r.right-r.left));
+  if(eye.scrollWidth>Math.min(280,eye.parentElement.clientWidth)+.1||eye.getBoundingClientRect().width>=max){ef.hidden=true;es.hidden=false;}
+  section.dataset.reviewTitleVariant=full.hidden?'short':'full';
+  section.dataset.reviewEyebrowVariant=ef.hidden?'short':'full';
+  window.dispatchEvent(new Event('volt-reviews-fit'));
+ };
+ let queued=false;const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(()=>{queued=false;fit();});}};
+ const observer=new ResizeObserver(schedule);observer.observe(title);observer.observe(eye.parentElement);
+ window.addEventListener('resize',schedule,{passive:true});window.addEventListener('load',schedule,{once:true});document.fonts.ready.then(schedule);fit();
+})();
 /* Apresentação de Atendimento: uma variante acessível, até três linhas reais. */
 (() => {
  'use strict';
@@ -302,7 +327,7 @@
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
-        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a>
+        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
@@ -313,7 +338,7 @@
   panel.querySelector('.volt-analysis-exit').href = normalURL.href;
   const serviceDetails = document.createElement('details');
   serviceDetails.dataset.analysisSection = 'servicos';
-  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title'].includes(location.hash);
+  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title'].includes(location.hash);
   serviceDetails.innerHTML = '<summary>Serviços · limites definidos</summary>';
   const body = panel.querySelector('.volt-analysis-body');
   const actions = body.querySelector('.volt-analysis-actions');
@@ -760,3 +785,75 @@
  const observer=new ResizeObserver(schedule);sections.forEach(e=>observer.observe(e));
  window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);document.fonts.ready.then(schedule);schedule();
 })();
+
+/* BEGIN REVIEWS REVIEW — marcações temporárias; regras em revisão. */
+(() => {
+ if(new URLSearchParams(location.search).get('limites')!=='1')return;
+ const section=document.querySelector('#avaliacoes'),overlay=document.querySelector('#volt-analysis-marks'),shared=document.querySelector('#volt-analysis-panel');
+ if(!section||!overlay||!shared)return;
+ document.documentElement.dataset.voltReviewsAnalysis='true';
+ const head=section.querySelector('.reviews-head'),copy=head.firstElementChild,eye=copy.querySelector('.eyebrow'),title=copy.querySelector('h2'),intro=copy.querySelector('.reviews-intro'),badge=head.querySelector('.rating-badge'),marquee=section.querySelector('.reviews-marquee'),rows=[...section.querySelectorAll('.review-marquee-row')],cards=[...section.querySelectorAll('.review-marquee-card')];
+ const panel=document.createElement('details');panel.dataset.analysisSection='avaliacoes';panel.open=['#avaliacoes','#reviews-title'].includes(location.hash);
+ panel.innerHTML='<summary>Avaliações · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para avaliação do Founder. O selo e os seis relatos são demonstrativos; as repetições da animação não representam novos clientes. A animação fica pausada neste modo para acompanhar as caixas; no acesso normal, o movimento é preservado.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrow</dt><dd data-rv="eye"></dd><dt class="volt-analysis-green">Verde · H2</dt><dd data-rv="title"></dd><dt class="volt-analysis-purple">Roxo · apresentação</dt><dd data-rv="intro"></dd><dt class="volt-analysis-amber">Amarelo · selo gráfico</dt><dd data-rv="badge"></dd><dt class="volt-analysis-purple">Roxo · depoimentos</dt><dd data-rv="messages"></dd><dt class="volt-analysis-blue">Azul · identificação e legenda</dt><dd data-rv="people"></dd><dt class="volt-analysis-amber">Amarelo · composição e intervalos</dt><dd data-rv="gaps"></dd></dl><p data-rv="fit"></p><p>Sem cortar depoimentos ou abreviar pessoas e localidades automaticamente. Na produção, usar relatos, autores, notas e quantidades reais, fiéis às fontes confirmadas. Se não couberem, resolver a seleção do conteúdo com aprovação; não inventar avaliações nem reescrever o sentido de um relato.</p></div>';
+ shared.append(panel);
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='avaliacoes';overlay.append(marks);
+ const R=e=>e.getBoundingClientRect(),S=e=>getComputedStyle(e),px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
+ const textRows=e=>{
+  const result=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);
+  while(w.nextNode()){const n=w.currentNode;if(!n.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(n);for(const b of r.getClientRects())if(b.width&&b.height){const found=result.find(x=>Math.abs(x.y-b.y)<2);if(found){found.left=Math.min(found.left,b.left);found.right=Math.max(found.right,b.right);}else result.push({y:b.y,left:b.left,right:b.right});}}return result;
+ };
+ const lines=e=>textRows(e).length;
+ const write=(key,value)=>{const e=panel.querySelector('[data-rv="'+key+'"]');if(e.textContent!==value)e.textContent=value;};
+ const inside=(a,b)=>{const x=R(a),y=R(b);return x.left>=y.left-.2&&x.right<=y.right+.2&&x.top>=y.top-.2&&x.bottom<=y.bottom+.2;};
+ const box=(r,cls,clip)=>{
+  let left=r.left,right=r.right??r.left+r.width,top=r.top,bottom=r.bottom??r.top+r.height;
+  if(clip){const c=R(clip);left=Math.max(left,c.left);right=Math.min(right,c.right);top=Math.max(top,c.top);bottom=Math.min(bottom,c.bottom);}
+  if(right<=left||bottom<=top||right<0||left>innerWidth||bottom<0||top>innerHeight)return;
+  const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:left+'px',top:top+'px',width:(right-left)+'px',height:(bottom-top)+'px'});marks.append(e);
+ };
+ const mark=(e,cls,clip)=>box(R(e),'volt-analysis-outline '+cls,clip);
+ const gap=(a,b)=>{const x=R(a),y=R(b);box({left:x.left,top:x.bottom,width:Math.min(x.width,y.width),height:y.top-x.bottom},'volt-analysis-gap');};
+ let queued=false;
+ const render=()=>{
+  queued=false;const narrow=innerWidth<=620,stacked=innerWidth<=860,issues=[],visible=cards.filter(e=>R(e).width>0);
+  const messages=visible.map(c=>c.querySelector('.review-marquee-message')),names=visible.map(c=>c.querySelector('strong')),places=visible.map(c=>c.querySelector('small'));
+  const ml=messages.map(lines),nl=names.map(lines),pl=places.map(lines),er=R(eye),tr=R(title),ir=R(intro),br=R(badge),hr=R(head),mr=R(marquee),maxLine=Math.max(0,...textRows(title).map(r=>r.right-r.left));
+  if(lines(eye)!==1||er.width>280.1||er.width>=maxLine)issues.push('Eyebrow');
+  if(lines(title)<1||lines(title)>2||tr.width>620.1)issues.push('H2');
+  if(lines(intro)<1||lines(intro)>(narrow?5:3)||ir.width>760.1)issues.push('apresentação');
+  if(Math.abs(br.width-268)>.2||Math.abs(br.height-br.width*324/280)>.2||!inside(badge,head))issues.push('selo');
+  for(const e of badge.querySelectorAll('.rating-badge__google,.rating-badge__stars,.rating-badge__text,.rating-badge__score'))if(!inside(e,badge))issues.push('conteúdo do selo');
+  if(lines(badge.querySelector('.rating-badge__text'))!==3||lines(badge.querySelector('.rating-badge__score'))!==1)issues.push('linhas do selo');
+  if(ml.some(n=>n<1||n>4))issues.push('linhas dos depoimentos');
+  if(nl.some(n=>n<1||n>2)||pl.some(n=>n<1||n>2))issues.push('identificações/legendas');
+  visible.forEach((c,i)=>{
+   const p=messages[i],person=c.querySelector('.review-marquee-person'),row=c.closest('.review-marquee-row');
+   if(!inside(p,c)||!inside(person,c)||R(c).width>R(row).width+.2)issues.push('conteúdo do cartão');
+   if(S(p).webkitLineClamp!=='none'||S(p).overflow==='hidden')issues.push('corte de depoimento');
+   if(R(person).top-R(p).bottom<15.8)issues.push('intervalo do autor');
+  });
+  if(section.scrollWidth>section.clientWidth+.2)issues.push('transbordamento da seção');
+  if(Math.abs(tr.top-er.bottom-12)>.2||Math.abs(ir.top-tr.bottom-16)>.2||Math.abs(mr.top-hr.bottom-(stacked?32:40))>.2)issues.push('intervalos da abertura');
+  if(stacked){if(Math.abs(br.top-R(copy).bottom-32)>.2)issues.push('intervalo até o selo');}
+  else if(Math.abs(br.left-R(copy).right-48)>.2)issues.push('intervalo entre colunas');
+  const unique=new Set(cards.map(c=>c.querySelector('.review-marquee-message').textContent.trim())).size;
+  const accessible=cards.filter(c=>!c.closest('[aria-hidden="true"]')).length;
+  write('eye',px(er.width)+' / '+lines(eye)+' linha. Teto 280 px incluindo traço de 34 px; menor que a maior linha do H2. Variante '+(section.dataset.reviewEyebrowVariant==='short'?'curta: AVALIAÇÕES.':'completa.'));
+  write('title',px(tr.width)+' / '+lines(title)+' linha(s), máximo 2; teto 620 px. Reserva mínima '+(narrow?'2 linhas':'1 linha')+'. Variante '+(section.dataset.reviewTitleVariant==='short'?'curta: O QUE DIZEM SOBRE RAFAEL.':'completa.'));
+  write('intro',px(ir.width)+' / '+lines(intro)+' linha(s); máximo '+(narrow?'5':'3')+', teto 760 px, altura natural sem reserva. Copy preservada; Inter 16 px / 1,6.');
+  write('badge',px(br.width)+' × '+px(br.height)+'; proporção 280:324. '+(stacked?'Abaixo do texto e centralizado até 860 px.':'À direita, alinhado ao topo acima de 860 px.')+' Texto preto, três linhas no selo e uma na nota. Valores demonstrativos preservados: 4,9/5 e 38 avaliações no rótulo acessível.');
+  write('messages',unique+' relatos distintos; '+cards.length+' cartões no HTML para o movimento, '+accessible+' relatos acessíveis. Linhas atuais visíveis: '+[...new Set(ml)].sort().join(' / ')+', máximo 4. Sem line-clamp, cortes ou reserva de linhas; alturas naturais, cartões igualados pelo conteúdo do grupo. Inter 16 px / 1,5; larguras até '+(narrow?'282':innerWidth<=900?'306':'322')+' px, sempre dentro da faixa.');
+  write('people','Nomes: '+[...new Set(nl)].sort().join(' / ')+' linha(s); localidades: '+[...new Set(pl)].sort().join(' / ')+'. Máximo 2 por elemento, alturas naturais. Identificação de pessoa: 14 px / 700 / 1,5; legenda: 12 px / 500 / 1,5. Avatar 36 × 36 px, intervalo 10 px; nome → localidade 4 px. Repetições decorativas ocultas dos leitores de tela.');
+  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(ir.top-tr.bottom)+'; abertura completa → faixas: '+px(mr.top-hr.bottom)+'. '+(stacked?'Texto → selo: '+px(br.top-R(copy).bottom):'Texto → selo: '+px(br.left-R(copy).right))+'. Faixas: '+(narrow?'12':'16')+' px entre linhas; 7 px acima/abaixo para hover. Cartões: recuos '+(narrow?'16':'18')+' px; depoimento → autor mínimo 16 px; aspas → texto 8 px. Recuos externos seguem a escala global de 67 / 50 / 45 px.');
+  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+  marks.replaceChildren();if(overlay.hidden)return;
+  mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');mark(badge,'volt-analysis-outline--dg-amber');
+  visible.forEach((c,i)=>{const row=c.closest('.review-marquee-row');mark(messages[i],'volt-analysis-outline--other-intro',row);mark(names[i],'volt-analysis-outline--heading',row);mark(places[i],'volt-analysis-outline--heading',row);});
+  gap(eye,title);gap(title,intro);gap(head,marquee);
+  if(stacked)gap(copy,badge);else box({left:R(copy).right,top:hr.top,width:br.left-R(copy).right,height:hr.height},'volt-analysis-gap');
+ };
+ const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render);}};
+ const observer=new ResizeObserver(schedule);[section,head,copy,eye,title,intro,badge,marquee,...cards].forEach(e=>observer.observe(e));
+ window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);window.addEventListener('volt-reviews-fit',schedule);section.addEventListener('transitionend',schedule);document.fonts.ready.then(schedule);schedule();
+})();
+/* END REVIEWS REVIEW */
