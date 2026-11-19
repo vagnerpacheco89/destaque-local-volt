@@ -768,7 +768,7 @@
   for(const section of sections){
    const s=getComputedStyle(section),r=section.getBoundingClientRect(),container=section.querySelector(':scope>.container'),c=container?.getBoundingClientRect();
    const top=parseFloat(s.paddingTop),bottom=parseFloat(s.paddingBottom);
-   const name=section.classList.contains('hero')?'Hero':section.querySelector('h2')?.textContent.trim()||section.id;
+   const name=section.classList.contains('hero')?'Hero':section.querySelector('h2')?.innerText.trim()||section.id;
    labels.push(name+': '+px(top)+' acima / '+px(bottom)+' abaixo.');
    if(overlay.hidden||!c||r.bottom<0||r.top>innerHeight)continue;
    for(const [y,h]of [[r.top+parseFloat(s.borderTopWidth),top],[r.bottom-parseFloat(s.borderBottomWidth)-bottom,bottom]]){
