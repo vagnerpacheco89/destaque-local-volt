@@ -1000,7 +1000,7 @@
  const write=(k,t)=>{const e=panel.querySelector('[data-ar="'+k+'"]');if(e.textContent!==t)e.textContent=t};
  const box=(r,cls)=>{if(r.width<=0||r.height<=0||r.bottom<0||r.top>innerHeight)return;const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});marks.append(e)};
  const mark=(e,cls)=>box(R(e),'volt-analysis-outline '+cls),gap=(a,b)=>{const x=R(a),y=R(b);if(y.top>=x.bottom)box({left:y.left,top:x.bottom,width:y.width,height:y.top-x.bottom,bottom:y.top},'volt-analysis-gap')};
- let rendering=false;const render=()=>{rendering=false;const mobile=innerWidth<=620,stacked=innerWidth<=1080,issues=[],titles=cards.map(c=>c.querySelector('h3')),labels=cards.map(c=>c.querySelector('small')),badges=[...coverage.querySelectorAll('.service-area__coverage-neighborhoods span')],er=R(eye),tr=R(title);
+ let rendering=false;const render=()=>{rendering=false;const mobile=innerWidth<=620,stacked=innerWidth<=1080,issues=[],titles=cards.map(c=>c.querySelector('h3')),labels=cards.map(c=>c.querySelector('small')).filter(Boolean),badges=[...coverage.querySelectorAll('.service-area__coverage-neighborhoods span')],er=R(eye),tr=R(title);
   if(lines(eye)!==1||er.width>280.3||er.width>=Math.max(...rows(title).map(r=>r.right-r.left)))issues.push('Eyebrow');
   if(lines(title)<1||lines(title)>2||tr.width>620.3)issues.push('H2');
   if(paragraphs.length!==2||lines(paragraphs[0])!==3||lines(paragraphs[1])<2||lines(paragraphs[1])>3||paragraphs.some(p=>p.dataset.copyOverflow==='true'||!inside(p,opening)))issues.push('apresentação');
