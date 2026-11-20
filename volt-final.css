@@ -2535,3 +2535,8 @@ html[data-volt-area-analysis] #area-atendida .reveal-item {opacity:1 !important;
  #area-atendida .service-area__coverage-neighborhoods span {flex:0 0 auto;font-size:12px !important;padding:1px 3px !important;min-height:20px !important;}
  @media(max-width:620px) {#area-atendida .service-area__coverage-head {min-height:48px !important;padding:10px 12px !important;}}
 }
+
+/* Marcadores das três cidades preservam a cor e a leitura do mapa. */
+@layer volt-area-review {
+ #area-atendida .service-area__map-frame iframe {filter:saturate(.9) contrast(1.03) brightness(.94) !important;}
+}
