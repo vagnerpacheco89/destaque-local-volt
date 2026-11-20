@@ -2432,7 +2432,7 @@ html[data-volt-about-analysis] #sobre .reveal-item {opacity:1 !important;transfo
  #avaliar-no-google .google-review__inner {container:volt-google-panel / inline-size;padding:40px 48px !important;}
  #avaliar-no-google .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}
  #avaliar-no-google .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
- #avaliar-no-google h2 {width:100% !important;max-width:min(620px,100%) !important;min-height:1lh !important;height:auto !important;}
+ #avaliar-no-google h2 {width:100% !important;max-width:min(620px,100%) !important;min-height:0 !important;height:auto !important;}
  #avaliar-no-google .google-review__description {width:100% !important;max-width:min(760px,100%) !important;min-height:0 !important;height:auto !important;margin:0 !important;line-height:1.6 !important;}
  #avaliar-no-google .google-review__button {width:min(365px,100%) !important;max-width:100% !important;min-height:54px !important;height:auto !important;margin:24px 0 0 !important;padding:13px 24px !important;gap:13px !important;white-space:nowrap !important;}
  #avaliar-no-google .google-review__microsteps {display:grid !important;grid-template-columns:minmax(0,1fr) !important;gap:8px !important;width:100% !important;max-width:440px !important;margin:20px 0 0 !important;padding:0 !important;}
@@ -2449,6 +2449,6 @@ html[data-volt-about-analysis] #sobre .reveal-item {opacity:1 !important;transfo
  @media(max-width:620px) {
   #avaliar-no-google {scroll-margin-top:79px;}
   #avaliar-no-google .google-review__inner {padding:28px 18px !important;}
-  #avaliar-no-google h2 {min-height:2lh !important;}
+  #avaliar-no-google h2 {min-height:0 !important;}
  }
 }

@@ -968,7 +968,7 @@
   if(Math.abs(er.top-pr.top-padTop)>.2||Math.abs(pr.bottom-sr.bottom-padTop)>.2||Math.abs(parseFloat(ps.paddingLeft)-padSide)>.2||Math.abs(parseFloat(ps.paddingRight)-padSide)>.2)issues.push('recuos do painel');
   if(section.scrollWidth>section.clientWidth+.2||!inside(title,inner))issues.push('transbordamento');
   write('eye',px(er.width)+' / '+lines(eye)+' linha. Teto 280 px com traço de 34 px; menor que a maior linha do H2. Variante '+section.dataset.googleEyebrowVariant+'.');
-  write('title',px(tr.width)+' / '+lines(title)+' linha(s), máximo 2; teto 620 px. Reserva mínima '+(mobile?'2 linhas':'1 linha')+'. Variante '+section.dataset.googleTitleVariant+'; fonte preservada.');
+  write('title',px(tr.width)+' / '+lines(title)+' linha(s), máximo 2; teto 620 px, altura natural sem reserva. Variante '+section.dataset.googleTitleVariant+'; fonte preservada.');
   write('intro',px(ir.width)+' / '+lines(intro)+' linha(s); faixa 2–'+(mobile?'5':'3')+', teto 760 px. Texto completo, Inter 16 px / 1,6, centralizado e com altura natural.');
   write('cta',lines(cta)+' linha; '+px(br.width)+' × '+px(br.height)+', altura mínima 54 px e largura até 365 px dentro do painel. Recuos 13 / 24 px; seta decorativa e intervalo de 13 px preservados. Copy: AVALIAR NO GOOGLE.');
   write('steps',items.length+' passos completos; '+cols+' coluna(s). Três colunas quando o espaço interno do painel tem pelo menos 760 px, uma abaixo disso. Até duas linhas por passo; Inter 14 px / 1,5; número com 16 px de área e 8 px até o texto. Intervalos: 24 px entre colunas ou 8 px entre linhas. Sem cortes ou separadores soltos.');
