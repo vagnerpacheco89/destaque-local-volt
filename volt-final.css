@@ -2425,7 +2425,7 @@ html[data-volt-reviews-analysis] #avaliacoes .review-marquee-track {animation-pl
 }
 html[data-volt-about-analysis] #sobre .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
 
-/* Complemento Google — parametrização interna aplicada para revisão. */
+/* Complemento Google — parametrização interna aprovada pelo Founder. */
 @layer volt-google-review-interior {
  #avaliar-no-google {scroll-margin-top:88px;}
  #avaliar-no-google [data-google-copy][hidden] {display:none !important;}
