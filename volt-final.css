@@ -2303,7 +2303,7 @@ html[data-volt-process-analysis] #atendimento .reveal-item {opacity:1 !important
  #atendimento .process-intro [data-process-intro-variant][hidden] {display:none !important;}
 }
 
-/* Avaliações — seção parametrizada para revisão do Founder. */
+/* Avaliações — seção parametrizada e aprovada pelo Founder. */
 @layer volt-reviews-review {
  #avaliacoes {scroll-margin-top:88px;}
  #avaliacoes .reviews-head {grid-template-columns:minmax(0,1fr) 268px !important;align-items:start !important;}
@@ -2352,7 +2352,7 @@ html[data-volt-reviews-analysis] #avaliacoes .review-marquee-track {animation-pl
  #avaliacoes .review-marquee-mark {display:inline !important;width:auto !important;height:auto !important;margin:0 !important;color:var(--accent);font-size:1.25em !important;line-height:0 !important;vertical-align:baseline !important;}
 }
 
-/* BEGIN REVIEWS FINISH TRIAL — acabamento visual em revisão; geometria preservada. */
+/* BEGIN REVIEWS FINISH — acabamento visual aprovado; geometria preservada. */
 @layer volt-reviews-finish {
  #avaliacoes .review-marquee-card {
   border-color:#2e3533 !important;
@@ -2385,4 +2385,4 @@ html[data-volt-reviews-analysis] #avaliacoes .review-marquee-track {animation-pl
   #avaliacoes .review-marquee-card:hover {transform:none !important;}
  }
 }
-/* END REVIEWS FINISH TRIAL */
+/* END REVIEWS FINISH */
