@@ -2525,3 +2525,7 @@ html[data-volt-area-analysis] #area-atendida .reveal-item {opacity:1 !important;
   #area-atendida .service-area__coverage-neighborhoods {padding:12px;}
  }
 }
+
+@layer volt-area-review {
+ #area-atendida .service-area__base-note {display:inline-block;white-space:nowrap;font:inherit;color:inherit;}
+}

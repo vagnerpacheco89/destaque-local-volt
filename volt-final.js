@@ -1004,7 +1004,7 @@
   if(lines(eye)!==1||er.width>280.3||er.width>=Math.max(...rows(title).map(r=>r.right-r.left)))issues.push('Eyebrow');
   if(lines(title)<1||lines(title)>2||tr.width>620.3)issues.push('H2');
   if(paragraphs.length!==2||lines(paragraphs[0])!==3||lines(paragraphs[1])<2||lines(paragraphs[1])>3||paragraphs.some(p=>p.dataset.copyOverflow==='true'||!inside(p,opening)))issues.push('apresentação');
-  if(titles.some(e=>lines(e)<1||lines(e)>2)||labels.length)issues.push('cidades');
+  if(titles.some(e=>lines(e)<1||lines(e)>2||rows(e).some(r=>r.right>R(e).right+.3||r.left<R(e).left-.3))||labels.length)issues.push('cidades');
   if(cards.some(c=>{const list=c.querySelector('.service-area__coverage-neighborhoods');return list.children.length<10||lines(list)>3;})||badges.some(e=>lines(e)!==1||!inside(e,e.parentElement)))issues.push('bairros');
   if(cards.some(c=>[c.querySelector('.service-area__coverage-head'),c.querySelector('.service-area__coverage-neighborhoods')].some(e=>!inside(e,c))))issues.push('limites dos cartões');
   if(lines(mapEye)!==1||lines(mapTitle)>2||!inside(mapEye,mapHead)||!inside(mapTitle,mapHead)||Math.abs(R(frame).height-(mobile?300:340))>.3)issues.push('mapa');
