@@ -2435,13 +2435,14 @@ html[data-volt-about-analysis] #sobre .reveal-item {opacity:1 !important;transfo
  #avaliar-no-google h2 {width:100% !important;max-width:min(620px,100%) !important;min-height:0 !important;height:auto !important;}
  #avaliar-no-google .google-review__description {width:100% !important;max-width:min(760px,100%) !important;min-height:0 !important;height:auto !important;margin:0 !important;line-height:1.6 !important;}
  #avaliar-no-google .google-review__button {width:min(365px,100%) !important;max-width:100% !important;min-height:54px !important;height:auto !important;margin:24px 0 0 !important;padding:13px 24px !important;gap:13px !important;white-space:nowrap !important;}
- #avaliar-no-google .google-review__microsteps {display:grid !important;grid-template-columns:minmax(0,1fr) !important;gap:8px !important;width:100% !important;max-width:440px !important;margin:20px 0 0 !important;padding:0 !important;}
- #avaliar-no-google .google-review__microsteps li {display:grid !important;grid-template-columns:16px minmax(0,1fr) !important;gap:8px !important;align-items:start !important;min-width:0;max-width:100%;text-align:left;}
- #avaliar-no-google .google-review__microsteps li::before {content:none !important;display:none !important;}
+ /* Passos agrupados como na AR, com a tipografia de 14 px do VOLT. */
+ #avaliar-no-google .google-review__microsteps {display:flex !important;flex-wrap:wrap !important;justify-content:center !important;align-items:center !important;column-gap:0 !important;row-gap:7px !important;width:100% !important;max-width:100% !important;margin:21px 0 0 !important;padding:0 !important;}
+ #avaliar-no-google .google-review__microsteps li {display:inline-flex !important;align-items:baseline !important;gap:4px !important;min-width:0;max-width:100%;text-align:left;}
  #avaliar-no-google .google-review__microsteps li > span {min-width:0;}
- @container volt-google-panel (min-width:760px) {
-  #avaliar-no-google .google-review__microsteps {grid-template-columns:repeat(3,minmax(0,1fr)) !important;max-width:100% !important;column-gap:24px !important;}
-  #avaliar-no-google .google-review__microsteps li {justify-self:center;}
+ #avaliar-no-google .google-review__microsteps li+li::before {content:'•' !important;display:inline-block !important;flex:0 0 auto;margin:0 12px 0 14px !important;color:rgba(9,10,8,.55);font-weight:900;}
+ @media(max-width:480px) {
+  #avaliar-no-google .google-review__microsteps {margin-top:17px !important;row-gap:6px !important;}
+  #avaliar-no-google .google-review__microsteps li+li::before {margin:0 8px 0 9px !important;}
  }
  @media(max-width:860px) {
   #avaliar-no-google .google-review__inner {padding:32px !important;}
