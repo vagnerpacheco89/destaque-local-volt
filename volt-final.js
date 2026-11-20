@@ -84,7 +84,7 @@
 })();
 /* CTAs: seleção pela largura útil real. */
 (() => {
-  document.querySelectorAll('.services-other__cta, .diagnostic__cta, .portfolio-closing__cta').forEach(cta => {
+  document.querySelectorAll('.services-other__cta, .diagnostic__cta, .portfolio-closing__cta, .about__action .btn').forEach(cta => {
   const full = cta.querySelector('.volt-cta__full');
   const short = cta.querySelector('.volt-cta__short');
   const measure = text => {
@@ -339,7 +339,7 @@
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
-        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a>
+        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a><a href="#sobre">Ir a Sobre</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
@@ -350,7 +350,7 @@
   panel.querySelector('.volt-analysis-exit').href = normalURL.href;
   const serviceDetails = document.createElement('details');
   serviceDetails.dataset.analysisSection = 'servicos';
-  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title'].includes(location.hash);
+  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title','#sobre','#sobre-title'].includes(location.hash);
   serviceDetails.innerHTML = '<summary>Serviços · limites definidos</summary>';
   const body = panel.querySelector('.volt-analysis-body');
   const actions = body.querySelector('.volt-analysis-actions');
@@ -884,3 +884,52 @@
  window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);window.addEventListener('volt-reviews-fit',schedule);section.addEventListener('transitionend',schedule);document.fonts.ready.then(schedule);schedule();
 })();
 /* END REVIEWS REVIEW */
+
+/* Sobre — variantes pelo espaço real; textos completos preservados. */
+(() => {
+ const s=document.querySelector('#sobre');if(!s)return;
+ const title=s.querySelector('h2'),eye=s.querySelector('.eyebrow');
+ const rows=e=>{const out=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){if(!w.currentNode.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(w.currentNode);for(const b of r.getClientRects())if(b.width&&b.height){let q=out.find(x=>Math.abs(x.y-b.y)<2);if(q){q.left=Math.min(q.left,b.left);q.right=Math.max(q.right,b.right);}else out.push({y:b.y,left:b.left,right:b.right});}}return out;};
+ const choose=(e,kind)=>{e.querySelectorAll('[data-about-copy]').forEach(n=>n.hidden=n.dataset.aboutCopy!==kind);};
+ let pending=false;const fit=()=>{pending=false;choose(title,'full');if(rows(title).length>2)choose(title,'short');choose(eye,'full');const largest=Math.max(0,...rows(title).map(r=>r.right-r.left));if(eye.getBoundingClientRect().width>280||eye.getBoundingClientRect().width>=largest)choose(eye,'short');s.dataset.aboutTitleVariant=title.querySelector('[data-about-copy]:not([hidden])').dataset.aboutCopy;s.dataset.aboutEyebrowVariant=eye.querySelector('[data-about-copy]:not([hidden])').dataset.aboutCopy;s.dispatchEvent(new Event('volt-about-fit'));};
+ const schedule=()=>{if(!pending){pending=true;requestAnimationFrame(fit)}};new ResizeObserver(schedule).observe(s.querySelector('.about__copy'));window.addEventListener('resize',schedule,{passive:true});document.fonts.ready.then(schedule);window.addEventListener('load',schedule,{once:true});fit();
+})();
+
+/* Sobre — marcações temporárias no painel único; EM REVISÃO. */
+(() => {
+ if(new URLSearchParams(location.search).get('limites')!=='1')return;
+ const section=document.querySelector('#sobre'),overlay=document.querySelector('#volt-analysis-marks'),shared=document.querySelector('#volt-analysis-panel');if(!section||!overlay||!shared)return;
+ document.documentElement.dataset.voltAboutAnalysis='true';
+ const copy=section.querySelector('.about__copy'),eye=copy.querySelector('.eyebrow'),title=copy.querySelector('h2'),paras=[...copy.querySelectorAll(':scope>p:not(.eyebrow)')],proofs=section.querySelector('.about__proofs'),items=[...proofs.children],action=section.querySelector('.about__action'),cta=action.querySelector('.btn'),micro=action.querySelector('p'),photo=section.querySelector('.about__image'),label=photo.querySelector('.about__image-label'),img=photo.querySelector('img');
+ const panel=document.createElement('details');panel.dataset.analysisSection='sobre';panel.open=['#sobre','#sobre-title'].includes(location.hash);panel.innerHTML='<summary>Sobre · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para avaliação do Founder. Retrato e informações demonstrativos preservados; não atribuir experiência, atuação ou qualificações fictícias a um cliente real.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrow</dt><dd data-ab="eye"></dd><dt class="volt-analysis-green">Verde · H2</dt><dd data-ab="title"></dd><dt class="volt-analysis-purple">Roxo · três parágrafos</dt><dd data-ab="body"></dd><dt class="volt-analysis-amber">Amarelo · retrato e identificação</dt><dd data-ab="photo"></dd><dt class="volt-analysis-blue">Azul · quatro atributos</dt><dd data-ab="proofs"></dd><dt class="volt-analysis-green">Verde · Copy do CTA e Microcopy</dt><dd data-ab="cta"></dd><dt class="volt-analysis-amber">Amarelo · composição e intervalos</dt><dd data-ab="gaps"></dd></dl><p data-ab="fit"></p><p>Sem cortes, abreviações automáticas ou redução de fonte para caber. Na produção, confirmar nome, atividade, cidade, ano de início e público atendido. Assets e biblioteca de cinco versões de copy permanecem para depois.</p></div>';shared.append(panel);
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='sobre';overlay.append(marks);
+ const R=e=>e.getBoundingClientRect(),S=e=>getComputedStyle(e),px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
+ const rows=e=>{const out=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){if(!w.currentNode.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(w.currentNode);for(const b of r.getClientRects())if(b.width&&b.height){let q=out.find(x=>Math.abs(x.y-b.y)<2);if(q){q.left=Math.min(q.left,b.left);q.right=Math.max(q.right,b.right);}else out.push({y:b.y,left:b.left,right:b.right});}}return out;};const lines=e=>rows(e).length;
+ const inside=(a,b)=>{a=R(a);b=R(b);return a.left>=b.left-.2&&a.right<=b.right+.2&&a.top>=b.top-.2&&a.bottom<=b.bottom+.2;};
+ const write=(k,t)=>{let e=panel.querySelector('[data-ab="'+k+'"]');if(e.textContent!==t)e.textContent=t};
+ const box=(r,cls)=>{if(r.width<=0||r.height<=0||r.bottom<0||r.top>innerHeight)return;const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});marks.append(e);};
+ const mark=(e,cls)=>box(R(e),'volt-analysis-outline '+cls);const gap=(a,b)=>{const x=R(a),y=R(b);box({left:y.left,top:x.bottom,width:y.width,height:y.top-x.bottom,bottom:y.top},'volt-analysis-gap')};
+ let pending=false;const render=()=>{pending=false;const mobile=innerWidth<=620,stacked=innerWidth<=860,issues=[],pl=paras.map(lines),er=R(eye),tr=R(title),pr=R(photo),last=paras.at(-1),cols=S(proofs).gridTemplateColumns.split(' ').length;
+  if(lines(eye)!==1||er.width>280.2||er.width>=Math.max(...rows(title).map(r=>r.right-r.left)))issues.push('Eyebrow');
+  if(lines(title)<1||lines(title)>2||tr.width>620.2)issues.push('H2');
+  if(pl.some(n=>n<2||n>(mobile?6:5))||paras.some(p=>R(p).width>760.2||!inside(p,copy)))issues.push('parágrafos');
+  if(items.some(e=>lines(e.querySelector('strong'))>2||lines(e.querySelector('small'))>3||!inside(e.querySelector('strong'),e)||!inside(e.querySelector('small'),e)))issues.push('atributos');
+  if([...label.children].some(e=>lines(e)>2||!inside(e,label)))issues.push('identificação da foto');
+  if(lines(cta)!==1||R(cta).height<53.8||cta.dataset.copyOverflow==='true'||!inside(cta,action))issues.push('Copy do CTA');
+  if(lines(micro)<1||lines(micro)>3||!inside(micro,action))issues.push('Microcopy');
+  if(Math.abs(tr.top-er.bottom-12)>.2||Math.abs(R(paras[0]).top-tr.bottom-16)>.2||paras.slice(1).some((p,i)=>Math.abs(R(p).top-R(paras[i]).bottom-12)>.2)||Math.abs(R(proofs).top-R(last).bottom-(stacked?32:40))>.2||Math.abs(R(action).top-R(proofs).bottom-24)>.2||Math.abs(R(micro).top-R(cta).bottom-12)>.2)issues.push('intervalos internos');
+  if(Math.abs(pr.height-(mobile?422:stacked?472:innerWidth<=980?542:612))>.2)issues.push('altura do retrato');
+  if(stacked?Math.abs(pr.top-R(copy).bottom-32)>.2:Math.abs(R(copy).left-pr.right-48)>.2||Math.abs(R(copy).top-pr.top)>.2)issues.push('composição');
+  if(section.scrollWidth>section.clientWidth+.2)issues.push('transbordamento');
+  write('eye',px(er.width)+' / '+lines(eye)+' linha. Teto 280 px incluindo traço de 34 px; menor que a maior linha do H2. Variante '+section.dataset.aboutEyebrowVariant+'.');
+  write('title',px(tr.width)+' / '+lines(title)+' linha(s), máximo 2. Teto 620 px; reserva mínima '+(mobile?'2 linhas':'1 linha')+'. Variante '+section.dataset.aboutTitleVariant+'; fonte preservada.');
+  write('body','Três parágrafos completos, '+pl.join(' / ')+' linha(s). Faixa 2–'+(mobile?'6':'5')+' por parágrafo, teto 760 px dentro da coluna. Inter 16 px / 1,6; alturas naturais sem reservas. Conteúdo atual preservado.');
+  write('photo',px(pr.width)+' × '+px(pr.height)+' incluindo bordas. Recorte superior e arquivo original preservados. Nome e atividade/localidade na foto: até duas linhas por elemento. Isso é identificação de pessoa, não Eyebrow. '+(img.complete&&img.naturalWidth?'Imagem carregada.':'Imagem aguardando carregamento.'));
+  write('proofs',items.length+' atributos preservados; '+cols+' colunas. Quatro quando a coluna de texto tem pelo menos 600 px, duas abaixo disso. Títulos até 2 linhas, apoio até 3; mínimo 82 px por célula, recuos 16 / 12 px, intervalo interno 5 px. Sem cortes.');
+  write('cta','Copy do CTA: '+lines(cta)+' linha, '+px(R(cta).width)+' × '+px(R(cta).height)+', mínimo 54 px. Variante '+cta.dataset.copyFit+' pelo espaço útil. Até 620 px: coluna inteira; demais telas: largura natural de 300–440 px dentro da coluna. Microcopy abaixo: '+lines(micro)+' linha(s), máximo 3, teto 440 px, altura natural; Inter 14 px / 1,5.');
+  write('gaps','Eyebrow → H2: 12 px; H2 → primeiro parágrafo: 16 px; entre parágrafos: 12 px; texto → atributos: '+(stacked?'32':'40')+' px; atributos → ação: 24 px; CTA → Microcopy: 12 px. '+(stacked?'Texto antes da foto, com 32 px entre blocos.':'Foto à esquerda e texto à direita, alinhados pelo topo, com 48 px entre colunas.')+' Recuos externos: escala comum 67 / 50 / 45 px.');
+  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+  marks.replaceChildren();if(overlay.hidden)return;mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');paras.forEach(p=>mark(p,'volt-analysis-outline--other-intro'));mark(photo,'volt-analysis-outline--dg-amber');[...label.children].forEach(e=>mark(e,'volt-analysis-outline--heading'));items.forEach(e=>{mark(e.querySelector('strong'),'volt-analysis-outline--intro');mark(e.querySelector('small'),'volt-analysis-outline--other-intro')});mark(cta,'volt-analysis-outline--heading');mark(micro,'volt-analysis-outline--other-intro');gap(eye,title);gap(title,paras[0]);paras.slice(1).forEach((p,i)=>gap(paras[i],p));gap(last,proofs);gap(proofs,action);gap(cta,micro);if(stacked)gap(copy,photo);
+ };
+ const schedule=()=>{if(!pending){pending=true;requestAnimationFrame(render)}};const o=new ResizeObserver(schedule);[section,copy,eye,title,photo,label,proofs,action,cta,...paras].forEach(e=>o.observe(e));window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);section.addEventListener('volt-about-fit',schedule);img.addEventListener('load',schedule);document.fonts.ready.then(schedule);schedule();
+})();
