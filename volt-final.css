@@ -1,3 +1,4 @@
+@layer volt-area-review;
 /* VOLT — camada final consolidada.
    Mantém styles.css como base histórica e reúne aqui todos os ajustes aprovados.
    Nenhum estilo desta folha depende de JavaScript para existir. */
@@ -2452,3 +2453,38 @@ html[data-volt-about-analysis] #sobre .reveal-item {opacity:1 !important;transfo
   #avaliar-no-google #google-review-title {min-height:0 !important;}
  }
 }
+
+/* Área atendida — parametrização aplicada para revisão. */
+@layer volt-area-review {
+ #area-atendida {scroll-margin-top:88px;}
+ #area-atendida [data-area-copy][hidden] {display:none !important;}
+ #area-atendida .service-area__grid {grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr) !important;column-gap:48px !important;row-gap:40px !important;align-items:start !important;}
+ #area-atendida .service-area__grid>div:first-child {min-width:0;max-width:760px !important;align-self:start !important;}
+ #area-atendida .eyebrow {width:max-content;max-width:min(280px,100%) !important;white-space:nowrap !important;margin:0 0 12px !important;}
+ #area-atendida .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
+ #area-atendida h2 {max-width:min(620px,100%) !important;min-height:0 !important;margin:0 0 16px !important;}
+ #area-atendida .section-intro {max-width:min(760px,100%) !important;margin:0 !important;min-height:0 !important;line-height:1.6 !important;}
+ #area-atendida .service-area__coverage {gap:12px !important;min-width:0;}
+ #area-atendida .service-area__coverage-item {grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;gap:18px !important;padding:16px !important;min-height:0 !important;overflow:visible !important;}
+ #area-atendida .service-area__coverage-head {min-width:0;gap:12px !important;padding:0 16px 0 0 !important;border-right:1px solid #2d3230 !important;border-bottom:0 !important;}
+ #area-atendida .service-area__coverage-head h3 {white-space:normal !important;min-height:0 !important;margin:0 !important;}
+ #area-atendida .service-area__coverage-item small {margin-top:6px !important;line-height:1.3 !important;}
+ #area-atendida .service-area__coverage-neighborhoods {gap:7px !important;}
+ #area-atendida .service-area__coverage-neighborhoods span {max-width:100%;min-height:28px !important;padding:5px 10px !important;line-height:1.2 !important;white-space:nowrap !important;}
+ #area-atendida .service-area__map {grid-column:1 / -1 !important;}
+ #area-atendida .service-area__map-head {min-height:78px !important;padding:17px 24px !important;}
+ #area-atendida .service-area__map-head>div {min-width:0;max-width:100%;gap:6px !important;}
+ #area-atendida .service-area__map-kicker {max-width:min(280px,100%);white-space:nowrap;}
+ #area-atendida .service-area__map-head strong {max-width:100%;white-space:normal;}
+ #area-atendida .service-area__map-frame {height:340px !important;min-height:340px !important;}
+ #area-atendida .service-area__map-frame iframe {height:100% !important;min-height:0 !important;}
+ @media(max-width:1080px) {#area-atendida .service-area__grid {grid-template-columns:minmax(0,1fr) !important;row-gap:32px !important;}}
+ @media(max-width:620px) {
+  #area-atendida {scroll-margin-top:79px;}
+  #area-atendida .service-area__coverage-item {grid-template-columns:minmax(0,1fr) !important;gap:12px !important;padding:14px !important;}
+  #area-atendida .service-area__coverage-head {padding:0 0 12px !important;border-right:0 !important;border-bottom:1px solid #2d3230 !important;}
+  #area-atendida .service-area__map-head {min-height:70px !important;padding:14px 18px !important;}
+  #area-atendida .service-area__map-frame {height:300px !important;min-height:300px !important;}
+ }
+}
+html[data-volt-area-analysis] #area-atendida .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}

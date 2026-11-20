@@ -339,7 +339,7 @@
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
-        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a><a href="#sobre">Ir a Sobre</a>
+        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a><a href="#sobre">Ir a Sobre</a><a href="#area-atendida">Ir a Área atendida</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
@@ -350,7 +350,7 @@
   panel.querySelector('.volt-analysis-exit').href = normalURL.href;
   const serviceDetails = document.createElement('details');
   serviceDetails.dataset.analysisSection = 'servicos';
-  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title','#sobre','#sobre-title','#avaliar-no-google','#google-review-title'].includes(location.hash);
+  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title','#sobre','#sobre-title','#area-atendida','#area-title','#avaliar-no-google','#google-review-title'].includes(location.hash);
   serviceDetails.innerHTML = '<summary>Serviços · limites definidos</summary>';
   const body = panel.querySelector('.volt-analysis-body');
   const actions = body.querySelector('.volt-analysis-actions');
@@ -980,4 +980,46 @@
   marks.replaceChildren();if(overlay.hidden)return;mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');mark(cta,'volt-analysis-outline--heading');items.forEach(e=>mark(e,'volt-analysis-outline--other-intro'));gap(eye,title);gap(title,intro);gap(intro,cta);gap(cta,steps);box({left:pr.left,top:pr.top,width:pr.width,height:padTop,bottom:pr.top+padTop},'volt-analysis-gap');box({left:pr.left,top:sr.bottom,width:pr.width,height:padTop,bottom:pr.bottom},'volt-analysis-gap');
  };
  const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render)}};const observer=new ResizeObserver(schedule);[section,inner,eye,title,intro,cta,steps].forEach(e=>observer.observe(e));section.addEventListener('volt-google-fit',schedule);section.addEventListener('transitionend',schedule);section.addEventListener('focusin',schedule);section.addEventListener('focusout',schedule);window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);document.fonts.ready.then(schedule);schedule();
+})();
+
+/* Área atendida — variantes de encaixe sem alterar os locais atendidos. */
+(() => {
+ const s=document.querySelector('#area-atendida');if(!s)return;
+ const eye=s.querySelector('.eyebrow'),title=s.querySelector('h2'),intro=s.querySelector('.section-intro');
+ const rows=e=>{const out=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){if(!w.currentNode.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(w.currentNode);for(const b of r.getClientRects())if(b.width&&b.height){let q=out.find(x=>Math.abs(x.y-b.y)<2);if(q){q.left=Math.min(q.left,b.left);q.right=Math.max(q.right,b.right);}else out.push({y:b.y,left:b.left,right:b.right});}}return out;};
+ const choose=(e,kind)=>e.querySelectorAll('[data-area-copy]').forEach(n=>n.hidden=n.dataset.areaCopy!==kind);
+ let pending=false;const fit=()=>{pending=false;choose(title,'full');if(rows(title).length>2)choose(title,'short');choose(intro,'full');if(rows(intro).length>(innerWidth<=620?5:4))choose(intro,'compact');s.dispatchEvent(new Event('volt-area-fit'));};
+ const schedule=()=>{if(!pending){pending=true;requestAnimationFrame(fit)}};new ResizeObserver(schedule).observe(s.querySelector('.service-area__grid'));window.addEventListener('resize',schedule,{passive:true});document.fonts.ready.then(schedule);fit();
+ if(new URLSearchParams(location.search).get('limites')!=='1')return;
+ const overlay=document.querySelector('#volt-analysis-marks'),shared=document.querySelector('#volt-analysis-panel');if(!overlay||!shared)return;
+ document.documentElement.dataset.voltAreaAnalysis='true';
+ const coverage=s.querySelector('.service-area__coverage'),cards=[...coverage.children],map=s.querySelector('.service-area__map'),mapHead=map.querySelector('.service-area__map-head'),mapEye=map.querySelector('.service-area__map-kicker'),mapTitle=map.querySelector('strong'),frame=map.querySelector('.service-area__map-frame'),opening=s.querySelector('.service-area__grid>div:first-child');
+ const panel=document.createElement('details');panel.dataset.analysisSection='area-atendida';panel.open=['#area-atendida','#area-title'].includes(location.hash);panel.innerHTML='<summary>Área atendida · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Recomendações aplicadas para revisão do Founder. Três regiões, doze bairros e mapa de Palhoça preservados. A localização representa a cidade-base; não afirma endereço comercial nem atendimento imediato.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrow</dt><dd data-ar="eye"></dd><dt class="volt-analysis-green">Verde · H2</dt><dd data-ar="title"></dd><dt class="volt-analysis-purple">Roxo · apresentação</dt><dd data-ar="intro"></dd><dt class="volt-analysis-green">Verde · cidades e Microcopy</dt><dd data-ar="cities"></dd><dt class="volt-analysis-blue">Azul · bairros</dt><dd data-ar="places"></dd><dt class="volt-analysis-amber">Amarelo · mapa e cabeçalho</dt><dd data-ar="map"></dd><dt class="volt-analysis-amber">Amarelo · composição e intervalos</dt><dd data-ar="gaps"></dd></dl><p data-ar="fit"></p><p>Sem cortes, fonte reduzida ou abreviação automática de localidades. Na personalização, confirmar cidade-base, regiões e bairros. Não ampliar a área atendida por conta própria. Novas regras ainda não consolidadas como definitivas no manual.</p></div>';shared.append(panel);
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='area-atendida';overlay.append(marks);
+ const R=e=>e.getBoundingClientRect(),S=e=>getComputedStyle(e),lines=e=>rows(e).length,px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px',inside=(a,b)=>{a=R(a);b=R(b);return a.left>=b.left-.3&&a.right<=b.right+.3&&a.top>=b.top-.3&&a.bottom<=b.bottom+.3;};
+ const write=(k,t)=>{const e=panel.querySelector('[data-ar="'+k+'"]');if(e.textContent!==t)e.textContent=t};
+ const box=(r,cls)=>{if(r.width<=0||r.height<=0||r.bottom<0||r.top>innerHeight)return;const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});marks.append(e)};
+ const mark=(e,cls)=>box(R(e),'volt-analysis-outline '+cls),gap=(a,b)=>{const x=R(a),y=R(b);if(y.top>=x.bottom)box({left:y.left,top:x.bottom,width:y.width,height:y.top-x.bottom,bottom:y.top},'volt-analysis-gap')};
+ let rendering=false;const render=()=>{rendering=false;const mobile=innerWidth<=620,stacked=innerWidth<=1080,issues=[],titles=cards.map(c=>c.querySelector('h3')),labels=cards.map(c=>c.querySelector('small')),badges=[...coverage.querySelectorAll('.service-area__coverage-neighborhoods span')],er=R(eye),tr=R(title);
+  if(lines(eye)!==1||er.width>280.3||er.width>=Math.max(...rows(title).map(r=>r.right-r.left)))issues.push('Eyebrow');
+  if(lines(title)<1||lines(title)>2||tr.width>620.3)issues.push('H2');
+  if(lines(intro)<2||lines(intro)>(mobile?5:4)||!inside(intro,opening))issues.push('apresentação');
+  if(titles.some(e=>lines(e)<1||lines(e)>2)||labels.some(e=>lines(e)<1||lines(e)>2))issues.push('cidades e Microcopy');
+  if(badges.length!==12||badges.some(e=>lines(e)!==1||!inside(e,e.parentElement)))issues.push('bairros');
+  if(cards.some(c=>[c.querySelector('.service-area__coverage-head'),c.querySelector('.service-area__coverage-neighborhoods')].some(e=>!inside(e,c))))issues.push('limites dos cartões');
+  if(lines(mapEye)!==1||lines(mapTitle)>2||!inside(mapEye,mapHead)||!inside(mapTitle,mapHead)||Math.abs(R(frame).height-(mobile?300:340))>.3)issues.push('mapa');
+  if(Math.abs(tr.top-er.bottom-12)>.3||Math.abs(R(intro).top-tr.bottom-16)>.3||Math.abs(R(map).top-Math.max(R(opening).bottom,R(coverage).bottom)-(stacked?32:40))>.3)issues.push('intervalos');
+  if(stacked?Math.abs(R(coverage).top-R(opening).bottom-32)>.3:Math.abs(R(coverage).left-R(opening).right-48)>.3||Math.abs(R(coverage).top-R(opening).top)>.3)issues.push('composição');
+  if(s.scrollWidth>s.clientWidth+.3)issues.push('transbordamento');
+  write('eye',px(er.width)+' / '+lines(eye)+' linha. Uma linha, teto 280 px com traço de 34 px; menor que a maior linha do H2.');
+  write('title',px(tr.width)+' / '+lines(title)+' linha(s), máximo 2. Teto 620 px dentro da coluna; altura natural, sem reserva. Variante '+title.querySelector('[data-area-copy]:not([hidden])').dataset.areaCopy+'.');
+  write('intro',px(R(intro).width)+' / '+lines(intro)+' linha(s). Faixa 2–'+(mobile?'5':'4')+', teto 760 px dentro da coluna; Inter 16 px / 1,6, altura natural. Variante '+intro.querySelector('[data-area-copy]:not([hidden])').dataset.areaCopy+'. Preservados base, deslocamento, regiões e público atendido.');
+  write('cities',titles.map(e=>e.textContent+': '+lines(e)+' linha(s)').join('; ')+'. H3 até 2 linhas, sem reserva; fonte preservada. Microcopy BASE PRINCIPAL / POR DESLOCAMENTO: '+labels.map(lines).join(' / ')+' linha(s), máximo 2. Número 36 × 36 px, uma linha; 12 px até o nome; 6 px entre H3 e Microcopy.');
+  write('places',badges.length+' bairros preservados, cada um em uma linha, sem cortes. Etiquetas Inter 12 px / 1,2, altura mínima 28 px, recuos 5 / 10 px; intervalo 7 px. Quebra apenas entre etiquetas, sem ampliar a cobertura.');
+  write('map','Eyebrow LOCALIZAÇÃO: '+lines(mapEye)+' linha; identificação da cidade: '+lines(mapTitle)+' linha(s), máximo 2. Intervalo interno 6 px. Cabeçalho com recuos '+(mobile?'14 / 18':'17 / 24')+' px e mínimo '+(mobile?'70':'78')+' px. Mapa '+px(R(frame).height)+' de altura, largura inteira; iframe com título acessível e carregamento adiado. O conteúdo do Google é externo e não segue a contagem de linhas do template.');
+  write('gaps','Eyebrow → H2: 12 px; H2 → apresentação: 16 px. '+(stacked?'Abertura → cidades: 32 px; cidades → mapa: 32 px. Uma coluna até 1080 px.':'Abertura e cidades alinhadas pelo topo, 48 px entre colunas; 40 px até o mapa abaixo de ambas.')+' Cartões: intervalo 12 px, recuos '+(mobile?'14':'16')+' px, altura natural. '+(mobile?'Cabeçalho acima dos bairros, divisória com recuo inferior de 12 px.':'Cidade e bairros lado a lado, intervalo 18 px e recuo direito do cabeçalho de 16 px.')+' Recuos externos globais 67 / 50 / 45 px.');
+  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+  marks.replaceChildren();if(overlay.hidden)return;mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');titles.forEach(e=>mark(e,'volt-analysis-outline--intro'));labels.forEach(e=>mark(e,'volt-analysis-outline--other-intro'));badges.forEach(e=>mark(e,'volt-analysis-outline--heading'));mark(mapHead,'volt-analysis-outline--dg-amber');mark(frame,'volt-analysis-outline--dg-amber');gap(eye,title);gap(title,intro);if(stacked)gap(opening,coverage);gap(R(opening).bottom>R(coverage).bottom?opening:coverage,map);
+ };
+ const redraw=()=>{if(!rendering){rendering=true;requestAnimationFrame(render)}};const o=new ResizeObserver(redraw);[s,opening,coverage,map,...cards].forEach(e=>o.observe(e));window.addEventListener('scroll',redraw,{passive:true});window.addEventListener('resize',redraw,{passive:true});window.addEventListener('volt-analysis-toggle',redraw);s.addEventListener('volt-area-fit',redraw);document.fonts.ready.then(redraw);redraw();
 })();
