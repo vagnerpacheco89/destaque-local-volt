@@ -2531,7 +2531,7 @@ html[data-volt-area-analysis] #area-atendida .reveal-item {opacity:1 !important;
 @layer volt-area-review {
  #area-atendida .service-area__coverage-head {min-height:0 !important;padding:12px !important;align-items:center !important;justify-content:center !important;gap:0 !important;}
  #area-atendida .service-area__coverage-neighborhoods {display:flex !important;flex-direction:column !important;flex-wrap:nowrap !important;align-items:stretch !important;justify-content:center !important;gap:4px !important;padding:12px !important;}
- #area-atendida .service-area__neighborhood-row {display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-start;gap:4px;width:100%;min-width:0;}
+ #area-atendida .service-area__neighborhood-row {display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:4px;width:100%;min-width:0;}
  #area-atendida .service-area__coverage-neighborhoods span {flex:0 0 auto;font-size:12px !important;padding:1px 3px !important;min-height:20px !important;}
  @media(max-width:620px) {#area-atendida .service-area__coverage-head {min-height:48px !important;padding:10px 12px !important;}}
 }
