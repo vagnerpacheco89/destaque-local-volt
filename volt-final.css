@@ -2391,7 +2391,7 @@ html[data-volt-reviews-analysis] #avaliacoes .review-marquee-track {animation-pl
 @layer volt-about-review {
  #sobre {scroll-margin-top:88px;}
  #sobre .about__grid {grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr) !important;align-items:start !important;}
- #sobre .about__copy {min-width:0;max-width:760px;container:volt-about-copy / inline-size;}
+ #sobre .about__copy {min-width:0;max-width:760px !important;container:volt-about-copy / inline-size;}
  #sobre [data-about-copy][hidden] {display:none !important;}
  #sobre .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;white-space:nowrap !important;min-height:1lh !important;}
  #sobre .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
@@ -2420,7 +2420,7 @@ html[data-volt-reviews-analysis] #avaliacoes .review-marquee-track {animation-pl
  }
  @media(max-width:860px) {
   #sobre .about__grid {grid-template-columns:minmax(0,1fr) !important;}
-  #sobre .about__copy {order:1;max-width:760px;}
+  #sobre .about__copy {order:1;max-width:760px !important;}
   #sobre .about__image {order:2;height:472px !important;max-width:100%;}
  }
  @media(max-width:620px) {
