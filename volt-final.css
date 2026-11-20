@@ -953,7 +953,7 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   background:var(--accent-ink);
   opacity:.62;
 }
-.google-review__inner h2 {
+.google-review__inner #google-review-title {
   max-width:880px;
   margin:0 0 16px;
   color:var(--accent-ink);
@@ -1044,14 +1044,14 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 @media (max-width:760px) {
   .google-review { padding:44px 0; }
   .google-review__inner { padding:42px 25px 38px; }
-  .google-review__inner h2 { max-width:650px;  }
+  .google-review__inner #google-review-title { max-width:650px;  }
   .google-review__description { font-size:var(--section-body-size,16px); }
 }
 @media (max-width:480px) {
   .google-review { padding:32px 0; }
   .google-review__inner { padding:35px 18px 32px; }
   .google-review .eyebrow { margin-bottom:13px; }
-  .google-review__inner h2 {
+  .google-review__inner #google-review-title {
     margin-bottom:14px;
 
   }
@@ -2432,7 +2432,7 @@ html[data-volt-about-analysis] #sobre .reveal-item {opacity:1 !important;transfo
  #avaliar-no-google .google-review__inner {container:volt-google-panel / inline-size;padding:40px 48px !important;}
  #avaliar-no-google .eyebrow {width:max-content !important;max-width:min(280px,100%) !important;min-height:1lh !important;white-space:nowrap !important;flex-wrap:nowrap !important;}
  #avaliar-no-google .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
- #avaliar-no-google h2 {width:100% !important;max-width:min(620px,100%) !important;min-height:0 !important;height:auto !important;}
+ #avaliar-no-google #google-review-title {font-family:var(--font-display) !important;font-size:var(--section-title-size) !important;font-weight:800 !important;line-height:var(--section-title-line-height) !important;letter-spacing:-.018em !important;text-transform:uppercase;white-space:normal;overflow-wrap:break-word;margin:0 0 16px !important;width:100% !important;max-width:min(620px,100%) !important;min-height:0 !important;height:auto !important;}
  #avaliar-no-google .google-review__description {width:100% !important;max-width:min(760px,100%) !important;min-height:0 !important;height:auto !important;margin:0 !important;line-height:1.6 !important;}
  #avaliar-no-google .google-review__button {width:min(365px,100%) !important;max-width:100% !important;min-height:54px !important;height:auto !important;margin:24px 0 0 !important;padding:13px 24px !important;gap:13px !important;white-space:nowrap !important;}
  /* Passos agrupados como na AR, com a tipografia de 14 px do VOLT. */
@@ -2450,6 +2450,6 @@ html[data-volt-about-analysis] #sobre .reveal-item {opacity:1 !important;transfo
  @media(max-width:620px) {
   #avaliar-no-google {scroll-margin-top:79px;}
   #avaliar-no-google .google-review__inner {padding:28px 18px !important;}
-  #avaliar-no-google h2 {min-height:0 !important;}
+  #avaliar-no-google #google-review-title {min-height:0 !important;}
  }
 }
