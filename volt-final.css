@@ -2464,7 +2464,7 @@ html[data-volt-about-analysis] #sobre .reveal-item {opacity:1 !important;transfo
  #area-atendida .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
  #area-atendida h2 {max-width:min(620px,100%) !important;min-height:0 !important;margin:0 0 16px !important;}
  #area-atendida .section-intro {max-width:min(760px,100%) !important;margin:0 !important;min-height:0 !important;line-height:1.6 !important;}
- #area-atendida .service-area__coverage {gap:12px !important;min-width:0;}
+ #area-atendida .service-area__coverage {gap:12px !important;min-width:0;align-self:center !important;}
  #area-atendida .service-area__coverage-item {grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;gap:18px !important;padding:16px !important;min-height:0 !important;overflow:visible !important;}
  #area-atendida .service-area__coverage-head {min-width:0;gap:12px !important;padding:0 16px 0 0 !important;border-right:1px solid #2d3230 !important;border-bottom:0 !important;}
  #area-atendida .service-area__coverage-head h3 {white-space:normal !important;min-height:0 !important;margin:0 !important;}
