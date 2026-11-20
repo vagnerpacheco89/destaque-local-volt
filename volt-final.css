@@ -1562,20 +1562,16 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
   /* Recuos externos reduzidos em aproximadamente 30% — 19/11/2026. */
   main > section.hero {padding-block:52px 29px !important;min-height:655px !important;}
-  main > section.google-review {padding-block:39px !important;}
+  /* Convite integra Avaliações: 7 px da faixa + 25 px até o painel = 32 px. */
+  main > section#avaliacoes {padding-bottom:0 !important;}
+  main > section.google-review {padding-block:25px var(--volt-section-space) !important;}
   main > section.final-cta {padding-block:50px !important;}
   @media(max-width:860px) {
     main > section.hero {padding-block:27px 29px !important;min-height:auto !important;}
   }
-  @media(max-width:760px) {
-    main > section.google-review {padding-block:31px !important;}
-  }
   @media(max-width:620px) {
     main > section.hero {padding-block:21px 29px !important;}
     main > section.final-cta {padding-block:36px !important;}
-  }
-  @media(max-width:480px) {
-    main > section.google-review {padding-block:22px !important;}
   }
 
   main > section:not(.hero) .eyebrow {

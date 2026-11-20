@@ -767,10 +767,10 @@
  if(new URLSearchParams(location.search).get('limites')!=='1')return;
  const overlay=document.querySelector('#volt-analysis-marks'),shared=document.querySelector('#volt-analysis-panel');
  if(!overlay||!shared)return;
- const sections=[...document.querySelectorAll('main>section')];
+ const sections=[...document.querySelectorAll('main>section:not([data-section-complement])')];
  const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='espacamentos';overlay.append(marks);
  const panel=document.createElement('details');panel.dataset.analysisSection='espacamentos';
- panel.innerHTML='<summary>Espaçamento entre seções · aprovado</summary><div class="volt-analysis-body"><p>Redução de aproximadamente 30% nos recuos externos de todas as seções, com arredondamento para pixels inteiros. Medidas de cada lado da divisória; bordas à parte. As marcações amarelas mostram somente esses recuos.</p><ul data-section-spaces></ul><p>Regra comum: 67 px acima de 860 px, 50 px entre 621 e 860 px e 45 px até 620 px. Hero, convite para avaliar e chamada final também reduzidos, preservando suas proporções.</p></div>';
+ panel.innerHTML='<summary>Espaçamento entre seções · aprovado</summary><div class="volt-analysis-body"><p>Redução de aproximadamente 30% nos recuos externos de todas as seções, com arredondamento para pixels inteiros. Medidas de cada lado da divisória; bordas à parte. As marcações amarelas mostram somente esses recuos.</p><ul data-section-spaces></ul><p>Regra comum: 67 px acima de 860 px, 50 px entre 621 e 860 px e 45 px até 620 px. Hero e chamada final preservam suas proporções. O convite para avaliar integra Avaliações: 32 px dos cards ao painel amarelo, sem somar recuos externos.</p></div>';
  shared.append(panel);
  const output=panel.querySelector('[data-section-spaces]');
  const px=n=>n.toLocaleString('pt-BR')+' px';
@@ -778,10 +778,10 @@
  const render=()=>{
   queued=false;marks.replaceChildren();const labels=[];
   for(const section of sections){
-   const s=getComputedStyle(section),r=section.getBoundingClientRect(),container=section.querySelector(':scope>.container'),c=container?.getBoundingClientRect();
-   const top=parseFloat(s.paddingTop),bottom=parseFloat(s.paddingBottom);
+   const complement=document.querySelector('[data-section-complement="'+section.id+'"]'),s=getComputedStyle(section),end=complement||section,startRect=section.getBoundingClientRect(),endRect=end.getBoundingClientRect(),r={top:startRect.top,bottom:endRect.bottom},container=section.querySelector(':scope>.container'),c=container?.getBoundingClientRect();
+   const top=parseFloat(s.paddingTop),bottom=parseFloat(getComputedStyle(end).paddingBottom);
    const name=section.classList.contains('hero')?'Hero':section.querySelector('h2')?.innerText.trim()||section.id;
-   labels.push(name+': '+px(top)+' acima / '+px(bottom)+' abaixo.');
+   labels.push(name+(complement?' + convite para avaliar (complemento)':'')+': '+px(top)+' acima / '+px(bottom)+' abaixo.');
    if(overlay.hidden||!c||r.bottom<0||r.top>innerHeight)continue;
    for(const [y,h]of [[r.top+parseFloat(s.borderTopWidth),top],[r.bottom-parseFloat(s.borderBottomWidth)-bottom,bottom]]){
     if(y+h<0||y>innerHeight)continue;
@@ -791,10 +791,19 @@
     Object.assign(label.style,{left:c.left+'px',top:(y+Math.max(0,(h-16)/2))+'px',width:Math.min(c.width,200)+'px'});label.textContent=px(h)+' · recuo externo';marks.append(label);
    }
   }
+  const invite=document.querySelector('[data-section-complement="avaliacoes"] .google-review__inner'),lastRow=document.querySelector('#avaliacoes .review-marquee-row:last-child');
+  if(invite&&lastRow){
+   const rowRect=lastRow.getBoundingClientRect(),panelRect=invite.getBoundingClientRect(),y=rowRect.bottom-parseFloat(getComputedStyle(lastRow).paddingBottom),h=panelRect.top-y;
+   labels.push('Cards → convite para avaliar: '+px(h)+' · intervalo interno, aprovado 32 px.');
+   if(!overlay.hidden&&panelRect.top>0&&y<innerHeight){
+    const box=document.createElement('div');box.className='volt-analysis-gap';Object.assign(box.style,{left:panelRect.left+'px',top:y+'px',width:panelRect.width+'px',height:h+'px'});marks.append(box);
+    const label=document.createElement('div');label.className='volt-analysis-label volt-analysis-amber volt-analysis-label--small';Object.assign(label.style,{left:panelRect.left+'px',top:(y+8)+'px',width:'260px'});label.textContent=px(h)+' · intervalo do complemento';marks.append(label);
+   }
+  }
   const text=labels.join('\n');if(output.dataset.value!==text){output.replaceChildren(...labels.map(t=>{const li=document.createElement('li');li.textContent=t;return li;}));output.dataset.value=text;}
  };
  const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render);}};
- const observer=new ResizeObserver(schedule);sections.forEach(e=>observer.observe(e));
+ const observer=new ResizeObserver(schedule);sections.forEach(e=>observer.observe(e));document.querySelectorAll('[data-section-complement]').forEach(e=>observer.observe(e));
  window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);document.fonts.ready.then(schedule);schedule();
 })();
 
@@ -862,7 +871,7 @@
   write('badge',px(br.width)+' × '+px(br.height)+'; proporção 280:324. '+(stacked?'Abaixo do texto e centralizado até 860 px.':'À direita, alinhado ao topo acima de 860 px.')+' Texto preto, três linhas no selo e uma na nota. Valores demonstrativos preservados: 4,9/5 e 38 avaliações no rótulo acessível.');
   write('messages',unique+' relatos distintos; '+cards.length+' cartões no HTML para o movimento, '+accessible+' relatos acessíveis. Linhas atuais visíveis: '+[...new Set(ml)].sort().join(' / ')+', máximo 3. Textos centralizados; aspas junto ao início e ao fim do relato, na mesma linha das palavras. Sem line-clamp ou cortes. Cartão compacto: '+(narrow?'168':'172')+' px. Relato centralizado verticalmente na área acima do autor, inclusive quando ocupa duas linhas; área mínima de 72 px, sem linhas vazias no texto. Inter 16 px / 1,5; larguras até '+(narrow?'282':innerWidth<=900?'306':'322')+' px, sempre dentro da faixa. Acabamento visual em teste: degradê grafite, borda discreta, traço amarelo no topo e avatar suave; dimensões preservadas.');
   write('people','Nomes: '+[...new Set(nl)].sort().join(' / ')+' linha(s); localidades: '+[...new Set(pl)].sort().join(' / ')+'. Máximo 2 por elemento, alturas naturais. Identificação de pessoa: 14 px / 700 / 1,5; legenda: 12 px / 500 / 1,5. Avatar 36 × 36 px, intervalo 10 px; nome → localidade 4 px. Repetições decorativas ocultas dos leitores de tela.');
-  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(ir.top-tr.bottom)+'; abertura completa → faixas: '+px(mr.top-hr.bottom)+'. '+(stacked?'Texto → selo: '+px(br.top-R(copy).bottom):'Texto → selo: '+px(br.left-R(copy).right))+'. Faixas: '+(narrow?'12':'16')+' px entre linhas; 7 px acima/abaixo para hover. Cartões: recuos verticais '+(narrow?'16':'18')+' px e laterais '+(innerWidth<=360?'12':narrow?'16':'18')+' px; aspas inline, junto à primeira e à última palavra; área do relato → autor 16 px, com autor alinhado ao rodapé. O texto fica centralizado verticalmente nessa área. Recuos externos seguem a escala global de 67 / 50 / 45 px.');
+  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(ir.top-tr.bottom)+'; abertura completa → faixas: '+px(mr.top-hr.bottom)+'. '+(stacked?'Texto → selo: '+px(br.top-R(copy).bottom):'Texto → selo: '+px(br.left-R(copy).right))+'. Faixas: '+(narrow?'12':'16')+' px entre linhas; 7 px acima/abaixo para hover. Cartões: recuos verticais '+(narrow?'16':'18')+' px e laterais '+(innerWidth<=360?'12':narrow?'16':'18')+' px; aspas inline, junto à primeira e à última palavra; área do relato → autor 16 px, com autor alinhado ao rodapé. O texto fica centralizado verticalmente nessa área. Convite para avaliar: complemento, 32 px após os cards. Recuos externos do conjunto seguem a escala global de 67 / 50 / 45 px.');
   write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
   marks.replaceChildren();if(overlay.hidden)return;
   mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');mark(badge,'volt-analysis-outline--dg-amber');
