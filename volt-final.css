@@ -2488,3 +2488,7 @@ html[data-volt-about-analysis] #sobre .reveal-item {opacity:1 !important;transfo
  }
 }
 html[data-volt-area-analysis] #area-atendida .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
+
+@layer volt-area-review {
+ #area-atendida [data-area-paragraph="1"] {margin-bottom:12px !important;}
+}
