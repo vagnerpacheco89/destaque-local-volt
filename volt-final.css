@@ -2509,3 +2509,19 @@ html[data-volt-area-analysis] #area-atendida .reveal-item {opacity:1 !important;
   box-shadow:inset 0 1px 0 rgba(244,196,0,.09),0 8px 24px rgba(0,0,0,.14) !important;
  }
 }
+
+/* Área atendida — cidade em amarelo e dez bairros no painel escuro. */
+@layer volt-area-review {
+ #area-atendida .service-area__coverage-item {grid-template-columns:minmax(170px,.7fr) minmax(0,1.3fr) !important;gap:0 !important;padding:0 !important;overflow:hidden !important;}
+ #area-atendida .service-area__coverage-head {align-self:stretch;flex-direction:column;justify-content:center;gap:8px !important;min-height:108px;padding:16px !important;border:0 !important;background:var(--accent) !important;color:#080a08 !important;text-align:center;}
+ #area-atendida .service-area__coverage-head h3 {font-size:26px !important;line-height:1.05 !important;color:#080a08 !important;}
+ #area-atendida .service-area__coverage-mark {width:30px !important;height:30px !important;flex:0 0 30px !important;border:1px solid rgba(0,0,0,.35) !important;color:#080a08 !important;background:rgba(0,0,0,.04) !important;box-shadow:none !important;}
+ #area-atendida .service-area__coverage-neighborhoods {align-self:stretch;align-content:center;gap:4px !important;padding:16px;min-width:0;background:#0b0e0c;}
+ #area-atendida .service-area__coverage-neighborhoods span {min-height:20px !important;padding:2px 4px !important;font:600 11px/1.35 var(--font-body) !important;letter-spacing:0 !important;text-transform:none !important;color:#e5e8e3 !important;border-color:#363e37 !important;background:#111612 !important;}
+ @media(max-width:620px) {
+  #area-atendida .service-area__coverage-item {grid-template-columns:minmax(0,1fr) !important;}
+  #area-atendida .service-area__coverage-head {flex-direction:row;min-height:66px;padding:12px 14px !important;gap:10px !important;}
+  #area-atendida .service-area__coverage-head h3 {font-size:24px !important;}
+  #area-atendida .service-area__coverage-neighborhoods {padding:12px;}
+ }
+}
