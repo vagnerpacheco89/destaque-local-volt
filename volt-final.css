@@ -1072,13 +1072,6 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   .google-review .google-review__button { transition:none; }
 }
 
-.google-review__demo-note {
-  margin:18px 0 0;
-  max-width:100%;
-  color:rgba(9,10,8,.75);
-  font-size:12px;
-  line-height:1.5;
-}
 
 
 /* Divisórias de conteúdo — estilo da AR, somente em amarelo. */
