@@ -231,7 +231,7 @@ function voltSelectHeading(element, variant) {
       mobileMenu.hidden = true;
       menuButton.setAttribute('aria-expanded', 'false');
       menuButton.setAttribute('aria-label', 'Abrir menu');
-    });
+    }, {capture:true});
   }
 
   if (menuButton && mobileMenu) {
