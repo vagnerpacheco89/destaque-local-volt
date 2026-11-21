@@ -1,4 +1,4 @@
-@layer volt-nav-review, volt-footer-review, volt-final-review, volt-faq-review, volt-area-review;
+@layer volt-mobile-natural, volt-nav-review, volt-footer-review, volt-final-review, volt-faq-review, volt-area-review;
 /* VOLT — camada final consolidada.
    Mantém styles.css como base histórica e reúne aqui todos os ajustes aprovados.
    Nenhum estilo desta folha depende de JavaScript para existir. */
@@ -2763,3 +2763,21 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
 /* Âncora da Hero: respeitar a navbar sticky sem alterar a composição. */
 #hero {scroll-margin-top:88px;}
 @media(max-width:620px) {#hero {scroll-margin-top:78px;}}
+
+/* Celular: altura natural dos textos; limites de linhas e intervalos preservados. */
+@layer volt-mobile-natural {
+ @media(max-width:620px) {
+  main :is(h1,h2,h3,[data-reserved-lines]),
+  #servicos .service-card p,
+  #atendimento .process-grid p,
+  #diagnostico .problem-panel li {
+   min-height:0 !important;height:auto !important;
+  }
+  #hero .hero__trust-card,
+  #servicos .service-card,
+  #sobre .about-proof {align-self:start !important;min-height:0 !important;height:auto !important;}
+  #servicos .service-card__cta {margin-top:0 !important;}
+  #avaliacoes .review-marquee-card {height:auto !important;min-height:0 !important;align-self:flex-start !important;}
+  #avaliacoes .review-marquee-quote {min-height:0 !important;height:auto !important;flex:0 0 auto !important;}
+ }
+}
