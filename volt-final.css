@@ -1,4 +1,4 @@
-@layer volt-area-review;
+@layer volt-faq-review, volt-area-review;
 /* VOLT — camada final consolidada.
    Mantém styles.css como base histórica e reúne aqui todos os ajustes aprovados.
    Nenhum estilo desta folha depende de JavaScript para existir. */
@@ -2540,3 +2540,37 @@ html[data-volt-area-analysis] #area-atendida .reveal-item {opacity:1 !important;
 @layer volt-area-review {
  #area-atendida .service-area__map-frame iframe {filter:grayscale(.76) saturate(.78) contrast(1.05) brightness(.88) !important;}
 }
+
+/* FAQ — regras aplicadas para revisão do Founder. */
+@layer volt-faq-review {
+ #faq {scroll-margin-top:88px;}
+ #faq .eyebrow {width:max-content;max-width:min(280px,100%) !important;white-space:nowrap;margin:0 0 12px !important;}
+ #faq .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
+ #faq .faq__intro {margin-bottom:40px !important;min-width:0;}
+ #faq .faq__intro h2 {max-width:min(620px,100%) !important;min-height:0 !important;margin:0 0 16px !important;}
+ #faq .faq__intro .section-intro {max-width:min(760px,100%) !important;margin:0 !important;font-size:16px !important;line-height:1.6 !important;min-height:0;}
+ #faq .faq__list {grid-template-columns:repeat(2,minmax(0,1fr)) !important;column-gap:48px !important;row-gap:32px !important;}
+ #faq .faq__column {min-width:0;}
+ #faq .faq__column summary {grid-template-columns:30px minmax(0,1fr) 34px !important;gap:12px !important;min-height:72px !important;padding:16px 0 !important;}
+ #faq .faq__question {font-size:16px !important;line-height:1.4 !important;}
+ #faq .faq__column details>p {box-sizing:border-box;max-width:none !important;min-height:0;padding:0 46px 20px 42px !important;font-size:16px !important;line-height:1.6 !important;overflow:visible !important;}
+ #faq summary:focus-visible {outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+ #faq .faq__cta-wrap {position:relative;width:min(520px,100%) !important;max-width:100% !important;margin:0 auto !important;padding:40px 0 0 !important;border:0 !important;border-image:none !important;gap:12px !important;align-items:center !important;}
+ #faq .faq__cta-wrap::before {content:'';position:absolute;top:19px;left:0;right:0;height:2px;background:var(--volt-section-divider);pointer-events:none;}
+ #faq .faq__cta-wrap>p {max-width:min(440px,100%);font-size:14px !important;line-height:1.5 !important;}
+ #faq .faq__cta {box-sizing:border-box;width:max-content !important;min-width:min(300px,100%) !important;max-width:min(440px,100%) !important;min-height:54px !important;height:auto !important;padding:0 25px !important;}
+ #faq .faq__cta[data-copy-fit="full"] .volt-cta__full {display:inline !important;}
+ #faq .faq__cta[data-copy-fit="full"] .volt-cta__short {display:none !important;}
+ #faq .faq__cta[data-copy-fit="short"] .volt-cta__full {display:none !important;}
+ #faq .faq__cta[data-copy-fit="short"] .volt-cta__short {display:inline !important;}
+ @media(max-width:900px) {#faq .faq__list {grid-template-columns:minmax(0,1fr) !important;}}
+ @media(max-width:860px) {#faq .faq__intro {margin-bottom:32px !important;}#faq .faq__cta-wrap {padding-top:32px !important;}#faq .faq__cta-wrap::before {top:15px;}}
+ @media(max-width:620px) {
+  #faq {scroll-margin-top:79px;}
+  #faq .faq__column summary {grid-template-columns:22px minmax(0,1fr) 30px !important;gap:10px !important;min-height:66px !important;padding:14px 0 !important;}
+  #faq .faq__column summary::after {width:30px !important;height:30px !important;}
+  #faq .faq__column details>p {padding:0 0 20px 32px !important;}
+  #faq .faq__cta {width:100% !important;max-width:100% !important;min-width:0 !important;}
+ }
+}
+html[data-volt-faq-analysis] #faq .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}

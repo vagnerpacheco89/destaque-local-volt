@@ -84,7 +84,7 @@
 })();
 /* CTAs: seleção pela largura útil real. */
 (() => {
-  document.querySelectorAll('.services-other__cta, .diagnostic__cta, .portfolio-closing__cta, .about__action .btn').forEach(cta => {
+  document.querySelectorAll('.services-other__cta, .diagnostic__cta, .portfolio-closing__cta, .about__action .btn, .faq__cta').forEach(cta => {
   const full = cta.querySelector('.volt-cta__full');
   const short = cta.querySelector('.volt-cta__short');
   const measure = text => {
@@ -339,7 +339,7 @@
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
-        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a><a href="#sobre">Ir a Sobre</a><a href="#area-atendida">Ir a Área atendida</a>
+        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a><a href="#sobre">Ir a Sobre</a><a href="#area-atendida">Ir a Área atendida</a><a href="#faq">Ir a Dúvidas frequentes</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
@@ -350,7 +350,7 @@
   panel.querySelector('.volt-analysis-exit').href = normalURL.href;
   const serviceDetails = document.createElement('details');
   serviceDetails.dataset.analysisSection = 'servicos';
-  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title','#sobre','#sobre-title','#area-atendida','#area-title','#avaliar-no-google','#google-review-title'].includes(location.hash);
+  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title','#sobre','#sobre-title','#area-atendida','#area-title','#faq','#faq-title','#avaliar-no-google','#google-review-title'].includes(location.hash);
   serviceDetails.innerHTML = '<summary>Serviços · limites definidos</summary>';
   const body = panel.querySelector('.volt-analysis-body');
   const actions = body.querySelector('.volt-analysis-actions');
@@ -1030,4 +1030,47 @@
  const mobile=matchMedia('(max-width:620px)');
  const fit=()=>{const url=new URL(frame.src),zoom=mobile.matches?'10':'11';if(url.searchParams.get('z')===zoom)return;url.searchParams.set('z',zoom);frame.src=url.href;};
  mobile.addEventListener('change',fit);fit();
+})();
+
+/* Dúvidas frequentes — marcações da seção inteira em revisão. */
+(() => {
+ if(new URLSearchParams(location.search).get('limites')!=='1')return;
+ const s=document.querySelector('#faq'),shared=document.querySelector('#volt-analysis-panel'),overlay=document.querySelector('#volt-analysis-marks');if(!s||!shared||!overlay)return;
+ document.documentElement.setAttribute('data-volt-faq-analysis','');
+ const eye=s.querySelector('.eyebrow'),title=s.querySelector('h2'),intro=s.querySelector('.section-intro'),opening=s.querySelector('.faq__intro'),list=s.querySelector('.faq__list'),items=[...s.querySelectorAll('.faq__column details')],questions=items.map(d=>d.querySelector('.faq__question')),action=s.querySelector('.faq__cta-wrap'),micro=action.querySelector('p'),cta=action.querySelector('button');
+ const rows=e=>{const out=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){const n=w.currentNode;if(!n.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(n);for(const b of r.getClientRects())if(b.width&&b.height){const v=out.find(x=>Math.abs(x.y-b.y)<2);if(v){v.left=Math.min(v.left,b.left);v.right=Math.max(v.right,b.right);}else out.push({y:b.y,left:b.left,right:b.right});}}return out;};
+ const R=e=>e.getBoundingClientRect(),lines=e=>rows(e).length,px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
+ const within=e=>rows(e).every(r=>r.left>=R(e).left-.4&&r.right<=R(e).right+.4);
+ const panel=document.createElement('details');panel.dataset.analysisSection='faq';panel.open=['#faq','#faq-title'].includes(location.hash);
+ panel.innerHTML='<summary>Dúvidas frequentes · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Dez perguntas e respostas completas preservadas. Regras aplicadas para revisão do Founder; novas definições ainda não consolidadas no manual.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrow</dt><dd data-fq="eye"></dd><dt class="volt-analysis-green">Verde · H2</dt><dd data-fq="title"></dd><dt class="volt-analysis-purple">Roxo · apresentação</dt><dd data-fq="intro"></dd><dt class="volt-analysis-green">Verde · perguntas</dt><dd data-fq="questions"></dd><dt class="volt-analysis-purple">Roxo · respostas abertas</dt><dd data-fq="answers"></dd><dt class="volt-analysis-blue">Azul · Copy do CTA e Microcopy</dt><dd data-fq="action"></dd><dt class="volt-analysis-amber">Amarelo · composição e intervalos</dt><dd data-fq="gaps"></dd></dl><p data-fq="fit"></p><p>Na personalização, confirmar orçamento, serviços, regiões, horários, urgências, materiais, pagamentos, nota fiscal e condições de garantia. Não ampliar promessas. Conteúdo sem cortes, reticências ou redução de fonte para caber. Resposta fechada não tem linhas ocupadas nem reserva.</p></div>';shared.append(panel);
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='faq';overlay.append(marks);
+ const write=(k,t)=>{const e=panel.querySelector('[data-fq="'+k+'"]');if(e.textContent!==t)e.textContent=t;};
+ const box=(r,cls)=>{if(r.width<=0||r.height<=0||r.bottom<0||r.top>innerHeight)return;const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});marks.append(e);};
+ const mark=(e,cls)=>box(R(e),'volt-analysis-outline '+cls),gap=(a,b)=>{const x=R(a),y=R(b);if(y.top>=x.bottom)box({left:y.left,top:x.bottom,width:y.width,height:y.top-x.bottom,bottom:y.top},'volt-analysis-gap');};
+ let pending=false;const render=()=>{pending=false;const mobile=innerWidth<=620,stacked=innerWidth<=900,compact=innerWidth<=860,issues=[],open=items.filter(d=>d.open),questionMax=mobile?3:2,answerMax=mobile?12:7,qs=questions.map(lines),er=R(eye),tr=R(title),cr=R(cta),cs=getComputedStyle(cta);
+  if(lines(eye)!==1||er.width>280.4||er.width>=Math.max(...rows(title).map(r=>r.right-r.left)))issues.push('Eyebrow');
+  if(lines(title)<1||lines(title)>2||tr.width>620.4||!within(title))issues.push('H2');
+  if(lines(intro)<1||lines(intro)>(mobile?5:3)||R(intro).width>760.4||!within(intro))issues.push('apresentação');
+  if(qs.some(n=>n<1||n>questionMax)||questions.some(e=>!within(e)))issues.push('perguntas');
+  if(open.length>1)issues.push('uma resposta por vez');
+  if(open.some(d=>lines(d.querySelector('p'))>answerMax||!within(d.querySelector('p'))))issues.push('respostas');
+  const crows=rows(cta);if(crows.length!==1||cr.height<53.7||crows.some(r=>r.left<cr.left+parseFloat(cs.paddingLeft)-.4||r.right>cr.right-parseFloat(cs.paddingRight)+.4))issues.push('Copy do CTA');
+  if(lines(micro)>3||!within(micro))issues.push('Microcopy');
+  const columns=getComputedStyle(list).gridTemplateColumns.split(' ').length;
+  if(columns!==(stacked?1:2)||Math.abs(R(list).top-R(intro).bottom-(compact?32:40))>.4||Math.abs(R(cta).top-R(micro).bottom-12)>.4||Math.abs(R(micro).top-R(list).bottom-(compact?32:40))>.4)issues.push('composição e intervalos');
+  if(s.scrollWidth>s.clientWidth+.4)issues.push('transbordamento');
+  write('eye',px(er.width)+' / '+lines(eye)+' linha. Teto 280 px incluindo traço de 34 px; menor que a maior linha do H2.');
+  write('title',px(tr.width)+' / '+lines(title)+' linha(s), máximo 2. Teto 620 px dentro da coluna, altura natural, fonte preservada.');
+  write('intro',px(R(intro).width)+' / '+lines(intro)+' linha(s). Teto 760 px; até 3 linhas acima de 620 px e 5 no celular. Inter 16 px / 1,6, copy completa e altura natural, sem reserva.');
+  write('questions',items.length+' perguntas; linhas atuais: '+qs.join(' / ')+'. Até '+questionMax+' por pergunta; Inter 16 px / 750 / 1,4, altura natural. Número em uma linha. Resumo com mínimo '+(mobile?'66':'72')+' px, recuos verticais '+(mobile?'14':'16')+' px, número de '+(mobile?'22':'30')+' px e controle de '+(mobile?'30':'34')+' px; intervalos '+(mobile?'10':'12')+' px. Foco visível e abertura por teclado.');
+  write('answers',open.length?open.map(d=>'Pergunta '+d.querySelector('.faq__number').textContent+': '+lines(d.querySelector('p'))+' linha(s)').join('; ')+'. Máximo '+answerMax+' nesta tela.':'Todas fechadas: nenhuma linha ocupada de resposta. Abrir uma pergunta para medir. Máximo '+answerMax+' por resposta nesta tela.');
+  const answerInfo=' Inter 16 px / 1,6; texto completo e altura natural. Alinhadas ao início da pergunta, com recuo de '+(mobile?'32':'42')+' px; '+(mobile?'sem recuo direito':'46 px à direita')+' e 20 px abaixo. Sem corte ou reserva. Uma resposta aberta por vez, preservando a sequência 01–10.';
+  panel.querySelector('[data-fq="answers"]').textContent+=answerInfo;
+  write('action','Copy do CTA: '+lines(cta)+' linha / '+px(cr.width)+' × '+px(cr.height)+'. Exatamente uma linha, mínimo 54 px; largura natural de 300–440 px dentro do espaço disponível, inteira até 620 px. Alternativa curta por largura útil real. Microcopy: '+lines(micro)+' linha(s), até 3; teto 440 px, Inter 14 px / 1,5. Ambos centralizados, Microcopy acima do botão, intervalo 12 px. Diálogo demonstrativo preservado.');
+  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(R(intro).top-tr.bottom)+'; apresentação → lista: '+px(R(list).top-R(intro).bottom)+'; lista → Microcopy: '+px(R(micro).top-R(list).bottom)+'. Divisória dentro desse último intervalo. '+(stacked?'Uma coluna até 900 px, sequência 01–10; 32 px entre os dois grupos.':'Duas colunas acima de 900 px: 01–05 e 06–10, alinhadas pelo topo e separadas por 48 px.')+' Recuos externos comuns 67 / 50 / 45 px.');
+  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+  marks.replaceChildren();if(overlay.hidden)return;mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');questions.forEach(e=>mark(e,'volt-analysis-outline--intro'));open.forEach(d=>mark(d.querySelector('p'),'volt-analysis-outline--other-intro'));mark(micro,'volt-analysis-outline--other-intro');mark(cta,'volt-analysis-outline--heading');gap(eye,title);gap(title,intro);gap(intro,list);gap(list,micro);gap(micro,cta);
+ };
+ const redraw=()=>{if(!pending){pending=true;requestAnimationFrame(render)}};
+ new ResizeObserver(redraw).observe(s);items.forEach(d=>d.addEventListener('toggle',redraw));window.addEventListener('scroll',redraw,{passive:true});window.addEventListener('resize',redraw,{passive:true});window.addEventListener('volt-analysis-toggle',redraw);document.fonts.ready.then(redraw);redraw();
 })();
