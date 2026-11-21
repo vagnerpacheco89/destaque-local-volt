@@ -26,18 +26,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link id="volt-client-theme" rel="stylesheet" href="volt-theme.css?v=20261121-client-colors-review-62" />
   <!-- Ensaio isolado de paletas. A configuração real de cada cliente fica em theme.json. -->
   <script>
   (() => {
     const key = new URLSearchParams(location.search).get('paleta');
     if (['azul','vermelho','claro','escuro','duas-cores'].includes(key)) {
-      document.getElementById('volt-client-theme').href = 'theme-examples/' + key + '.css?v=20261121-client-colors-review-62';
+      document.documentElement.dataset.voltPalette = key;
     }
   })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=20261121-client-colors-review-62" />
-  <link rel="stylesheet" href="volt-final.css?v=20261121-client-colors-review-62" />
+  <link id="volt-client-theme" rel="stylesheet" href="volt-theme.css?v=20261121-client-colors-review-63" />
+  <link rel="stylesheet" href="volt-theme-examples.css?v=20261121-client-colors-review-63" />
+  <link rel="stylesheet" href="styles.css?v=20261121-client-colors-review-63" />
+  <link rel="stylesheet" href="volt-final.css?v=20261121-client-colors-review-63" />
 
   <script type="application/ld+json">
   {
@@ -605,6 +606,6 @@
     </form>
   </dialog>
 
-  <script src="volt-final.js?v=20261121-client-colors-review-62" defer></script>
+  <script src="volt-final.js?v=20261121-client-colors-review-63" defer></script>
 </body>
 </html>

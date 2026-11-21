@@ -1,0 +1,176 @@
+/* Ensaio de cores: seletores definidos antes do primeiro desenho da página. */
+/* Gerado por scripts/build-theme.py a partir de theme.json. Não editar à mão. */
+/* Primária original nos fundos; variante legível nos textos. Base neutra fixa. */
+@layer volt-client-colors;
+:root[data-volt-palette="azul"] {
+  --brand-primary: #164cba;
+  --brand-primary-rgb: 22,76,186;
+  --brand-secondary: #164cba;
+  --brand-secondary-rgb: 22,76,186;
+  --accent: #164cba;
+  --accent-text: #688bd2;
+  --accent-hover: #1343a4;
+  --accent-ink: #ffffff;
+  --accent-ink-rgb: 255,255,255;
+  --accent-fill-end: #1548b1;
+  --accent-rating-end: #1547af;
+  --accent-shield-top: #1446ab;
+  --accent-soft: #96aee0;
+  --accent-soft-hover: #b9c9ea;
+  --accent-soft-ink: #090a08;
+  --accent-soft-edge: #adc0e7;
+  --accent-control-edge: #688bd2;
+  --detail: #688bd2;
+  --accent-edge: #1444a7;
+  --accent-rating-edge: #1447ad;
+  --accent-panel-end: #1548b1;
+  --accent-panel-edge: #1343a4;
+  --accent-border: #1c3865;
+  --accent-border-muted: #1c365d;
+  --accent-border-soft: #1d3149;
+  --accent-chip-edge: #1d3352;
+  --accent-chip-ink: #d5dff3;
+  --accent-coverage-edge: #1c3760;
+  --accent-panel-gloss: rgba(0,0,0,.08);
+  --accent-ink-muted: #d7e1f3;
+}
+/* Gerado por scripts/build-theme.py a partir de theme.json. Não editar à mão. */
+/* Primária original nos fundos; variante legível nos textos. Base neutra fixa. */
+@layer volt-client-colors;
+:root[data-volt-palette="vermelho"] {
+  --brand-primary: #8b1538;
+  --brand-primary-rgb: 139,21,56;
+  --brand-secondary: #8b1538;
+  --brand-secondary-rgb: 139,21,56;
+  --accent: #8b1538;
+  --accent-text: #bc788c;
+  --accent-hover: #7a1231;
+  --accent-ink: #ffffff;
+  --accent-ink-rgb: 255,255,255;
+  --accent-fill-end: #841435;
+  --accent-rating-end: #831435;
+  --accent-shield-top: #801334;
+  --accent-soft: #cb96a5;
+  --accent-soft-hover: #dcb9c3;
+  --accent-soft-ink: #090a08;
+  --accent-soft-edge: #d6adb9;
+  --accent-control-edge: #bc788c;
+  --detail: #bc788c;
+  --accent-edge: #7d1332;
+  --accent-rating-edge: #811434;
+  --accent-panel-end: #841435;
+  --accent-panel-edge: #7a1231;
+  --accent-border: #501f2a;
+  --accent-border-muted: #4b2029;
+  --accent-border-soft: #3d2226;
+  --accent-chip-edge: #432127;
+  --accent-chip-ink: #ead5db;
+  --accent-coverage-edge: #4d1f2a;
+  --accent-panel-gloss: rgba(0,0,0,.08);
+  --accent-ink-muted: #ebd7dd;
+}
+/* Gerado por scripts/build-theme.py a partir de theme.json. Não editar à mão. */
+/* Primária original nos fundos; variante legível nos textos. Base neutra fixa. */
+@layer volt-client-colors;
+:root[data-volt-palette="claro"] {
+  --brand-primary: #eeeeee;
+  --brand-primary-rgb: 238,238,238;
+  --brand-secondary: #eeeeee;
+  --brand-secondary-rgb: 238,238,238;
+  --accent: #eeeeee;
+  --accent-text: #eeeeee;
+  --accent-hover: #f0f0f0;
+  --accent-ink: #090a08;
+  --accent-ink-rgb: 9,10,8;
+  --accent-fill-end: #efefef;
+  --accent-rating-end: #efefef;
+  --accent-shield-top: #efefef;
+  --accent-soft: #f7f7f7;
+  --accent-soft-hover: #fafafa;
+  --accent-soft-ink: #090a08;
+  --accent-soft-edge: #f9f9f9;
+  --accent-control-edge: #eeeeee;
+  --detail: #eeeeee;
+  --accent-edge: #d6d6d6;
+  --accent-rating-edge: #dddddd;
+  --accent-panel-end: #efefef;
+  --accent-panel-edge: #d1d1d1;
+  --accent-border: #7d817c;
+  --accent-border-muted: #727772;
+  --accent-border-soft: #585d57;
+  --accent-chip-edge: #646963;
+  --accent-chip-ink: #fcfcfc;
+  --accent-coverage-edge: #777b76;
+  --accent-panel-gloss: rgba(255,255,255,.08);
+  --accent-ink-muted: #30312f;
+}
+/* Gerado por scripts/build-theme.py a partir de theme.json. Não editar à mão. */
+/* Primária original nos fundos; variante legível nos textos. Base neutra fixa. */
+@layer volt-client-colors;
+:root[data-volt-palette="escuro"] {
+  --brand-primary: #101827;
+  --brand-primary-rgb: 16,24,39;
+  --brand-secondary: #101827;
+  --brand-secondary-rgb: 16,24,39;
+  --accent: #101827;
+  --accent-text: #888c93;
+  --accent-hover: #0e1522;
+  --accent-ink: #ffffff;
+  --accent-ink-rgb: 255,255,255;
+  --accent-fill-end: #0f1725;
+  --accent-rating-end: #0f1725;
+  --accent-shield-top: #0f1624;
+  --accent-soft: #93979e;
+  --accent-soft-hover: #b7babe;
+  --accent-soft-ink: #090a08;
+  --accent-soft-edge: #abaeb3;
+  --accent-control-edge: #888c93;
+  --detail: #888c93;
+  --accent-edge: #0e1623;
+  --accent-rating-edge: #0f1624;
+  --accent-panel-end: #0f1725;
+  --accent-panel-edge: #0e1522;
+  --accent-border: #192023;
+  --accent-border-muted: #1a2122;
+  --accent-border-soft: #1c2321;
+  --accent-chip-edge: #1b2222;
+  --accent-chip-ink: #d4d5d8;
+  --accent-coverage-edge: #192122;
+  --accent-panel-gloss: rgba(0,0,0,.08);
+  --accent-ink-muted: #d6d8da;
+}
+/* Gerado por scripts/build-theme.py a partir de theme.json. Não editar à mão. */
+/* Primária original nos fundos; variante legível nos textos. Base neutra fixa. */
+@layer volt-client-colors;
+:root[data-volt-palette="duas-cores"] {
+  --brand-primary: #164cba;
+  --brand-primary-rgb: 22,76,186;
+  --brand-secondary: #f47b20;
+  --brand-secondary-rgb: 244,123,32;
+  --accent: #164cba;
+  --accent-text: #688bd2;
+  --accent-hover: #1343a4;
+  --accent-ink: #ffffff;
+  --accent-ink-rgb: 255,255,255;
+  --accent-fill-end: #1548b1;
+  --accent-rating-end: #1547af;
+  --accent-shield-top: #1446ab;
+  --accent-soft: #96aee0;
+  --accent-soft-hover: #b9c9ea;
+  --accent-soft-ink: #090a08;
+  --accent-soft-edge: #adc0e7;
+  --accent-control-edge: #688bd2;
+  --detail: #f47b20;
+  --accent-edge: #1444a7;
+  --accent-rating-edge: #1447ad;
+  --accent-panel-end: #1548b1;
+  --accent-panel-edge: #1343a4;
+  --accent-border: #1c3865;
+  --accent-border-muted: #1c365d;
+  --accent-border-soft: #1d3149;
+  --accent-chip-edge: #1d3352;
+  --accent-chip-ink: #d5dff3;
+  --accent-coverage-edge: #1c3760;
+  --accent-panel-gloss: rgba(0,0,0,.08);
+  --accent-ink-muted: #d7e1f3;
+}

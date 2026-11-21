@@ -131,6 +131,17 @@ def main():
     tasks = [(ROOT/"volt-theme.css",config)]
     if args.examples:
         tasks += [(ROOT/"theme-examples"/(name+".css"),cfg) for name,cfg in EXAMPLES.items()]
+    if args.examples:
+        examples_css = "/* Ensaio de cores: seletores definidos antes do primeiro desenho da página. */\n"
+        for name, cfg in EXAMPLES.items():
+            css, _ = compile_theme(cfg)
+            examples_css += css.replace(":root {", ':root[data-volt-palette="' + name + '"] {')
+        path = ROOT/"volt-theme-examples.css"
+        if args.check:
+            if not path.exists() or path.read_text() != examples_css:
+                raise ValueError("Regere volt-theme-examples.css")
+        else:
+            path.write_text(examples_css)
     for path,cfg in tasks:
         css, checks = compile_theme(cfg)
         if args.check:
