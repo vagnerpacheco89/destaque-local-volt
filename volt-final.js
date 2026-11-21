@@ -1047,7 +1047,7 @@
  const write=(k,t)=>{const e=panel.querySelector('[data-fq="'+k+'"]');if(e.textContent!==t)e.textContent=t;};
  const box=(r,cls)=>{if(r.width<=0||r.height<=0||r.bottom<0||r.top>innerHeight)return;const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});marks.append(e);};
  const mark=(e,cls)=>box(R(e),'volt-analysis-outline '+cls),gap=(a,b)=>{const x=R(a),y=R(b);if(y.top>=x.bottom)box({left:y.left,top:x.bottom,width:y.width,height:y.top-x.bottom,bottom:y.top},'volt-analysis-gap');};
- let pending=false;const render=()=>{pending=false;const mobile=innerWidth<=620,stacked=innerWidth<=900,compact=innerWidth<=860,issues=[],open=items.filter(d=>d.open),questionMax=mobile?3:2,answerMax=mobile?12:7,qs=questions.map(lines),er=R(eye),tr=R(title),cr=R(cta),cs=getComputedStyle(cta);
+ let pending=false;const render=()=>{pending=false;const mobile=innerWidth<=620,stacked=innerWidth<=900,compact=innerWidth<=860,issues=[],open=items.filter(d=>d.open),questionMax=mobile?3:2,answerMax=mobile?8:7,qs=questions.map(lines),er=R(eye),tr=R(title),cr=R(cta),cs=getComputedStyle(cta);
   if(lines(eye)!==1||er.width>280.4||er.width>=Math.max(...rows(title).map(r=>r.right-r.left)))issues.push('Eyebrow');
   if(lines(title)<1||lines(title)>2||tr.width>620.4||!within(title))issues.push('H2');
   if(lines(intro)<1||lines(intro)>(mobile?5:3)||R(intro).width>760.4||!within(intro))issues.push('apresentação');
