@@ -2578,6 +2578,7 @@ html[data-volt-faq-analysis] #faq .reveal-item {opacity:1 !important;transform:n
 /* Chamada final — regras aplicadas para revisão do Founder. */
 @layer volt-final-review {
  #contato {scroll-margin-top:88px;}
+ #contato::before {right:0;width:min(520px,100%);}
  #contato [data-final-copy][hidden] {display:none !important;}
  #contato .final-cta__inner {grid-template-columns:minmax(0,1.25fr) minmax(340px,.75fr) !important;align-items:stretch !important;}
  #contato .final-cta__inner>div:first-child {min-width:0;padding:40px !important;}
