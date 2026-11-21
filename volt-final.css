@@ -2609,7 +2609,7 @@ html[data-volt-faq-analysis] #faq .reveal-item {opacity:1 !important;transform:n
 }
 html[data-volt-final-analysis] #contato .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
 
-/* Rodapé — parametrização aplicada para revisão do Founder. */
+/* Rodapé — parametrização aprovada pelo Founder. */
 @layer volt-footer-review {
  #rodape {scroll-margin-top:88px;}
  #rodape [data-footer-copy][hidden] {display:none !important;}
@@ -2711,7 +2711,7 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
  }
 }
 
-/* Teste de alinhamento central nas colunas do rodapé. */
+/* Alinhamento central aprovado nas colunas do rodapé. */
 @layer volt-footer-review {
  #rodape .footer-grid>* {text-align:center !important;}
  #rodape .footer-grid :is(p,.footer-hours,.footer-nav,.footer-contact__cta) {text-align:center !important;}
