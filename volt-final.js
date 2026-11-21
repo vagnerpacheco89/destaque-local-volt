@@ -84,7 +84,7 @@
 })();
 /* CTAs: seleção pela largura útil real. */
 (() => {
-  document.querySelectorAll('.services-other__cta, .diagnostic__cta, .portfolio-closing__cta, .about__action .btn, .faq__cta').forEach(cta => {
+  document.querySelectorAll('.services-other__cta, .diagnostic__cta, .portfolio-closing__cta, .about__action .btn, .faq__cta, .final-cta__action .btn').forEach(cta => {
   const full = cta.querySelector('.volt-cta__full');
   const short = cta.querySelector('.volt-cta__short');
   const measure = text => {
@@ -339,7 +339,7 @@
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
-        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a><a href="#sobre">Ir a Sobre</a><a href="#area-atendida">Ir a Área atendida</a><a href="#faq">Ir a Dúvidas frequentes</a>
+        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a><a href="#sobre">Ir a Sobre</a><a href="#area-atendida">Ir a Área atendida</a><a href="#faq">Ir a Dúvidas frequentes</a><a href="#contato">Ir à Chamada final</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
@@ -350,7 +350,7 @@
   panel.querySelector('.volt-analysis-exit').href = normalURL.href;
   const serviceDetails = document.createElement('details');
   serviceDetails.dataset.analysisSection = 'servicos';
-  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title','#sobre','#sobre-title','#area-atendida','#area-title','#faq','#faq-title','#avaliar-no-google','#google-review-title'].includes(location.hash);
+  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title','#sobre','#sobre-title','#area-atendida','#area-title','#faq','#faq-title','#contato','#cta-title','#avaliar-no-google','#google-review-title'].includes(location.hash);
   serviceDetails.innerHTML = '<summary>Serviços · limites definidos</summary>';
   const body = panel.querySelector('.volt-analysis-body');
   const actions = body.querySelector('.volt-analysis-actions');
@@ -1073,4 +1073,49 @@
  };
  const redraw=()=>{if(!pending){pending=true;requestAnimationFrame(render)}};
  new ResizeObserver(redraw).observe(s);items.forEach(d=>d.addEventListener('toggle',redraw));window.addEventListener('scroll',redraw,{passive:true});window.addEventListener('resize',redraw,{passive:true});window.addEventListener('volt-analysis-toggle',redraw);document.fonts.ready.then(redraw);redraw();
+})();
+
+/* Chamada final — encaixe e marcações para revisão. */
+(() => {
+ const s=document.querySelector('#contato');if(!s)return;
+ const inner=s.querySelector('.final-cta__inner'),copy=inner.firstElementChild,eye=s.querySelector('.eyebrow'),title=s.querySelector('h2'),intro=s.querySelector('.final-cta__intro'),action=s.querySelector('.final-cta__action'),label=s.querySelector('.final-cta__action-label'),cta=action.querySelector('button'),micro=action.querySelector('small');
+ const rows=e=>{const out=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){const n=w.currentNode;if(!n.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(n);for(const b of r.getClientRects())if(b.width&&b.height){const v=out.find(x=>Math.abs(x.y-b.y)<2);if(v){v.left=Math.min(v.left,b.left);v.right=Math.max(v.right,b.right);}else out.push({y:b.y,left:b.left,right:b.right});}}return out;};
+ const R=e=>e.getBoundingClientRect(),lines=e=>rows(e).length,px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
+ const choose=(e,v)=>e.querySelectorAll('[data-final-copy]').forEach(n=>n.hidden=n.dataset.finalCopy!==v);
+ const variant=e=>e.querySelector('[data-final-copy]:not([hidden])').dataset.finalCopy;
+ let fitting=false;const fit=()=>{fitting=false;for(const v of ['full','compact','short']){choose(title,v);if(lines(title)<=2)break;}choose(eye,'full');const max=Math.max(...rows(title).map(r=>r.right-r.left));if(R(eye).width>=max||eye.scrollWidth>eye.clientWidth+.4)choose(eye,'short');choose(intro,'full');if(lines(intro)>(innerWidth<=620?5:3))choose(intro,'short');s.dispatchEvent(new Event('volt-final-fit'));};
+ const scheduleFit=()=>{if(!fitting){fitting=true;requestAnimationFrame(fit)}};new ResizeObserver(scheduleFit).observe(copy);document.fonts.ready.then(scheduleFit);window.addEventListener('resize',scheduleFit,{passive:true});window.addEventListener('load',scheduleFit,{once:true});fit();
+ if(new URLSearchParams(location.search).get('limites')!=='1')return;
+ const shared=document.querySelector('#volt-analysis-panel'),overlay=document.querySelector('#volt-analysis-marks');if(!shared||!overlay)return;
+ document.documentElement.setAttribute('data-volt-final-analysis','');
+ const panel=document.createElement('details');panel.dataset.analysisSection='contato';panel.open=['#contato','#cta-title'].includes(location.hash);
+ panel.innerHTML='<summary>Chamada final · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Seção inteira · EM REVISÃO</p><p>Fechamento da página: convite para contato e orientação útil, preservando as regiões e o caráter demonstrativo. Regras aplicadas para revisão do Founder, sem consolidação definitiva no manual.</p><dl><dt class="volt-analysis-blue">Azul · Eyebrow</dt><dd data-fc="eye"></dd><dt class="volt-analysis-green">Verde · H2</dt><dd data-fc="title"></dd><dt class="volt-analysis-purple">Roxo · apresentação</dt><dd data-fc="intro"></dd><dt class="volt-analysis-green">Verde · rótulo de contato</dt><dd data-fc="label"></dd><dt class="volt-analysis-blue">Azul · Copy do CTA</dt><dd data-fc="cta"></dd><dt class="volt-analysis-purple">Roxo · Microcopy</dt><dd data-fc="micro"></dd><dt class="volt-analysis-amber">Amarelo · composição e intervalos</dt><dd data-fc="gaps"></dd></dl><p data-fc="fit"></p><p>Na personalização, confirmar nome de atendimento, atividade, regiões e contato. Não acrescentar promessas de chegada, gratuidade, disponibilidade ou garantia. Variantes compactas preservam os fatos; sem cortes, redução de fonte ou reserva artificial de linhas.</p></div>';shared.append(panel);
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='contato';overlay.append(marks);
+ const write=(k,t)=>{const e=panel.querySelector('[data-fc="'+k+'"]');if(e.textContent!==t)e.textContent=t;};
+ const box=(r,cls)=>{if(r.width<=0||r.height<=0||r.bottom<0||r.top>innerHeight)return;const e=document.createElement('div');e.className=cls;Object.assign(e.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});marks.append(e);};
+ const mark=(e,cls)=>box(R(e),'volt-analysis-outline '+cls),gap=(a,b)=>{const x=R(a),y=R(b);if(y.top>=x.bottom)box({left:y.left,top:x.bottom,width:y.width,height:y.top-x.bottom,bottom:y.top},'volt-analysis-gap');};
+ const inside=(e,p)=>{const a=R(e),b=R(p);return a.left>=b.left-.4&&a.right<=b.right+.4&&a.top>=b.top-.4&&a.bottom<=b.bottom+.4;};
+ const within=e=>rows(e).every(r=>r.left>=R(e).left-.4&&r.right<=R(e).right+.4);
+ let pending=false;const render=()=>{pending=false;const mobile=innerWidth<=620,stacked=innerWidth<=1080,issues=[],er=R(eye),tr=R(title),cr=R(cta),cs=getComputedStyle(cta);
+  if(lines(eye)!==1||er.width>280.4||er.width>=Math.max(...rows(title).map(r=>r.right-r.left))||!within(eye))issues.push('Eyebrow');
+  if(lines(title)<1||lines(title)>2||tr.width>620.4||!within(title))issues.push('H2');
+  if(lines(intro)<1||lines(intro)>(mobile?5:3)||R(intro).width>760.4||!within(intro))issues.push('apresentação');
+  if(lines(label)<1||lines(label)>2||!within(label)||R(label).width>280.4)issues.push('rótulo de contato');
+  if(lines(cta)!==1||cr.height<57.7||cta.dataset.copyOverflow==='true'||rows(cta).some(r=>r.left<cr.left+parseFloat(cs.paddingLeft)-.4||r.right>cr.right-parseFloat(cs.paddingRight)+.4))issues.push('Copy do CTA');
+  if(lines(micro)<1||lines(micro)>3||R(micro).width>360.4||!within(micro))issues.push('Microcopy');
+  if([eye,title,intro].some(e=>!inside(e,copy))||[label,cta,micro].some(e=>!inside(e,action)))issues.push('limites dos painéis');
+  if(Math.abs(tr.top-er.bottom-12)>.4||Math.abs(R(intro).top-tr.bottom-16)>.4||Math.abs(cr.top-R(label).bottom-16)>.4||Math.abs(R(micro).top-cr.bottom-12)>.4)issues.push('intervalos internos');
+  if(stacked?Math.abs(R(action).top-R(copy).bottom)>.4:Math.abs(R(action).top-R(copy).top)>.4||Math.abs(R(action).bottom-R(copy).bottom)>.4)issues.push('composição');
+  if(s.scrollWidth>s.clientWidth+.4)issues.push('transbordamento');
+  write('eye',px(er.width)+' / '+lines(eye)+' linha. Teto 280 px incluindo traço de 34 px; menor que a maior linha do H2. Variante '+variant(eye)+'. Texto preto sobre amarelo.');
+  write('title',px(tr.width)+' / '+lines(title)+' linha(s), máximo 2. Teto 620 px dentro do painel; fonte preservada, altura natural, sem reserva. Variante '+variant(title)+'.');
+  write('intro',px(R(intro).width)+' / '+lines(intro)+' linha(s). Até 3 acima de 620 px e 5 no celular; teto 760 px dentro do painel, Inter 16 px / 1,6, altura natural. Variante '+variant(intro)+'. Palhoça, São José e Florianópolis continental preservadas.');
+  write('label',px(R(label).width)+' / '+lines(label)+' linha(s), máximo 2, teto 280 px. Rótulo de contato, Inter 12 px / 900 / 1,4; centralizado, sem reserva. Texto preservado.');
+  write('cta',px(cr.width)+' × '+px(cr.height)+' / '+lines(cta)+' linha. Exatamente uma linha; mínimo 58 px preservado, recuos laterais 20 px, largura inteira até 620 px e de até 440 px nas demais telas, dentro do painel. Variante '+(cta.dataset.copyFit||'CSS')+' pela largura útil real. Diálogo demonstrativo preservado.');
+  write('micro',px(R(micro).width)+' / '+lines(micro)+' linha(s), máximo 3, teto 360 px. Inter 14 px / 1,5, altura natural e texto completo. Centralizada abaixo do botão.');
+  write('gaps','Eyebrow → H2: '+px(tr.top-er.bottom)+'; H2 → apresentação: '+px(R(intro).top-tr.bottom)+'; rótulo → botão: '+px(cr.top-R(label).bottom)+'; botão → Microcopy: '+px(R(micro).top-cr.bottom)+'. '+(stacked?'Painel amarelo acima da ação escura até 1080 px.':'Painéis unidos lado a lado, alinhados pelo topo e pela base acima de 1080 px.')+' Sem espaço adicional entre as duas superfícies; divisória de 1 px. Recuos internos do texto: '+getComputedStyle(copy).padding+'; ação: '+getComputedStyle(action).padding+'. Ação centralizada horizontal e verticalmente. Detalhe de canto contido no recuo, sem passar sobre o texto. Recuos externos: 50 px acima de 620 px, 36 px até 620 px.');
+  write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+  marks.replaceChildren();if(overlay.hidden)return;mark(eye,'volt-analysis-outline--heading');mark(title,'volt-analysis-outline--intro');mark(intro,'volt-analysis-outline--other-intro');mark(label,'volt-analysis-outline--intro');mark(cta,'volt-analysis-outline--heading');mark(micro,'volt-analysis-outline--other-intro');gap(eye,title);gap(title,intro);gap(label,cta);gap(cta,micro);
+ };
+ const redraw=()=>{if(!pending){pending=true;requestAnimationFrame(render)}};new ResizeObserver(redraw).observe(s);window.addEventListener('scroll',redraw,{passive:true});window.addEventListener('resize',redraw,{passive:true});window.addEventListener('volt-analysis-toggle',redraw);s.addEventListener('volt-final-fit',redraw);document.fonts.ready.then(redraw);redraw();
 })();

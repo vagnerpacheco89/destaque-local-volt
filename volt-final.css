@@ -1,4 +1,4 @@
-@layer volt-faq-review, volt-area-review;
+@layer volt-final-review, volt-faq-review, volt-area-review;
 /* VOLT — camada final consolidada.
    Mantém styles.css como base histórica e reúne aqui todos os ajustes aprovados.
    Nenhum estilo desta folha depende de JavaScript para existir. */
@@ -2574,3 +2574,36 @@ html[data-volt-area-analysis] #area-atendida .reveal-item {opacity:1 !important;
  }
 }
 html[data-volt-faq-analysis] #faq .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
+
+/* Chamada final — regras aplicadas para revisão do Founder. */
+@layer volt-final-review {
+ #contato {scroll-margin-top:88px;}
+ #contato [data-final-copy][hidden] {display:none !important;}
+ #contato .final-cta__inner {grid-template-columns:minmax(0,1.25fr) minmax(340px,.75fr) !important;align-items:stretch !important;}
+ #contato .final-cta__inner>div:first-child {min-width:0;padding:40px !important;}
+ #contato .final-cta__inner>div:first-child::after {width:20px;height:20px;top:10px;right:10px;}
+ #contato .eyebrow {width:max-content;max-width:min(280px,100%) !important;white-space:nowrap;margin:0 0 12px !important;}
+ #contato .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
+ #contato h2 {max-width:min(620px,100%) !important;min-height:0 !important;margin:0 0 16px !important;}
+ #contato .final-cta__intro {max-width:min(760px,100%) !important;min-height:0;font-size:16px !important;line-height:1.6 !important;margin:0 !important;}
+ #contato .final-cta__action {min-width:0;align-items:center !important;text-align:center !important;gap:0 !important;padding:32px !important;}
+ #contato .final-cta__action-label {max-width:min(280px,100%);min-height:0;margin:0 0 16px !important;font-size:12px !important;line-height:1.4 !important;text-align:center !important;}
+ #contato .final-cta__action .btn {box-sizing:border-box;flex-shrink:0;min-width:0 !important;width:100% !important;max-width:440px !important;min-height:58px !important;height:auto !important;padding:0 20px !important;}
+ #contato .final-cta__action .btn[data-copy-fit="full"] .volt-cta__full {display:inline !important;}
+ #contato .final-cta__action .btn[data-copy-fit="full"] .volt-cta__short {display:none !important;}
+ #contato .final-cta__action .btn[data-copy-fit="short"] .volt-cta__full {display:none !important;}
+ #contato .final-cta__action .btn[data-copy-fit="short"] .volt-cta__short {display:inline !important;}
+ #contato .final-cta__action small {max-width:min(360px,100%) !important;min-height:0;margin:12px 0 0 !important;font-size:14px !important;line-height:1.5 !important;text-align:center !important;}
+ @media(max-width:1080px) {
+  #contato .final-cta__inner {grid-template-columns:minmax(0,1fr) !important;}
+  #contato .final-cta__action {border-left:0 !important;border-top:1px solid rgba(244,196,0,.34) !important;}
+ }
+ @media(max-width:860px) {#contato .final-cta__inner>div:first-child {padding:32px !important;}#contato .final-cta__action {padding:28px !important;}}
+ @media(max-width:620px) {
+  #contato {scroll-margin-top:79px;}
+  #contato .final-cta__inner>div:first-child,#contato .final-cta__action {padding:24px !important;}
+  #contato .final-cta__inner>div:first-child::after {width:12px;height:12px;top:8px;right:8px;}
+  #contato .final-cta__action .btn {max-width:100% !important;}
+ }
+}
+html[data-volt-final-analysis] #contato .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
