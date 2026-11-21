@@ -1,4 +1,4 @@
-@layer volt-final-review, volt-faq-review, volt-area-review;
+@layer volt-footer-review, volt-final-review, volt-faq-review, volt-area-review;
 /* VOLT — camada final consolidada.
    Mantém styles.css como base histórica e reúne aqui todos os ajustes aprovados.
    Nenhum estilo desta folha depende de JavaScript para existir. */
@@ -2608,3 +2608,69 @@ html[data-volt-faq-analysis] #faq .reveal-item {opacity:1 !important;transform:n
  }
 }
 html[data-volt-final-analysis] #contato .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
+
+/* Rodapé — parametrização aplicada para revisão do Founder. */
+@layer volt-footer-review {
+ #rodape {scroll-margin-top:88px;}
+ #rodape [data-footer-copy][hidden] {display:none !important;}
+ #rodape::before {width:min(1180px,calc(100% - 2 * var(--volt-page-gutter))) !important;}
+ #rodape .footer-grid {grid-template-columns:minmax(240px,1.4fr) repeat(3,minmax(155px,.9fr)) minmax(230px,1.2fr) !important;column-gap:20px !important;row-gap:32px !important;padding:50px 0 40px !important;align-items:start !important;}
+ #rodape .footer-grid>* {position:relative;min-width:0;padding:0 0 0 20px !important;border-left:1px solid #202423 !important;border-top:0 !important;}
+ #rodape .footer-grid>*:first-child {padding-left:0 !important;border-left:0 !important;}
+ #rodape .wordmark {max-width:100%;margin:0 0 16px !important;}
+ #rodape .footer-brand__text {max-width:min(290px,100%);margin:0 0 16px !important;font-size:16px !important;line-height:1.6 !important;}
+ #rodape .footer-brand__location {max-width:100%;font-size:16px !important;line-height:1.5 !important;}
+ #rodape .footer-brand__location>span {flex:0 0 7px;}
+ #rodape [data-footer-eyebrow] {width:max-content;max-width:min(280px,100%) !important;}
+ #rodape .footer-block__label {max-width:100%;margin:0 0 12px !important;font-size:12px !important;line-height:1.4 !important;}
+ #rodape .footer-block>p:not(.footer-block__label) {margin:0 0 8px !important;font-size:16px !important;line-height:1.5 !important;}
+ #rodape .footer-block>p:last-child {margin-bottom:0 !important;}
+ #rodape .footer-hours {gap:4px !important;margin:0 0 12px !important;}
+ #rodape .footer-hours:last-child {margin-bottom:0 !important;}
+ #rodape .footer-nav {gap:8px !important;}
+ #rodape .footer-nav a {max-width:100%;font-size:16px !important;line-height:1.5 !important;transform:none !important;}
+ #rodape .footer-contact h3 {max-width:min(440px,100%) !important;min-height:0 !important;margin:0 0 12px !important;}
+ #rodape .footer-contact>p:not(.footer-block__label) {max-width:min(440px,100%);margin:0 0 16px !important;font-size:16px !important;line-height:1.6 !important;}
+ #rodape .footer-contact__cta {box-sizing:border-box;width:max-content !important;max-width:min(280px,100%) !important;min-width:0 !important;min-height:44px !important;height:auto !important;gap:8px !important;padding:10px 14px !important;transform:none !important;}
+ #rodape .footer-contact__cta>[aria-hidden] {flex-shrink:0;}
+ #rodape .footer-contact__cta[data-copy-fit="full"] .volt-cta__full {display:inline !important;}
+ #rodape .footer-contact__cta[data-copy-fit="full"] .volt-cta__short {display:none !important;}
+ #rodape .footer-contact__cta[data-copy-fit="short"] .volt-cta__full {display:none !important;}
+ #rodape .footer-contact__cta[data-copy-fit="short"] .volt-cta__short {display:inline !important;}
+ #rodape .footer-bottom {column-gap:24px !important;row-gap:16px !important;padding:18px 0 !important;}
+ #rodape .footer-bottom__credits {flex-wrap:wrap !important;white-space:normal !important;gap:8px 24px !important;}
+ #rodape .footer-bottom__legal,#rodape .footer-bottom__developer {max-width:100%;flex-wrap:wrap !important;gap:6px !important;white-space:normal !important;}
+ #rodape .footer-bottom__legal>span,#rodape .footer-bottom__developer-label {max-width:100%;white-space:normal !important;font-size:12px !important;line-height:1.5 !important;}
+ #rodape .footer-bottom__developer-link {max-width:100%;white-space:nowrap !important;}
+ #rodape .footer-bottom__back-top {box-sizing:border-box;max-width:100% !important;min-height:44px !important;font-size:14px !important;}
+ #rodape a:focus-visible,#rodape button:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
+ @media(max-width:1200px) {
+  #rodape .footer-grid {grid-template-columns:minmax(0,1.3fr) repeat(2,minmax(0,1fr)) !important;column-gap:32px !important;}
+  #rodape .footer-grid>* {padding:0 !important;border-left:0 !important;}
+  #rodape .footer-brand {grid-column:auto !important;}
+  #rodape .footer-nav-block {grid-column:1 !important;}
+  #rodape .footer-contact {grid-column:2 / -1 !important;}
+  #rodape .footer-nav-block::before,#rodape .footer-contact::before {content:'';position:absolute;top:-16px;left:0;right:0;height:1px;background:#202423;}
+ }
+ @media(max-width:860px) {
+  #rodape .footer-grid {grid-template-columns:repeat(2,minmax(0,1fr)) !important;column-gap:24px !important;padding:40px 0 32px !important;}
+  #rodape .footer-brand {grid-column:1 / -1 !important;}
+  #rodape .footer-contact {grid-column:auto !important;}
+ }
+ @media(max-width:760px) {
+  #rodape .footer-bottom {grid-template-columns:minmax(0,1fr) !important;padding:24px 0 !important;}
+  #rodape .footer-bottom__credits {flex-direction:column !important;gap:12px !important;}
+  #rodape .footer-bottom .footer-bottom__back-top {grid-column:1 !important;justify-self:center !important;}
+ }
+ @media(max-width:620px) {
+  #rodape {scroll-margin-top:79px;}
+  #rodape .footer-grid {padding:32px 0 !important;}
+  #rodape .footer-contact__cta {width:100% !important;max-width:100% !important;}
+ }
+ @media(max-width:480px) {
+  #rodape .footer-grid {grid-template-columns:minmax(0,1fr) !important;}
+  #rodape .footer-grid>* {grid-column:auto !important;}
+  #rodape .footer-grid>*+*::before {content:'';position:absolute;top:-16px;left:0;right:0;height:1px;background:#202423;}
+ }
+}
+html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;transform:none !important;transition:none !important;}
