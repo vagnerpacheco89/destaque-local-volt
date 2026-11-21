@@ -2710,3 +2710,11 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
   #rodape .footer-social--whatsapp svg {width:23px;height:23px;}
  }
 }
+
+/* Teste de alinhamento central nas colunas do rodapé. */
+@layer volt-footer-review {
+ #rodape .footer-grid>* {text-align:center !important;}
+ #rodape .footer-grid :is(p,.footer-hours,.footer-nav,.footer-contact__cta) {text-align:center !important;}
+ #rodape .footer-grid :is(p,.footer-contact__cta) {margin-inline:auto !important;}
+ #rodape :is(.footer-hours,.footer-nav) {justify-items:center !important;}
+}
