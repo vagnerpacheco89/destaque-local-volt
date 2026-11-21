@@ -2578,11 +2578,11 @@ html[data-volt-faq-analysis] #faq .reveal-item {opacity:1 !important;transform:n
 /* Chamada final — regras aplicadas para revisão do Founder. */
 @layer volt-final-review {
  #contato {scroll-margin-top:88px;}
- #contato::before {right:0;width:min(520px,100%);}
+ #contato::before {right:0 !important;width:min(520px,100%) !important;}
  #contato [data-final-copy][hidden] {display:none !important;}
  #contato .final-cta__inner {grid-template-columns:minmax(0,1.25fr) minmax(340px,.75fr) !important;align-items:stretch !important;}
  #contato .final-cta__inner>div:first-child {min-width:0;padding:40px !important;}
- #contato .final-cta__inner>div:first-child::after {width:20px;height:20px;top:10px;right:10px;}
+ #contato .final-cta__inner>div:first-child::after {width:20px !important;height:20px !important;top:10px !important;right:10px !important;}
  #contato .eyebrow {width:max-content;max-width:min(280px,100%) !important;white-space:nowrap;margin:0 0 12px !important;}
  #contato .eyebrow::after {width:34px !important;flex:0 0 34px !important;}
  #contato h2 {max-width:min(620px,100%) !important;min-height:0 !important;margin:0 0 16px !important;}
@@ -2603,7 +2603,7 @@ html[data-volt-faq-analysis] #faq .reveal-item {opacity:1 !important;transform:n
  @media(max-width:620px) {
   #contato {scroll-margin-top:79px;}
   #contato .final-cta__inner>div:first-child,#contato .final-cta__action {padding:24px !important;}
-  #contato .final-cta__inner>div:first-child::after {width:12px;height:12px;top:8px;right:8px;}
+  #contato .final-cta__inner>div:first-child::after {width:12px !important;height:12px !important;top:8px !important;right:8px !important;}
   #contato .final-cta__action .btn {max-width:100% !important;}
  }
 }
