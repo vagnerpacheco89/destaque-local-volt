@@ -2759,3 +2759,7 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
   #topo .wordmark__main {font-size:19px !important;}
  }
 }
+
+/* Âncora da Hero: respeitar a navbar sticky sem alterar a composição. */
+#hero {scroll-margin-top:88px;}
+@media(max-width:620px) {#hero {scroll-margin-top:78px;}}

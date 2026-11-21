@@ -1299,7 +1299,7 @@ function voltSelectHeading(element, variant) {
  if(texts.some(e=>lines(e)<1||lines(e)>3||R(e).height<3*parseFloat(getComputedStyle(e).lineHeight)-.5||!inkInside(e)))issues.push('confiança');
  if(cards.some(e=>Math.abs(R(e).width-R(cards[0]).width)>.5)||!inside(trust,trust.parentElement))issues.push('grade de confiança');
  const sequence=[eye,title,lead,promise,actions,micro];if(sequence.some((e,i)=>i&&R(e).top<R(sequence[i-1]).bottom-.5))issues.push('sobreposição');
- if([eye,title,lead,promise,actions,micro].some(e=>!inside(e,copy))||s.scrollWidth>s.clientWidth+.5)issues.push('transbordamento');
+ if([eye,title,lead,promise,actions,micro].some(e=>!inside(e,copy))||document.documentElement.scrollWidth>document.documentElement.clientWidth+.5)issues.push('transbordamento');
  write('eye',lines(eye)+' linha; caixa '+px(R(eye).width)+'. Uma linha e reserva de uma. Teto 360 px, incluindo símbolo, separador, traço e intervalos; até 620 px, no máximo 90% da coluna. Variante curta aprovada até 360 px.');
  write('title',lines(title)+' linha(s) reais; reserva de '+reserve+' linhas / mínimo '+getComputedStyle(title).minHeight+'. Caixa '+px(tr.width)+' × '+px(tr.height)+'. Regra: '+(mobile?'2–3 linhas, reserva de três.':'exatamente duas linhas, reserva de duas.')+' Fonte atual '+getComputedStyle(title).fontSize+'; exceção aprovada de 60 px até 340 px. Cidade em amarelo, sem corte ou abreviação automática.');
  write('lead',lines(lead)+' linha(s) / '+px(R(lead).width)+'. Faixa '+(mobile?'2–4':'2–3')+' linhas; teto 620 px dentro da coluna; altura natural, sem reserva.');
