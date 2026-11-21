@@ -2617,6 +2617,9 @@ html[data-volt-final-analysis] #contato .reveal-item {opacity:1 !important;trans
  #rodape .footer-grid {grid-template-columns:minmax(240px,1.4fr) repeat(3,minmax(155px,.9fr)) minmax(230px,1.2fr) !important;column-gap:20px !important;row-gap:32px !important;padding:50px 0 40px !important;align-items:start !important;}
  #rodape .footer-grid>* {position:relative;min-width:0;padding:0 0 0 20px !important;border-left:1px solid #202423 !important;border-top:0 !important;}
  #rodape .footer-grid>*:first-child {padding-left:0 !important;border-left:0 !important;}
+ @media(min-width:1201px) {
+  #rodape .footer-grid>* {align-self:stretch !important;}
+ }
  #rodape .wordmark {max-width:100%;margin:0 0 16px !important;}
  #rodape .footer-brand__text {max-width:min(290px,100%);margin:0 0 16px !important;font-size:16px !important;line-height:1.6 !important;}
  #rodape .footer-brand__location {max-width:100%;font-size:16px !important;line-height:1.5 !important;}
