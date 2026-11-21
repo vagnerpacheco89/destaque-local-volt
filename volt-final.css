@@ -2724,7 +2724,7 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
  #topo {--volt-nav-height:76px;position:sticky;top:0;z-index:100;}
  #topo .nav-wrap {grid-template-columns:auto auto minmax(0,1fr) auto !important;gap:22px !important;min-height:var(--volt-nav-height) !important;padding-block:8px;box-sizing:border-box;}
  #topo .nav-wrap>* {min-width:0;}
- #topo .wordmark {margin:0 !important;min-height:44px;align-content:center;}
+ #topo .wordmark {margin:0 !important;min-height:44px;align-content:center;justify-self:start;width:max-content;max-width:100%;}
  #topo .wordmark__main {font-size:22px !important;line-height:1 !important;}
  #topo .wordmark__sub {font-size:9px !important;line-height:1 !important;}
  #topo .nav-demo-label {font-size:12px !important;line-height:1.5 !important;white-space:nowrap !important;}
