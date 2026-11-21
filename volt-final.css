@@ -2719,7 +2719,7 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
  #rodape :is(.footer-hours,.footer-nav) {justify-items:center !important;}
 }
 
-/* Navbar — parametrização em revisão. */
+/* Navbar — parametrização aprovada pelo Founder. */
 @layer volt-nav-review {
  #topo {--volt-nav-height:76px;position:sticky;top:0;z-index:100;}
  #topo .nav-wrap {grid-template-columns:auto auto minmax(0,1fr) auto !important;gap:22px !important;min-height:var(--volt-nav-height) !important;padding-block:8px;box-sizing:border-box;}
