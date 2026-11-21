@@ -1,3 +1,53 @@
+/* Headings: uma única copy no DOM; alternativas ficam apenas na configuração. */
+const voltHeadingCopies = {
+  "reviews-title": {
+    "attribute": "data-review-copy",
+    "variants": {
+      "full": "O QUE DIZEM SOBRE RAFAEL MARTINS",
+      "short": "O QUE DIZEM SOBRE RAFAEL"
+    }
+  },
+  "google-review-title": {
+    "attribute": "data-google-copy",
+    "variants": {
+      "full": "JÁ FOI ATENDIDO POR RAFAEL MARTINS?",
+      "short": "JÁ FOI ATENDIDO?"
+    }
+  },
+  "sobre-title": {
+    "attribute": "data-about-copy",
+    "variants": {
+      "full": "RAFAEL MARTINS, ELETRICISTA EM PALHOÇA",
+      "short": "RAFAEL MARTINS, ELETRICISTA"
+    }
+  },
+  "area-title": {
+    "attribute": "data-area-copy",
+    "variants": {
+      "full": "ATENDIMENTO EM PALHOÇA E REGIÃO",
+      "short": "PALHOÇA E REGIÃO"
+    }
+  },
+  "cta-title": {
+    "attribute": "data-final-copy",
+    "variants": {
+      "full": "FALE DIRETAMENTE COM RAFAEL MARTINS",
+      "compact": "FALE COM RAFAEL MARTINS",
+      "short": "FALE COM RAFAEL"
+    }
+  }
+};
+function voltSelectHeading(element, variant) {
+ const config=voltHeadingCopies[element.id];
+ if(!element.matches('h1,h2,h3,h4,h5,h6')||!config)return false;
+ const text=config.variants[variant];if(text===undefined)throw new Error('Variante de heading inexistente: '+element.id);
+ const active=element.firstElementChild;
+ if(active.textContent!==text)active.textContent=text;
+ active.setAttribute(config.attribute,variant);active.hidden=false;
+ element.dataset.headingVariant=variant;
+ return true;
+}
+
 
 /* Avaliações: H2 e Eyebrow selecionados pelo encaixe real. */
 (() => {
@@ -8,14 +58,13 @@
   while(w.nextNode()){const n=w.currentNode;if(!n.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(n);for(const b of r.getClientRects())if(b.width&&b.height){const row=rows.find(x=>Math.abs(x.y-b.y)<2);if(row){row.left=Math.min(row.left,b.left);row.right=Math.max(row.right,b.right);}else rows.push({y:b.y,left:b.left,right:b.right});}}return rows;
  };
  const fit=()=>{
-  const full=title.querySelector('[data-review-copy="full"]'),short=title.querySelector('[data-review-copy="short"]');
-  full.hidden=false;short.hidden=true;
-  if(visibleRows(title).length>2){full.hidden=true;short.hidden=false;}
+  voltSelectHeading(title,'full');
+  if(visibleRows(title).length>2)voltSelectHeading(title,'short');
   const ef=eye.querySelector('[data-review-copy="full"]'),es=eye.querySelector('[data-review-copy="short"]');
   ef.hidden=false;es.hidden=true;
   const max=Math.max(0,...visibleRows(title).map(r=>r.right-r.left));
   if(eye.scrollWidth>Math.min(280,eye.parentElement.clientWidth)+.1||eye.getBoundingClientRect().width>=max){ef.hidden=true;es.hidden=false;}
-  section.dataset.reviewTitleVariant=full.hidden?'short':'full';
+  section.dataset.reviewTitleVariant=title.dataset.headingVariant;
   section.dataset.reviewEyebrowVariant=ef.hidden?'short':'full';
 
   const intro=section.querySelector('.reviews-intro'),variants=[...intro.querySelectorAll('[data-review-intro-variant]')];
@@ -892,7 +941,7 @@
  const s=document.querySelector('#sobre');if(!s)return;
  const title=s.querySelector('h2'),eye=s.querySelector('.eyebrow');
  const rows=e=>{const out=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){if(!w.currentNode.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(w.currentNode);for(const b of r.getClientRects())if(b.width&&b.height){let q=out.find(x=>Math.abs(x.y-b.y)<2);if(q){q.left=Math.min(q.left,b.left);q.right=Math.max(q.right,b.right);}else out.push({y:b.y,left:b.left,right:b.right});}}return out;};
- const choose=(e,kind)=>{e.querySelectorAll('[data-about-copy]').forEach(n=>n.hidden=n.dataset.aboutCopy!==kind);};
+ const choose=(e,kind)=>{if(voltSelectHeading(e,kind))return;e.querySelectorAll('[data-about-copy]').forEach(n=>n.hidden=n.dataset.aboutCopy!==kind);};
  let pending=false;const fit=()=>{pending=false;choose(title,'full');if(rows(title).length>2)choose(title,'short');choose(eye,'full');const largest=Math.max(0,...rows(title).map(r=>r.right-r.left));if(eye.getBoundingClientRect().width>280||eye.getBoundingClientRect().width>=largest)choose(eye,'short');const maxLines=innerWidth<=620?5:3;s.querySelectorAll('.about__copy>p:not(.eyebrow)').forEach(p=>{const variants=[...p.querySelectorAll('[data-about-paragraph]')];let chosen=variants.at(-1);for(const candidate of variants){variants.forEach(e=>e.hidden=e!==candidate);chosen=candidate;if(rows(p).length>=2&&rows(p).length<=maxLines)break;}p.dataset.paragraphVariant=chosen.dataset.aboutParagraph;p.dataset.paragraphOverflow=String(rows(p).length<2||rows(p).length>maxLines);});s.dataset.aboutTitleVariant=title.querySelector('[data-about-copy]:not([hidden])').dataset.aboutCopy;s.dataset.aboutEyebrowVariant=eye.querySelector('[data-about-copy]:not([hidden])').dataset.aboutCopy;s.dispatchEvent(new Event('volt-about-fit'));};
  const schedule=()=>{if(!pending){pending=true;requestAnimationFrame(fit)}};new ResizeObserver(schedule).observe(s.querySelector('.about__copy'));window.addEventListener('resize',schedule,{passive:true});document.fonts.ready.then(schedule);window.addEventListener('load',schedule,{once:true});fit();
 })();
@@ -945,7 +994,7 @@
  const section=document.querySelector('#avaliar-no-google');if(!section)return;
  const panel=section.querySelector('.google-review__inner'),title=panel.querySelector('#google-review-title'),eye=panel.querySelector('.eyebrow');
  const rows=e=>{const out=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){if(!w.currentNode.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(w.currentNode);for(const b of r.getClientRects())if(b.width&&b.height){const q=out.find(x=>Math.abs(x.y-b.y)<2);if(q){q.left=Math.min(q.left,b.left);q.right=Math.max(q.right,b.right);}else out.push({y:b.y,left:b.left,right:b.right});}}return out;};
- const choose=(e,kind)=>e.querySelectorAll('[data-google-copy]').forEach(n=>n.hidden=n.dataset.googleCopy!==kind);
+ const choose=(e,kind)=>{if(voltSelectHeading(e,kind))return;e.querySelectorAll('[data-google-copy]').forEach(n=>n.hidden=n.dataset.googleCopy!==kind);};
  let queued=false;const fit=()=>{queued=false;choose(title,'full');if(rows(title).length>2)choose(title,'short');choose(eye,'full');if(eye.getBoundingClientRect().width>280||eye.getBoundingClientRect().width>=Math.max(...rows(title).map(r=>r.right-r.left)))choose(eye,'short');section.dataset.googleTitleVariant=title.querySelector('[data-google-copy]:not([hidden])').dataset.googleCopy;section.dataset.googleEyebrowVariant=eye.querySelector('[data-google-copy]:not([hidden])').dataset.googleCopy;section.dispatchEvent(new Event('volt-google-fit'));};
  const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(fit)}};new ResizeObserver(schedule).observe(panel);window.addEventListener('resize',schedule,{passive:true});window.addEventListener('load',schedule,{once:true});document.fonts.ready.then(schedule);fit();
 })();
@@ -989,7 +1038,7 @@
  const s=document.querySelector('#area-atendida');if(!s)return;
  const eye=s.querySelector('.eyebrow'),title=s.querySelector('h2'),intro=s.querySelector('.section-intro'),paragraphs=[...s.querySelectorAll('[data-area-paragraph]')];
  const rows=e=>{const out=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){if(!w.currentNode.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(w.currentNode);for(const b of r.getClientRects())if(b.width&&b.height){let q=out.find(x=>Math.abs(x.y-b.y)<2);if(q){q.left=Math.min(q.left,b.left);q.right=Math.max(q.right,b.right);}else out.push({y:b.y,left:b.left,right:b.right});}}return out;};
- const choose=(e,kind)=>e.querySelectorAll('[data-area-copy]').forEach(n=>n.hidden=n.dataset.areaCopy!==kind);
+ const choose=(e,kind)=>{if(voltSelectHeading(e,kind))return;e.querySelectorAll('[data-area-copy]').forEach(n=>n.hidden=n.dataset.areaCopy!==kind);};
  let pending=false;const fit=()=>{pending=false;choose(title,'full');if(rows(title).length>2)choose(title,'short');paragraphs.forEach((p,i)=>{const variants=[...p.querySelectorAll('[data-area-copy]')];let valid=false;for(const v of variants){if(i===1&&!paragraphs[0].querySelector('[data-area-copy]:not([hidden])').textContent.includes('residências e pequenos comércios')&&!v.textContent.includes('residências e pequenos comércios'))continue;choose(p,v.dataset.areaCopy);const n=rows(p).length;if(n>= (i===0?3:2)&&n<=3){valid=true;break;}}p.dataset.copyOverflow=String(!valid);});s.dispatchEvent(new Event('volt-area-fit'));};
  const schedule=()=>{if(!pending){pending=true;requestAnimationFrame(fit)}};new ResizeObserver(schedule).observe(s.querySelector('.service-area__grid'));window.addEventListener('resize',schedule,{passive:true});document.fonts.ready.then(schedule);fit();
  if(new URLSearchParams(location.search).get('limites')!=='1')return;
@@ -1083,7 +1132,7 @@
  const inner=s.querySelector('.final-cta__inner'),copy=inner.firstElementChild,eye=s.querySelector('.eyebrow'),title=s.querySelector('h2'),intro=s.querySelector('.final-cta__intro'),action=s.querySelector('.final-cta__action'),label=s.querySelector('.final-cta__action-label'),cta=action.querySelector('button'),micro=action.querySelector('small');
  const rows=e=>{const out=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){const n=w.currentNode;if(!n.textContent.trim())continue;const r=document.createRange();r.selectNodeContents(n);for(const b of r.getClientRects())if(b.width&&b.height){const v=out.find(x=>Math.abs(x.y-b.y)<2);if(v){v.left=Math.min(v.left,b.left);v.right=Math.max(v.right,b.right);}else out.push({y:b.y,left:b.left,right:b.right});}}return out;};
  const R=e=>e.getBoundingClientRect(),lines=e=>rows(e).length,px=n=>(Math.round(n*10)/10).toLocaleString('pt-BR')+' px';
- const choose=(e,v)=>e.querySelectorAll('[data-final-copy]').forEach(n=>n.hidden=n.dataset.finalCopy!==v);
+ const choose=(e,v)=>{if(voltSelectHeading(e,v))return;e.querySelectorAll('[data-final-copy]').forEach(n=>n.hidden=n.dataset.finalCopy!==v);};
  const variant=e=>e.querySelector('[data-final-copy]:not([hidden])').dataset.finalCopy;
  let fitting=false;const fit=()=>{fitting=false;for(const v of ['full','compact','short']){choose(title,v);if(lines(title)<=2)break;}choose(eye,'full');const max=Math.max(...rows(title).map(r=>r.right-r.left));if(R(eye).width>=max||eye.scrollWidth>eye.clientWidth+.4)choose(eye,'short');choose(intro,'full');if(lines(intro)>(innerWidth<=620?5:3))choose(intro,'short');s.dispatchEvent(new Event('volt-final-fit'));};
  const scheduleFit=()=>{if(!fitting){fitting=true;requestAnimationFrame(fit)}};new ResizeObserver(scheduleFit).observe(copy);document.fonts.ready.then(scheduleFit);window.addEventListener('resize',scheduleFit,{passive:true});window.addEventListener('load',scheduleFit,{once:true});fit();
