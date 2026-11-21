@@ -1,4 +1,4 @@
-@layer volt-footer-review, volt-final-review, volt-faq-review, volt-area-review;
+@layer volt-nav-review, volt-footer-review, volt-final-review, volt-faq-review, volt-area-review;
 /* VOLT — camada final consolidada.
    Mantém styles.css como base histórica e reúne aqui todos os ajustes aprovados.
    Nenhum estilo desta folha depende de JavaScript para existir. */
@@ -2717,4 +2717,45 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
  #rodape .footer-grid :is(p,.footer-hours,.footer-nav,.footer-contact__cta) {text-align:center !important;}
  #rodape .footer-grid :is(p,.footer-contact__cta) {margin-inline:auto !important;}
  #rodape :is(.footer-hours,.footer-nav) {justify-items:center !important;}
+}
+
+/* Navbar — parametrização em revisão. */
+@layer volt-nav-review {
+ #topo {--volt-nav-height:76px;position:sticky;top:0;z-index:100;}
+ #topo .nav-wrap {grid-template-columns:auto auto minmax(0,1fr) auto !important;gap:22px !important;min-height:var(--volt-nav-height) !important;padding-block:8px;box-sizing:border-box;}
+ #topo .nav-wrap>* {min-width:0;}
+ #topo .wordmark {margin:0 !important;min-height:44px;align-content:center;}
+ #topo .wordmark__main {font-size:22px !important;line-height:1 !important;}
+ #topo .wordmark__sub {font-size:9px !important;line-height:1 !important;}
+ #topo .nav-demo-label {font-size:12px !important;line-height:1.5 !important;white-space:nowrap !important;}
+ #topo .desktop-nav {gap:30px !important;}
+ #topo .desktop-nav a {box-sizing:border-box;display:flex;align-items:center;justify-content:center;min-height:44px;padding:12px 0 !important;white-space:nowrap;font-size:12px !important;line-height:1.4 !important;}
+ #topo .desktop-nav a::after {bottom:4px;}
+ #topo .nav-cta {box-sizing:border-box;width:216px;min-height:50px !important;padding:10px 20px !important;font-size:14px !important;line-height:1.4 !important;}
+ #topo :is(.nav-cta,.mobile-menu__cta)[data-copy-fit="full"] .volt-cta__full {display:inline !important;}
+ #topo :is(.nav-cta,.mobile-menu__cta)[data-copy-fit="full"] .volt-cta__short {display:none !important;}
+ #topo :is(.nav-cta,.mobile-menu__cta)[data-copy-fit="short"] .volt-cta__full {display:none !important;}
+ #topo :is(.nav-cta,.mobile-menu__cta)[data-copy-fit="short"] .volt-cta__short {display:inline !important;}
+ #topo :is(a,button):focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
+ #topo .mobile-menu[hidden] {display:none !important;}
+ #topo .mobile-menu {max-height:calc(100dvh - var(--volt-nav-height) - 1px);overflow-y:auto;overscroll-behavior:contain;}
+ #topo .mobile-menu__inner {gap:4px;padding-block:12px 18px !important;}
+ #topo .mobile-menu a {box-sizing:border-box;min-height:44px;font-size:14px !important;line-height:1.4 !important;padding:12px 0 !important;white-space:nowrap;}
+ #topo .mobile-menu__cta {box-sizing:border-box;width:100%;max-width:440px;min-height:50px;font-size:14px !important;line-height:1.4 !important;margin:12px auto 0;padding:10px 20px !important;}
+ @media(min-width:861px) {#topo .mobile-menu {display:none !important;}}
+ @media(max-width:1200px) {
+  #topo .nav-demo-label {display:none !important;}
+  #topo .nav-wrap {grid-template-columns:auto minmax(0,1fr) auto !important;gap:20px !important;}
+  #topo .desktop-nav {gap:18px !important;}
+ }
+ @media(max-width:1080px) {#topo .nav-cta {width:122px;}}
+ @media(max-width:860px) {
+  #topo .nav-wrap {grid-template-columns:minmax(0,1fr) 44px !important;gap:16px !important;}
+  #topo :is(.desktop-nav,.nav-cta) {display:none !important;}
+  #topo .menu-toggle {box-sizing:border-box;display:block !important;width:44px;height:44px;}
+ }
+ @media(max-width:620px) {
+  #topo {--volt-nav-height:66px;}
+  #topo .wordmark__main {font-size:19px !important;}
+ }
 }

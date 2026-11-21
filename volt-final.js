@@ -133,7 +133,7 @@ function voltSelectHeading(element, variant) {
 })();
 /* CTAs: seleção pela largura útil real. */
 (() => {
-  document.querySelectorAll('.services-other__cta, .diagnostic__cta, .portfolio-closing__cta, .about__action .btn, .faq__cta, .final-cta__action .btn, .footer-contact__cta').forEach(cta => {
+  document.querySelectorAll('.nav-cta, .mobile-menu__cta, .services-other__cta, .diagnostic__cta, .portfolio-closing__cta, .about__action .btn, .faq__cta, .final-cta__action .btn, .footer-contact__cta').forEach(cta => {
   const full = cta.querySelector('.volt-cta__full');
   const short = cta.querySelector('.volt-cta__short');
   const measure = text => {
@@ -232,6 +232,22 @@ function voltSelectHeading(element, variant) {
       menuButton.setAttribute('aria-expanded', 'false');
       menuButton.setAttribute('aria-label', 'Abrir menu');
     });
+  }
+
+  if (menuButton && mobileMenu) {
+    const closeMenu = (restoreFocus=false) => {
+      if (mobileMenu.hidden) return;
+      mobileMenu.hidden=true;
+      menuButton.setAttribute('aria-expanded','false');
+      menuButton.setAttribute('aria-label','Abrir menu');
+      if(restoreFocus) menuButton.focus({preventScroll:true});
+    };
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!mobileMenu.hidden){event.preventDefault();closeMenu(true);}});
+    document.addEventListener('click',event=>{if(!header.contains(event.target))closeMenu();});
+    mobileMenu.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{const target=document.querySelector(link.hash);if(target){const heading=target.querySelector('h2')||target;heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}}));
+    const desktop=matchMedia('(min-width:861px)');
+    desktop.addEventListener('change',event=>{if(event.matches)closeMenu(mobileMenu.contains(document.activeElement));});
+    mobileMenu.querySelector('.mobile-menu__cta')?.addEventListener('click',()=>closeMenu());
   }
 
   const faqDetails = [...document.querySelectorAll('.faq details')];
@@ -390,7 +406,7 @@ function voltSelectHeading(element, variant) {
       <p>Apresentação com altura natural: menos linhas não deixam uma área vazia reservada.</p>
       <div class="volt-analysis-actions">
         <button type="button" aria-pressed="true">Ocultar marcas</button>
-        <a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a><a href="#sobre">Ir a Sobre</a><a href="#area-atendida">Ir a Área atendida</a><a href="#faq">Ir a Dúvidas frequentes</a><a href="#contato">Ir à Chamada final</a><a href="#rodape">Ir ao Rodapé</a>
+        <a href="#topo">Ir à Navbar</a><a href="#servicos">Ir a Serviços</a><a href="#diagnostico">Ir a Diagnóstico</a><a href="#trabalhos">Ir a Trabalhos</a><a href="#atendimento">Ir a Atendimento</a><a href="#avaliacoes">Ir a Avaliações</a><a href="#sobre">Ir a Sobre</a><a href="#area-atendida">Ir a Área atendida</a><a href="#faq">Ir a Dúvidas frequentes</a><a href="#contato">Ir à Chamada final</a><a href="#rodape">Ir ao Rodapé</a>
         <a class="volt-analysis-exit">Sair da análise</a>
       </div>
     </div>`;
@@ -401,7 +417,7 @@ function voltSelectHeading(element, variant) {
   panel.querySelector('.volt-analysis-exit').href = normalURL.href;
   const serviceDetails = document.createElement('details');
   serviceDetails.dataset.analysisSection = 'servicos';
-  serviceDetails.open = !['#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title','#sobre','#sobre-title','#area-atendida','#area-title','#faq','#faq-title','#contato','#cta-title','#rodape','#avaliar-no-google','#google-review-title'].includes(location.hash);
+  serviceDetails.open = !['#topo','#diagnostico','#trabalhos','#atendimento','#process-title','#avaliacoes','#reviews-title','#sobre','#sobre-title','#area-atendida','#area-title','#faq','#faq-title','#contato','#cta-title','#rodape','#avaliar-no-google','#google-review-title'].includes(location.hash);
   serviceDetails.innerHTML = '<summary>Serviços · limites definidos</summary>';
   const body = panel.querySelector('.volt-analysis-body');
   const actions = body.querySelector('.volt-analysis-actions');
@@ -1219,4 +1235,41 @@ function voltSelectHeading(element, variant) {
   dialog.querySelector('#social-demo-title').textContent=button.dataset.socialDemo;
   if(!dialog.open)dialog.showModal();
  }));
+})();
+
+/* Navbar inteira — propostas de limites no painel comum. */
+(() => {
+ const s=document.querySelector('#topo'),wrap=s?.querySelector('.nav-wrap');if(!wrap)return;
+ if(new URLSearchParams(location.search).get('limites')!=='1')return;
+ const shared=document.querySelector('#volt-analysis-panel'),overlay=document.querySelector('#volt-analysis-marks');if(!shared||!overlay)return;
+ const panel=document.createElement('details');panel.dataset.analysisSection='topo';panel.open=location.hash==='#topo';
+ panel.innerHTML='<summary>Navbar · EM REVISÃO</summary><div class="volt-analysis-body"><p class="volt-analysis-status">Navegação inteira · EM REVISÃO</p><p>Marca e cinco destinos preservados. Limites aplicados para revisão; ainda sem consolidação definitiva no manual.</p><dl><dt class="volt-analysis-blue">Azul · marca</dt><dd data-nv="brand"></dd><dt class="volt-analysis-green">Verde · aviso demonstrativo</dt><dd data-nv="notice"></dd><dt class="volt-analysis-blue">Azul · links</dt><dd data-nv="links"></dd><dt class="volt-analysis-blue">Azul · Copy do CTA</dt><dd data-nv="cta"></dd><dt class="volt-analysis-purple">Roxo · menu mobile</dt><dd data-nv="mobile"></dd><dt class="volt-analysis-amber">Amarelo · composição</dt><dd data-nv="gaps"></dd></dl><p data-nv="fit"></p></div>';shared.append(panel);
+ const marks=document.createElement('div');marks.className='volt-analysis-group';marks.dataset.section='topo';overlay.append(marks);
+ const R=e=>e.getBoundingClientRect(),visible=e=>R(e).width>0&&R(e).height>0;
+ const lines=e=>{let ys=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);while(w.nextNode()){if(!w.currentNode.textContent.trim())continue;let r=document.createRange();r.selectNodeContents(w.currentNode);for(let b of r.getClientRects())if(b.width&&b.height&&!ys.some(y=>Math.abs(y-b.top)<2))ys.push(b.top);}return ys.length;};
+ const logo=s.querySelector('.wordmark'),name=logo.querySelector('.wordmark__main'),occupation=logo.querySelector('.wordmark__sub'),notice=s.querySelector('.nav-demo-label'),nav=s.querySelector('.desktop-nav'),menu=s.querySelector('#mobile-menu'),toggle=s.querySelector('.menu-toggle');
+ const links=[...s.querySelectorAll('nav a')],ctas=[...s.querySelectorAll('[data-demo-cta]')];
+ const write=(k,t)=>{let e=panel.querySelector('[data-nv="'+k+'"]');if(e.textContent!==t)e.textContent=t;};
+ const mark=(e,color)=>{if(!visible(e))return;let r=R(e);if(r.bottom<0||r.top>innerHeight)return;let b=document.createElement('div');b.className='volt-analysis-outline '+color;Object.assign(b.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});marks.append(b);};
+ let queued=false;const render=()=>{queued=false;const mobile=innerWidth<=860,shownLinks=links.filter(visible),shownCtas=ctas.filter(visible),issues=[];
+ if(lines(name)!==1||lines(occupation)!==1)issues.push('marca');
+ if(shownLinks.some(e=>lines(e)!==1||R(e).height<43.7))issues.push('links');
+ if(shownCtas.some(e=>lines(e)!==1||e.dataset.copyOverflow==='true'||R(e).height<49.7))issues.push('Copy do CTA');
+ if(visible(notice)&&lines(notice)!==1)issues.push('aviso');
+ if(links.some(e=>!document.querySelector(e.hash)))issues.push('destinos');
+ if(mobile&&(!visible(toggle)||visible(nav)))issues.push('menu mobile');
+ if((toggle.getAttribute('aria-expanded')==='true')===menu.hidden)issues.push('estado do menu');
+ const elems=[logo,notice,...shownLinks,...shownCtas,toggle].filter(visible);
+ if(elems.some(e=>R(e).left<R(wrap).left-.5||R(e).right>R(wrap).right+.5)||s.scrollWidth>s.clientWidth+.5)issues.push('transbordamento');
+ const row=[...wrap.children].filter(visible).map(R).sort((a,b)=>a.left-b.left);if(row.some((r,i)=>i&&r.left<row[i-1].right-.5))issues.push('sobreposição');
+ write('brand','Nome: '+lines(name)+' linha; atividade: '+lines(occupation)+' linha. Nome Barlow Condensed 800, 22 px acima de 620 px / 19 px até 620; atividade 9 px; símbolo 22 × 34 px / 18 × 29 px. Área de retorno ao topo com mínimo de 44 px de altura. Não cortar ou reduzir nomes futuros para caber.');
+ write('notice','SITE DEMONSTRAÇÃO: uma linha, Inter 12 px / 1,5; visível acima de 1200 px, oculto nas demais telas. Aviso próprio da matriz, sem ocupar o menu do cliente. Estado atual: '+(visible(notice)?'visível':'oculto')+'.');
+ write('links','Cinco destinos: Serviços, Trabalhos, Sobre, Área atendida e Dúvidas. Uma linha por nome; Inter 12 px no computador / 14 px no menu mobile, entrelinha 1,4, caixa interativa mínima de 44 px. Links atuais: '+shownLinks.map(lines).join(' / ')+'. Todos os destinos existem: '+links.every(e=>document.querySelector(e.hash))+'.');
+ write('cta','Copy do CTA: SOLICITAR ORÇAMENTO ou ORÇAMENTO, exatamente uma linha pela largura útil medida. Inter 14 px / 700 / 1,4; mínimo 50 px de altura e recuos de 10 / 20 px. Botão superior de 216 px acima de 1080 px ou 122 px de 861–1080; até 860 px, ação dentro do menu, largura inteira com teto de 440 px. Visíveis: '+shownCtas.length+'; linhas: '+shownCtas.map(lines).join(' / ')+'. Na matriz, abre o diálogo demonstrativo.');
+ write('mobile','Até 860 px: botão de 44 × 44 px com nome acessível, aria-expanded e aria-controls. Cinco links e Copy do CTA no painel; máximo de altura igual à tela menos a barra, com rolagem interna. Fecha ao escolher link, clicar fora, pressionar Escape ou voltar ao desktop. Escape retorna o foco ao botão; navegação leva o foco ao título de destino. Estado: '+(menu.hidden?'fechado':'aberto')+'.');
+ write('gaps','Barra fixa ao rolar: '+R(wrap).height+' px; regra 76 px acima de 620 px / 66 px até 620. Mesma largura interna das seções. Intervalos de 22 px entre blocos acima de 1200 px, 20 px até 1200 e 16 px no mobile. Links desktop: 30 px entre itens, 18 px até 1200. Menu: recuos 12 / 18 px, 4 px entre links e 16 px do último link ao botão. Sem trilha vazia para botão oculto.');
+ write('fit',issues.length?'Conferir nesta tela: '+[...new Set(issues)].join(', ')+'.':'Critérios medidos atendidos nesta tela. Regras em revisão pelo Founder.');
+ marks.replaceChildren();if(overlay.hidden)return;[logo,...shownLinks,...shownCtas,toggle].forEach(e=>mark(e,'volt-analysis-outline--heading'));mark(notice,'volt-analysis-outline--intro');
+ };
+ const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(render);}};new ResizeObserver(schedule).observe(s);new MutationObserver(schedule).observe(menu,{attributes:true,attributeFilter:['hidden']});window.addEventListener('resize',schedule,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('volt-analysis-toggle',schedule);document.fonts.ready.then(schedule);schedule();
 })();
