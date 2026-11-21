@@ -2781,3 +2781,11 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
   #avaliacoes .review-marquee-quote {min-height:0 !important;height:auto !important;flex:0 0 auto !important;}
  }
 }
+
+/* Exceção mobile aprovada: os quatro atributos compartilham a altura do maior. */
+@layer volt-mobile-natural {
+ @media(max-width:620px) {
+  #sobre .about__proofs {grid-auto-rows:1fr !important;}
+  #sobre .about-proof {align-self:stretch !important;height:auto !important;align-items:center !important;justify-content:center !important;text-align:center !important;}
+ }
+}
