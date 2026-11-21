@@ -1,0 +1,35 @@
+/* Gerado por scripts/build-theme.py a partir de theme.json. Não editar à mão. */
+/* Primária original nos fundos; variante legível nos textos. Base neutra fixa. */
+@layer volt-client-colors;
+:root {
+  --brand-primary: #8b1538;
+  --brand-primary-rgb: 139,21,56;
+  --brand-secondary: #8b1538;
+  --brand-secondary-rgb: 139,21,56;
+  --accent: #8b1538;
+  --accent-text: #bc788c;
+  --accent-hover: #7a1231;
+  --accent-ink: #ffffff;
+  --accent-ink-rgb: 255,255,255;
+  --accent-fill-end: #841435;
+  --accent-rating-end: #831435;
+  --accent-shield-top: #801334;
+  --accent-soft: #cb96a5;
+  --accent-soft-hover: #dcb9c3;
+  --accent-soft-ink: #090a08;
+  --accent-soft-edge: #d6adb9;
+  --accent-control-edge: #bc788c;
+  --detail: #bc788c;
+  --accent-edge: #7d1332;
+  --accent-rating-edge: #811434;
+  --accent-panel-end: #841435;
+  --accent-panel-edge: #7a1231;
+  --accent-border: #501f2a;
+  --accent-border-muted: #4b2029;
+  --accent-border-soft: #3d2226;
+  --accent-chip-edge: #432127;
+  --accent-chip-ink: #ead5db;
+  --accent-coverage-edge: #4d1f2a;
+  --accent-panel-gloss: rgba(0,0,0,.08);
+  --accent-ink-muted: #ebd7dd;
+}
