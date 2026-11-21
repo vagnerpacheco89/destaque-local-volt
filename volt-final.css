@@ -2748,7 +2748,7 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
   #topo .nav-wrap {grid-template-columns:auto minmax(0,1fr) auto !important;gap:20px !important;}
   #topo .desktop-nav {gap:18px !important;}
  }
- @media(max-width:1080px) {#topo .nav-cta {width:122px;}}
+ @media(max-width:1080px) {#topo .nav-cta {width:138px;}}
  @media(max-width:860px) {
   #topo .nav-wrap {grid-template-columns:minmax(0,1fr) 44px !important;gap:16px !important;}
   #topo :is(.desktop-nav,.nav-cta) {display:none !important;}
