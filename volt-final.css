@@ -2730,7 +2730,6 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
  #topo .nav-demo-label {font-size:12px !important;line-height:1.5 !important;white-space:nowrap !important;}
  #topo .desktop-nav {gap:30px !important;}
  #topo .desktop-nav a {box-sizing:border-box;display:flex;align-items:center;justify-content:center;min-height:44px;padding:12px 0 !important;white-space:nowrap;font-size:12px !important;line-height:1.4 !important;}
- #topo .desktop-nav a::after {bottom:4px;}
  #topo .nav-cta {box-sizing:border-box;width:216px;min-height:50px !important;padding:10px 20px !important;font-size:14px !important;line-height:1.4 !important;}
  #topo :is(.nav-cta,.mobile-menu__cta)[data-copy-fit="full"] .volt-cta__full {display:inline !important;}
  #topo :is(.nav-cta,.mobile-menu__cta)[data-copy-fit="full"] .volt-cta__short {display:none !important;}
