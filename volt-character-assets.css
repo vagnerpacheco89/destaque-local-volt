@@ -1,0 +1,7 @@
+/* Experimental character slots. Same composition contract for 3D and cartoon. */
+#hero {background:radial-gradient(ellipse at 78% 48%,rgba(var(--brand-primary-rgb),.10),transparent 48%),#050606;}
+#hero .hero__frame {display:block;position:absolute;inset:0;overflow:hidden;border:0;background:transparent;}
+#hero .hero__frame::after {content:none;}
+#hero .hero__frame img {display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:none;}
+#sobre .about__portrait {background:radial-gradient(ellipse at 50% 55%,rgba(var(--brand-primary-rgb),.09),transparent 72%),#121914;}
+#sobre .about__image img {object-fit:contain !important;object-position:center bottom !important;}
