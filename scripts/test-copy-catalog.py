@@ -28,7 +28,7 @@ class CopyContract(unittest.TestCase):
   c=copy.deepcopy(C);c['entries'].pop()
   with self.assertRaisesRegex(ValueError,'coverage differs'):m.check(c,D)
  def test_responsive_js_copy_is_checked(self):
-  c=copy.deepcopy(C);next(e for e in c['entries'] if e['binding']['file']=='volt-final.js')['template']='Changed title'
+  c=copy.deepcopy(C);entry=next(e for e in c['entries'] if e['binding']['file']=='volt-final.js');entry['template']='Changed title '+entry['template']
   with self.assertRaisesRegex(ValueError,'source differs'):m.check(c,D)
  def test_six_unique_reviews_shared_by_copies(self):
   keys={key for e in C['entries'] for key in e['variables'] if key.startswith('reviews.') and key.endswith('.message')}
