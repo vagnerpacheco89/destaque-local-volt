@@ -12,7 +12,3 @@
  #hero .hero__frame img {object-position:right center;filter:none;}
  #hero .hero__frame::after {background:linear-gradient(0deg,#050606 0%,transparent 18%);}
 }
-#sobre .about__portrait {background:radial-gradient(ellipse at 50% 55%,rgba(var(--brand-primary-rgb),.09),transparent 72%),#121914;}
-@layer volt-about-review {
- #sobre .about__image img {object-fit:contain !important;object-position:center bottom !important;}
-}
