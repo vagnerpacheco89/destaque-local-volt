@@ -101,6 +101,7 @@ def render(template,values):
 
 def check(catalog,data):
     if catalog['schemaVersion']!=1 or catalog['id']!='volt-copy-v1':raise ValueError('unknown copy contract')
+    if data.get('schemaVersion')!=1 or data.get('copyId')!=catalog['id'] or data.get('mode')!='demonstration-reference-only':raise ValueError('the reference data must stay explicitly demonstrative')
     actual=inventory();entries=catalog['entries']
     if len(entries)!=len(actual):raise ValueError('catalogue coverage differs; inspect source changes before updating bindings')
     if set(data['values'])!=set(catalog['fields']):raise ValueError('data fields differ from the V1 registry')
