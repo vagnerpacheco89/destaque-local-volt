@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 2,
+  "activeConcept": "cartoon",
+  "concepts": {
+    "cartoon": {
+      "hero": {
+        "kind": "background",
+        "src": "assets/concepts/cartoon/hero-background-profissional-v2.webp",
+        "alt": "Eletricista cartoon com capacete branco, uniforme técnico de manga longa e expressão concentrada inspecionando um quadro elétrico residencial."
+      },
+      "about": {
+        "kind": "portrait",
+        "src": "assets/concepts/cartoon/about-workshop-v3.webp",
+        "alt": "Retrato ilustrado de um eletricista com capacete branco, uniforme técnico grafite e multímetro em uma oficina organizada."
+      }
+    }
+  }
+}
