@@ -112,6 +112,10 @@ class AssetContract(unittest.TestCase):
         finally:
             path.write_bytes(original)
 
+    def test_14_invisible_favicon_rejected(self):
+        self.config['favicon']['foreground']='#070707'
+        self.reject('contrast must be at least 3:1')
+
 
 if __name__=='__main__':
     unittest.main()

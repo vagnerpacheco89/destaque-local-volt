@@ -130,6 +130,13 @@ def favicons(config, outputs):
             raise ValueError('favicon: foreground/background must be #RRGGBB')
     if config['foreground'].lower() == config['background'].lower():
         raise ValueError('favicon: foreground must differ from background')
+    def luminance(color):
+        channels = [int(color[i:i+2],16)/255 for i in (1,3,5)]
+        linear = [c/12.92 if c<=.04045 else ((c+.055)/1.055)**2.4 for c in channels]
+        return sum(c*k for c,k in zip(linear,(.2126,.7152,.0722)))
+    light,dark = sorted((luminance(config['foreground']),luminance(config['background'])),reverse=True)
+    if (light+.05)/(dark+.05)<3:
+        raise ValueError('favicon: symbol/background contrast must be at least 3:1; use an approved legible brand variant')
     fg, bg = config['foreground'], config['background']
     points = ' '.join(f'{x:g},{y:g}' for x, y in POINTS)
     svg = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="{bg}"/><polygon fill="{fg}" points="{points}"/></svg>\n'
@@ -186,6 +193,7 @@ def build(check=False):
             gallery_hashes.add(pixel_hash)
         checked.append((slot, asset, role, image, digest(source_raw)))
     outputs, manifest = {}, {'schemaVersion':3,'generatorVersion':GENERATOR_VERSION,'pillow':PIL.__version__,'concept':config['activeConcept'],'images':{}}
+    icon_version = favicons(config['favicon'], outputs)
     for slot, asset, role, image, sha in checked:
         items = variants(image, slot, outputs)
         manifest['images'][slot] = {'source':asset['source'],'sourceSha256':sha,'width':image.width,'height':image.height,'position':asset['position'],'variants':items}
@@ -217,7 +225,6 @@ def build(check=False):
         text = replace_once(rf'<meta {attr}="{name}" content="[^"]*"\s*/>',f'<meta {attr}="{name}" content="{html.escape(hero_url,quote=True)}" />',text,name)
     text = replace_once(r'<meta property="og:image:alt" content="[^"]*"\s*/>', f'<meta property="og:image:alt" content="{html.escape(slots["hero"]["alt"],quote=True)}" />',text,'og alt')
     text = replace_once(r'"image":\s*"[^"]*"', '"image": '+json.dumps(hero_url), text,'JSON-LD image')
-    icon_version = favicons(config['favicon'], outputs)
     icon_links = '\n'.join([
         f'  <link rel="icon" href="favicon.ico?v={icon_version}" sizes="16x16 32x32 48x48" />',
         f'  <link rel="icon" type="image/png" href="favicon-32x32.png?v={icon_version}" sizes="32x32" />',
