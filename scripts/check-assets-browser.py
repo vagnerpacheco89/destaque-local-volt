@@ -32,7 +32,9 @@ MEASURE=r'''() => {
  };
  const ctas=[...document.querySelectorAll('[data-typography="cta"]')].filter(e=>e.getClientRects().length&&e.getBoundingClientRect().height>0).map(e=>({text:e.innerText,lines:lines(e),overflow:e.scrollWidth>e.clientWidth+1}));
  const cards=[...document.querySelectorAll('.portfolio-card')].map(e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,w:r.width,h:r.height}});
- return {width:innerWidth,dpr:devicePixelRatio,overflow:document.documentElement.scrollWidth>innerWidth,images,ctas,cards,h1:document.querySelectorAll('h1').length,h2:document.querySelectorAll('h2').length,lastH2:[...document.querySelectorAll('h2')].at(-1)?.closest('section')?.id,heroBackground:getComputedStyle(document.querySelector('.hero')).backgroundImage,resources:performance.getEntriesByType('resource').filter(e=>e.name.includes('/assets/generated/')).map(e=>e.name)};
+ const footer=document.querySelector('.footer-bottom__brand-icon');
+ const fonts=[...new Set([...document.fonts].filter(f=>f.status==='loaded').map(f=>f.family.replaceAll('"','')))];
+ return {width:innerWidth,dpr:devicePixelRatio,overflow:document.documentElement.scrollWidth>innerWidth,images,ctas,cards,fonts,footerBrand:{loaded:footer.complete&&footer.naturalWidth>0,width:footer.naturalWidth,height:footer.naturalHeight},inlineSvgCount:document.querySelectorAll('svg').length,h1:document.querySelectorAll('h1').length,h2:document.querySelectorAll('h2').length,lastH2:[...document.querySelectorAll('h2')].at(-1)?.closest('section')?.id,heroBackground:getComputedStyle(document.querySelector('.hero')).backgroundImage,resources:performance.getEntriesByType('resource').filter(e=>e.name.includes('/assets/generated/')).map(e=>e.name)};
 }'''
 
 
@@ -90,13 +92,15 @@ def main(args):
                     manifest_response=page.request.get(urljoin(args.base_url,'assets-manifest.json'))
                     assert manifest_response.ok,'manifest unavailable'
                     manifest=manifest_response.json()
-                    for image in page.locator('main img[data-asset-slot]').all():
+                    for image in page.locator('img').all():
                         if image.is_visible():
                             image.scroll_into_view_if_needed()
                             page.wait_for_function('(i)=>i.complete&&i.naturalWidth>0',arg=image.element_handle())
                             image.evaluate('(i)=>i.decode()')
                     state=page.evaluate(MEASURE)
                     run['measurements']=state
+                    assert 'Inter' in state['fonts'] and 'Barlow Condensed' in state['fonts'],'approved webfonts did not load'
+                    assert state['footerBrand']=={'loaded':True,'width':96,'height':96},'Destaque Local credit image did not load correctly'
                     assert not state['overflow'],'horizontal overflow'
                     assert state['h1']==1 and state['h2']==9 and state['lastH2']=='contato','heading structure changed'
                     assert len(state['images'])==len(manifest['images']),'wrong slot count'
