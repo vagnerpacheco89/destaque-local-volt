@@ -1,7 +1,16 @@
 /* Review: hero is a full environmental background; About is a portrait.
    These presentation roles remain fixed when switching concepts. */
+@media(min-width:861px) {
+ #hero {
+  background:
+   linear-gradient(90deg,#050606 0%,rgba(5,6,6,.98) 19%,rgba(5,6,6,.92) 33%,rgba(5,6,6,.66) 48%,rgba(5,6,6,0) 68%) 0 0 / 100% 100% no-repeat,
+   var(--volt-hero-background) right bottom / auto 100% no-repeat,
+   #050606;
+ }
+}
 @media(max-width:860px) {
- #hero .hero__frame img {object-position:right center;}
+ #hero .hero__frame img {object-position:right center;filter:none;}
+ #hero .hero__frame::after {background:linear-gradient(0deg,#050606 0%,transparent 18%);}
 }
 #sobre .about__portrait {background:radial-gradient(ellipse at 50% 55%,rgba(var(--brand-primary-rgb),.09),transparent 72%),#121914;}
 @layer volt-about-review {
