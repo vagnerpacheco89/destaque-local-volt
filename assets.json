@@ -17,8 +17,8 @@
     "cartoon": {
       "hero": {
         "kind": "background",
-        "src": "assets/concepts/cartoon/hero-background.webp",
-        "alt": "Ilustração cartoon de um eletricista à direita inspecionando um quadro elétrico em uma residência."
+        "src": "assets/concepts/cartoon/hero-background-profissional-v2.webp",
+        "alt": "Eletricista cartoon com capacete branco, uniforme técnico de manga longa e expressão concentrada inspecionando um quadro elétrico residencial."
       },
       "about": {
         "src": "assets/concepts/3d/character.png",
