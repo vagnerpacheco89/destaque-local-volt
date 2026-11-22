@@ -1,15 +1,17 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "activeConcept": "3d",
   "concepts": {
     "3d": {
       "hero": {
-        "src": "assets/concepts/3d/character.png",
-        "alt": "Personagem ilustrado em 3D de um eletricista com multímetro e uniforme grafite."
+        "kind": "background",
+        "src": "assets/concepts/3d/hero-background.webp",
+        "alt": "Cena ilustrada em 3D de um eletricista à direita inspecionando um quadro elétrico em uma residência."
       },
       "about": {
         "src": "assets/concepts/3d/character.png",
-        "alt": "Mesmo personagem ilustrado em 3D, com uniforme grafite e ferramentas."
+        "alt": "Mesmo personagem ilustrado em 3D, com uniforme grafite e ferramentas.",
+        "kind": "portrait"
       }
     },
     "cartoon": null
