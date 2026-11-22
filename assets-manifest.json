@@ -1,0 +1,529 @@
+{
+  "schemaVersion": 3,
+  "generatorVersion": 3,
+  "pillow": "13.0.0",
+  "concept": "cartoon",
+  "images": {
+    "hero": {
+      "source": "assets/concepts/cartoon/hero-background-profissional-v2-source.png",
+      "sourceSha256": "63647d7e6fb606a5d38fc1af999444f5dd064c7ee8f21eb4030fa912d22a2ae2",
+      "width": 1672,
+      "height": 941,
+      "position": "right center",
+      "variants": [
+        {
+          "src": "assets/generated/hero-480-714f2a5cb17a.webp",
+          "width": 480,
+          "height": 270,
+          "bytes": 21064,
+          "sha256": "714f2a5cb17aa5e71e8c7bbe9af89682120992abb1164c0ae5044a7869a3ed13"
+        },
+        {
+          "src": "assets/generated/hero-768-f17015ae1e58.webp",
+          "width": 768,
+          "height": 432,
+          "bytes": 41764,
+          "sha256": "f17015ae1e58ffe8111fc0f039c316607b6473cb6f2dc8dea6b2e54d31ee2d53"
+        },
+        {
+          "src": "assets/generated/hero-1120-17a45c95e733.webp",
+          "width": 1120,
+          "height": 630,
+          "bytes": 71156,
+          "sha256": "17a45c95e73388aa9b88f723ff9e217be4c95bd121397e42c27ee6ee2ce46de1"
+        },
+        {
+          "src": "assets/generated/hero-1280-a666cc9906c2.webp",
+          "width": 1280,
+          "height": 720,
+          "bytes": 84670,
+          "sha256": "a666cc9906c20234cda0610c330ea870de76a5fda21d92fc64b0a95e8ead3f53"
+        },
+        {
+          "src": "assets/generated/hero-1672-4700f9047704.webp",
+          "width": 1672,
+          "height": 941,
+          "bytes": 120942,
+          "sha256": "4700f90477040f0917d7a3a99c0373636f4c3970b36f5b0df5752f59ef926883"
+        }
+      ]
+    },
+    "about": {
+      "source": "assets/concepts/cartoon/about-workshop-v3-source.png",
+      "sourceSha256": "af298f768b64f2cb1013be13b2a54e15fab6eeb62077ee383834947aed130ac3",
+      "width": 1122,
+      "height": 1402,
+      "position": "center top",
+      "variants": [
+        {
+          "src": "assets/generated/about-480-d276c87ced59.webp",
+          "width": 480,
+          "height": 600,
+          "bytes": 45852,
+          "sha256": "d276c87ced59345cf87c64c04e0af0c31a3fc7a372e3d1796a5b8b8907735b22"
+        },
+        {
+          "src": "assets/generated/about-768-e9d6d53c64e3.webp",
+          "width": 768,
+          "height": 960,
+          "bytes": 84864,
+          "sha256": "e9d6d53c64e3094d96cf36a94be1d4c1cc8abae0e1bc582fac3cbd38984f69d5"
+        },
+        {
+          "src": "assets/generated/about-1120-a44ec82757ef.webp",
+          "width": 1120,
+          "height": 1400,
+          "bytes": 136952,
+          "sha256": "a44ec82757efbb62576ecd48ac63048f774d0436eac005262166330c58c2c979"
+        },
+        {
+          "src": "assets/generated/about-1122-d8ecdb2a55b4.webp",
+          "width": 1122,
+          "height": 1402,
+          "bytes": 138126,
+          "sha256": "d8ecdb2a55b46e0619fa427176c95f7260ed05f222452a53d2a31d4e9de560d4"
+        }
+      ]
+    },
+    "work-01": {
+      "source": "assets/concepts/cartoon/gallery/01-quadro-organizado-hd-v1-source.png",
+      "sourceSha256": "fb517cff924e2c1b59607fe2d9b446fce708b012547a88a9319e535a57a9581e",
+      "width": 1122,
+      "height": 1402,
+      "position": "center center",
+      "variants": [
+        {
+          "src": "assets/generated/work-01-480-ba4f0b6a346b.webp",
+          "width": 480,
+          "height": 600,
+          "bytes": 47820,
+          "sha256": "ba4f0b6a346bd979c3f9529dcd4fb6c6bd27c448d276aa23db4e1a72c7f33085"
+        },
+        {
+          "src": "assets/generated/work-01-768-217be6784985.webp",
+          "width": 768,
+          "height": 960,
+          "bytes": 99522,
+          "sha256": "217be678498525c79411bf8ed1060d4f615deda546d0007d0d383549450e4590"
+        },
+        {
+          "src": "assets/generated/work-01-1120-71558be6a94b.webp",
+          "width": 1120,
+          "height": 1400,
+          "bytes": 172396,
+          "sha256": "71558be6a94bff4bb355e8a64052264cc6b77fc61230415550091cd65c3328c1"
+        },
+        {
+          "src": "assets/generated/work-01-1122-9eddc551f9a8.webp",
+          "width": 1122,
+          "height": 1402,
+          "bytes": 174390,
+          "sha256": "9eddc551f9a8403c6f7868f92da7836a24b5dcd90cb7e7e7ed2a79bdb22c991a"
+        }
+      ]
+    },
+    "work-02": {
+      "source": "assets/concepts/cartoon/gallery/03-novos-pontos-avatar-source.png",
+      "sourceSha256": "e62bce2d85c2539e75b5112d332b8babd13e8c327b3ab8777b22d8b89edcee85",
+      "width": 1536,
+      "height": 1024,
+      "position": "center center",
+      "variants": [
+        {
+          "src": "assets/generated/work-02-480-b7c2bfd36495.webp",
+          "width": 480,
+          "height": 320,
+          "bytes": 25274,
+          "sha256": "b7c2bfd36495cbb2d108b6647c9ab886efdc3884a3e6d4907587b4086de10861"
+        },
+        {
+          "src": "assets/generated/work-02-768-ae563dd40ca8.webp",
+          "width": 768,
+          "height": 512,
+          "bytes": 53192,
+          "sha256": "ae563dd40ca861172891c2541f66bc2395c5b90b2ede30756e017ae9dbf4c14d"
+        },
+        {
+          "src": "assets/generated/work-02-1120-ae594aa00c51.webp",
+          "width": 1120,
+          "height": 747,
+          "bytes": 92078,
+          "sha256": "ae594aa00c51809d33076343ca468a39cdced3688e10ae04ac7229a254fd4f47"
+        },
+        {
+          "src": "assets/generated/work-02-1280-ecd9fe5fb165.webp",
+          "width": 1280,
+          "height": 853,
+          "bytes": 111580,
+          "sha256": "ecd9fe5fb165c2ae6b25cb82318c07fb1cbdfe7b4fd7fa7e3b6903896bea514a"
+        },
+        {
+          "src": "assets/generated/work-02-1536-8f4c1d3481e7.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 144726,
+          "sha256": "8f4c1d3481e73444eff8df758eb83e018fdc6d7c6f7763f6ae36e11de264bef3"
+        }
+      ]
+    },
+    "work-03": {
+      "source": "assets/concepts/cartoon/gallery/04-luminarias-avatar-source.png",
+      "sourceSha256": "d9eedfe28fe9e4e1ac95760f83310401f3948f5cd45a996afabeea330cbf8434",
+      "width": 1536,
+      "height": 1024,
+      "position": "center 10%",
+      "variants": [
+        {
+          "src": "assets/generated/work-03-480-67c3eeba94f2.webp",
+          "width": 480,
+          "height": 320,
+          "bytes": 25098,
+          "sha256": "67c3eeba94f257352371689bb9f571604c8d5cdc74f4723b19a2e3bb9165aed8"
+        },
+        {
+          "src": "assets/generated/work-03-768-73126d896068.webp",
+          "width": 768,
+          "height": 512,
+          "bytes": 49322,
+          "sha256": "73126d896068d5086f5d5ee7e59e627d1ea1a0bb144d897d5b9df3895ee11719"
+        },
+        {
+          "src": "assets/generated/work-03-1120-9f47cadf3767.webp",
+          "width": 1120,
+          "height": 747,
+          "bytes": 81956,
+          "sha256": "9f47cadf37679a27e537612df14d506f950ce87a51868420d53eb05060befab1"
+        },
+        {
+          "src": "assets/generated/work-03-1280-624bd76e5671.webp",
+          "width": 1280,
+          "height": 853,
+          "bytes": 98074,
+          "sha256": "624bd76e56715b52f9424a80458ec82ca18a72f41d6d781c173cd111c510fe9e"
+        },
+        {
+          "src": "assets/generated/work-03-1536-b47d59491ce9.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 124348,
+          "sha256": "b47d59491ce973e5415a3ad8b4c7ea03c34b161114f44fbd83ff287a9741000c"
+        }
+      ]
+    },
+    "work-04": {
+      "source": "assets/concepts/cartoon/gallery/05-chuveiro-avatar-source.png",
+      "sourceSha256": "d81f34d87c1ac8504e2301d74dbecc175baa4882477345332117171c9193a2cd",
+      "width": 1122,
+      "height": 1402,
+      "position": "center 10%",
+      "variants": [
+        {
+          "src": "assets/generated/work-04-480-ee3d0412e39c.webp",
+          "width": 480,
+          "height": 600,
+          "bytes": 34500,
+          "sha256": "ee3d0412e39c2bc458532f7b6d13bdc8169b34e043dfdfc5813fe43d7a439427"
+        },
+        {
+          "src": "assets/generated/work-04-768-6df0644f3263.webp",
+          "width": 768,
+          "height": 960,
+          "bytes": 63934,
+          "sha256": "6df0644f3263da4b50832e993f8bbd5c9a6e6ee9edea4e386de819f4b1c200fe"
+        },
+        {
+          "src": "assets/generated/work-04-1120-d2ea4f3dc5cd.webp",
+          "width": 1120,
+          "height": 1400,
+          "bytes": 104320,
+          "sha256": "d2ea4f3dc5cd0533d0b416f3565226397f7374c1cd5af6411367137368b9f924"
+        },
+        {
+          "src": "assets/generated/work-04-1122-a4a57caa41de.webp",
+          "width": 1122,
+          "height": 1402,
+          "bytes": 101786,
+          "sha256": "a4a57caa41deefeb73075072afcf341d1dc4a6c55d1670fe353315207a43c6a2"
+        }
+      ]
+    },
+    "work-05": {
+      "source": "assets/concepts/cartoon/gallery/06-disjuntores-avatar-source.png",
+      "sourceSha256": "9ebee6d02c1e9c8c60a426cc4a418a052393cf4a96dfe4d3ccaac18d43ff5811",
+      "width": 1536,
+      "height": 1024,
+      "position": "center center",
+      "variants": [
+        {
+          "src": "assets/generated/work-05-480-8a689963b6da.webp",
+          "width": 480,
+          "height": 320,
+          "bytes": 26484,
+          "sha256": "8a689963b6dad0e085544fffc838ea520270443b6e5ee0f5e1003bca9f05166e"
+        },
+        {
+          "src": "assets/generated/work-05-768-fc88f7d8be8a.webp",
+          "width": 768,
+          "height": 512,
+          "bytes": 50358,
+          "sha256": "fc88f7d8be8a1d3640e6d6482245c5e76bf1c16102286a8fd4f293567db0b4c1"
+        },
+        {
+          "src": "assets/generated/work-05-1120-26f8b6003b4e.webp",
+          "width": 1120,
+          "height": 747,
+          "bytes": 86634,
+          "sha256": "26f8b6003b4e2e8d7d7aa920b4abc3b108da46e8cd3f3c083c2872eb5cf8dd74"
+        },
+        {
+          "src": "assets/generated/work-05-1280-cb54178499d3.webp",
+          "width": 1280,
+          "height": 853,
+          "bytes": 100640,
+          "sha256": "cb54178499d3ddff2c55100292c79ec108826af9bd93972140044a7fe0b30f04"
+        },
+        {
+          "src": "assets/generated/work-05-1536-3f9514b067c9.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 127726,
+          "sha256": "3f9514b067c9aa3a191efcb98ceed7ba6bf4ee0ef21792a05e8976d096a64a62"
+        }
+      ]
+    },
+    "work-06": {
+      "source": "assets/concepts/cartoon/gallery/07-fiacao-reforma-avatar-source.png",
+      "sourceSha256": "c5782e7fd2a7f5d3480c4e1f27aba45f0779ff2b568c76aee8e7411b7d8ed8b4",
+      "width": 1536,
+      "height": 1024,
+      "position": "center center",
+      "variants": [
+        {
+          "src": "assets/generated/work-06-480-275aad7437a8.webp",
+          "width": 480,
+          "height": 320,
+          "bytes": 25682,
+          "sha256": "275aad7437a89bac18a9c1cd637fe86a645b201976fcc649184135a192534d65"
+        },
+        {
+          "src": "assets/generated/work-06-768-c9b598856d04.webp",
+          "width": 768,
+          "height": 512,
+          "bytes": 51474,
+          "sha256": "c9b598856d04eb4bde8d9ef8624b018f1a0e0da5c8f3669c56ca1751ca3298a2"
+        },
+        {
+          "src": "assets/generated/work-06-1120-ef3752f8ef90.webp",
+          "width": 1120,
+          "height": 747,
+          "bytes": 90990,
+          "sha256": "ef3752f8ef905bc40badf9de583e2cabb8aa3bf3a09bee986f408962a2baadd1"
+        },
+        {
+          "src": "assets/generated/work-06-1280-33b74e226f1d.webp",
+          "width": 1280,
+          "height": 853,
+          "bytes": 107464,
+          "sha256": "33b74e226f1d5e338d06d775e89e54a76a9f8ccc300725b5010f58580169f96c"
+        },
+        {
+          "src": "assets/generated/work-06-1536-f1155544e3c5.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 138750,
+          "sha256": "f1155544e3c5a51534452e935590c16f5829b76a91aa72305786c9377a1e9cb5"
+        }
+      ]
+    },
+    "work-07": {
+      "source": "assets/concepts/cartoon/gallery/07-dr-dps-hd-v1-source.png",
+      "sourceSha256": "f8ad68746c03b65d428e11b96ce2647004aed4400d86c1f730671851c170fc4c",
+      "width": 1254,
+      "height": 1254,
+      "position": "center center",
+      "variants": [
+        {
+          "src": "assets/generated/work-07-480-eebc45fb9566.webp",
+          "width": 480,
+          "height": 480,
+          "bytes": 44794,
+          "sha256": "eebc45fb956699c5c70fac93d71d3cc13741e23943c16ca826558c95122d29c5"
+        },
+        {
+          "src": "assets/generated/work-07-768-593045ffea59.webp",
+          "width": 768,
+          "height": 768,
+          "bytes": 98714,
+          "sha256": "593045ffea590fd6527d1547ca3e58760b1a9c81ee934b13679d85c6126a2dd5"
+        },
+        {
+          "src": "assets/generated/work-07-1120-e4249c16f2e3.webp",
+          "width": 1120,
+          "height": 1120,
+          "bytes": 183492,
+          "sha256": "e4249c16f2e34cb3e14a75fd9e6d4bfd9340d940eecf99882ae7dfef0195fc30"
+        },
+        {
+          "src": "assets/generated/work-07-1254-9a87758b1e84.webp",
+          "width": 1254,
+          "height": 1254,
+          "bytes": 221038,
+          "sha256": "9a87758b1e8418480c322f160ad440da688cd3c3b79a055ada20e6c50cd78c23"
+        }
+      ]
+    },
+    "work-08": {
+      "source": "assets/concepts/cartoon/gallery/10-teste-comercio-avatar-source.png",
+      "sourceSha256": "d673253cd1bc0781e89c0d45492c0e54fd57d75389648c6ce7d93d60bf874096",
+      "width": 1536,
+      "height": 1024,
+      "position": "center center",
+      "variants": [
+        {
+          "src": "assets/generated/work-08-480-a15de97f11ad.webp",
+          "width": 480,
+          "height": 320,
+          "bytes": 21626,
+          "sha256": "a15de97f11ad7551f8e2d3e62a5fa9708cd2ad8e1212952bc212dc66bfc0a127"
+        },
+        {
+          "src": "assets/generated/work-08-768-93e10e720bac.webp",
+          "width": 768,
+          "height": 512,
+          "bytes": 42674,
+          "sha256": "93e10e720bac305eddfea60e6a40b2782f7ae494bb8dff6faa907d1b68d0e516"
+        },
+        {
+          "src": "assets/generated/work-08-1120-4df5648af90c.webp",
+          "width": 1120,
+          "height": 747,
+          "bytes": 75706,
+          "sha256": "4df5648af90c2007efe105941de5532955db12c8d3429a320e53b14b86040b29"
+        },
+        {
+          "src": "assets/generated/work-08-1280-92fd4f942651.webp",
+          "width": 1280,
+          "height": 853,
+          "bytes": 91764,
+          "sha256": "92fd4f9426519db32954ee7e275e61a43f7380d1a96fcb615e4f58af76bad005"
+        },
+        {
+          "src": "assets/generated/work-08-1536-82a648878f4c.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 120210,
+          "sha256": "82a648878f4c576c0613ba13894c2bed487c156e19d246482b09aa29af9a9f2b"
+        }
+      ]
+    },
+    "work-09": {
+      "source": "assets/concepts/cartoon/gallery/pos09-tomada-bancada-v1-source.png",
+      "sourceSha256": "7d61441680b27c38410d609871c954bfe1fe901bf26616678eeb98624fd0a250",
+      "width": 1672,
+      "height": 941,
+      "position": "center 10%",
+      "variants": [
+        {
+          "src": "assets/generated/work-09-480-b5ed3e48b0e9.webp",
+          "width": 480,
+          "height": 270,
+          "bytes": 28180,
+          "sha256": "b5ed3e48b0e9c55a48757feff1335f657cfbd09f1209012d28cb20c9889f0acd"
+        },
+        {
+          "src": "assets/generated/work-09-768-6776dcf23040.webp",
+          "width": 768,
+          "height": 432,
+          "bytes": 56988,
+          "sha256": "6776dcf2304060c5068071afd6098a8b2cd90ba38baceffbb0ee6cfcc3ec6a37"
+        },
+        {
+          "src": "assets/generated/work-09-1120-18f2266ad337.webp",
+          "width": 1120,
+          "height": 630,
+          "bytes": 98688,
+          "sha256": "18f2266ad337393d53b32bd6236b6ebd08903ebe173059c39908adacb1d005cf"
+        },
+        {
+          "src": "assets/generated/work-09-1280-26a97818a1ec.webp",
+          "width": 1280,
+          "height": 720,
+          "bytes": 115676,
+          "sha256": "26a97818a1ec7f8f6a7eebd6b40987f6713a0a579b6c51f00aaa9268d26bd1a3"
+        },
+        {
+          "src": "assets/generated/work-09-1672-3926d9b99897.webp",
+          "width": 1672,
+          "height": 941,
+          "bytes": 165362,
+          "sha256": "3926d9b998973947f7027395682b1c1cbd839d95d68c77f3330f39a5ec63f610"
+        }
+      ]
+    },
+    "work-10": {
+      "source": "assets/concepts/cartoon/gallery/pos10-painel-led-v1-source.png",
+      "sourceSha256": "d114ed915ed5fde9a0f51b8968fde11def2484d8b501b7ae4166b43dc6285aed",
+      "width": 1672,
+      "height": 941,
+      "position": "65% 10%",
+      "variants": [
+        {
+          "src": "assets/generated/work-10-480-c48552e7b935.webp",
+          "width": 480,
+          "height": 270,
+          "bytes": 22026,
+          "sha256": "c48552e7b93566564204539c553e2011f7ff24688ab6b09556228127f797c63b"
+        },
+        {
+          "src": "assets/generated/work-10-768-6f737f74ba50.webp",
+          "width": 768,
+          "height": 432,
+          "bytes": 43236,
+          "sha256": "6f737f74ba500b8971b44c30f1015c95e55ad647fc259d03eb804952cb254cff"
+        },
+        {
+          "src": "assets/generated/work-10-1120-0a57ab3718cb.webp",
+          "width": 1120,
+          "height": 630,
+          "bytes": 73192,
+          "sha256": "0a57ab3718cb880f133af87d791ac74c885be3b5e070f2c786c6dc5e74d237c3"
+        },
+        {
+          "src": "assets/generated/work-10-1280-5ef62b18bedb.webp",
+          "width": 1280,
+          "height": 720,
+          "bytes": 87468,
+          "sha256": "5ef62b18bedb0cdde3ef210accccf75acffa32ed7fc15a2c3c843171c4b235c6"
+        },
+        {
+          "src": "assets/generated/work-10-1672-97a5e5ea2a28.webp",
+          "width": 1672,
+          "height": 941,
+          "bytes": 125926,
+          "sha256": "97a5e5ea2a28815379d9eeb58afb6e9dcc09ac69bd4c6b62156b85b91b254f47"
+        }
+      ]
+    }
+  },
+  "favicon": {
+    "version": "69903d8487f4",
+    "files": {
+      "favicon.svg": {
+        "bytes": 211,
+        "sha256": "808c82b0ebc929114bca6edd7f0b9dc7881ed66261a482127c739cc9c7b70362"
+      },
+      "favicon.ico": {
+        "bytes": 3226,
+        "sha256": "1fa46018113edccc638b9871537b25b7d50598e6f2be4292ed95e59de1535e52"
+      },
+      "favicon-32x32.png": {
+        "bytes": 1051,
+        "sha256": "dcbfe66ce1ccac1429eafda14df5c3ee9d620e2ee93f3421c03a98ff3c32ace0"
+      },
+      "apple-touch-icon.png": {
+        "bytes": 3994,
+        "sha256": "0b5f80e1898f4c6de0a66dc8cf2dd499c5971d333f9221e9201e6a62f668dfb1"
+      }
+    }
+  }
+}

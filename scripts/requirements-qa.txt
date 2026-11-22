@@ -1,0 +1,2 @@
+-r requirements-assets.txt
+playwright==1.65.2
