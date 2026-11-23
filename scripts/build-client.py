@@ -92,8 +92,6 @@ CLIENT_CSS='''
   html[data-volt-mode="production"] #topo .nav-wrap {grid-template-columns:auto minmax(0,1fr) auto !important;}
  }
 }
-/* Single-city coverage: center text inside its existing allocated area. */
-#hero .hero__trust-card:nth-child(4) .hero__trust-title[data-single-city="true"] {display:flex !important;align-items:center !important;justify-content:center !important;text-align:center !important;}
 /* Anchor activation must not inherit generic footer-link layout. */
 #rodape a.footer-social {display:grid !important;place-items:center !important;margin:0 !important;font-size:16px !important;line-height:1.6 !important;color:rgba(255,255,255,.90) !important;}
 #rodape a.footer-social:hover {color:#fff !important;}
@@ -113,7 +111,7 @@ def build(config,config_dir,work):
     (work/'assets.json').write_text(json.dumps(assets,ensure_ascii=False,indent=2)+'\n')
     (work/'volt-final.js').write_text(runtime)
     (work/'styles.css').write_text(migrate((ROOT/'styles.css').read_text()))
-    (work/'volt-final.css').write_text(migrate((ROOT/'volt-final.css').read_text(),True)+CLIENT_CSS)
+    (work/'volt-final.css').write_text(migrate((ROOT/'volt-final.css').read_text(),True)+CLIENT_CSS+(ROOT/'scripts/client/trust-panels.css').read_text())
     (work/'theme.json').write_text(json.dumps(config['colors']))
     (work/'volt-theme.css').write_text(theme_css)
     asset_builder=load_module('volt_assets',ROOT/'scripts/build-assets.py');asset_builder.ROOT=work
