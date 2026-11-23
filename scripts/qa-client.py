@@ -121,6 +121,10 @@ def run(args):
                             dest=Path(args.screenshots).resolve()
                             if dest.is_relative_to(site):raise ValueError('screenshots must stay outside site/')
                             dest.mkdir(parents=True,exist_ok=True)
+                            # WebKit's screenshot viewport restoration follows a live
+                            # fragment. Navigation was already tested above; clear only
+                            # the test tab fragment so each capture retains its own scroll.
+                            page.evaluate('document.activeElement.blur();history.replaceState(null,"",location.pathname+location.search)')
                             for label,selector in [('hero','#hero'),('reviews','#avaliacoes'),('about','#sobre'),('coverage','#area-atendida'),('footer','#rodape')]:
                                 page.locator(selector).evaluate('(e)=>window.scrollTo({top:Math.max(0,e.getBoundingClientRect().top+scrollY-document.querySelector("#topo").getBoundingClientRect().height),behavior:"instant"})')
                                 page.evaluate('()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))')
