@@ -98,6 +98,7 @@ CLIENT_CSS='''
 #rodape a.footer-social:focus-visible {outline:2px solid var(--accent-text) !important;outline-offset:4px !important;}
 #rodape a.footer-contact__cta {display:inline-flex !important;margin-bottom:0 !important;}
 #rodape a.footer-contact__cta:focus-visible {outline:2px solid var(--accent-text) !important;outline-offset:3px !important;}
+#avaliacoes[data-review-origin="direct"] .reviews-head {grid-template-columns:minmax(0,1fr) !important;}
 .wordmark.wordmark--image {display:flex !important;align-items:center;justify-content:center;min-height:44px;width:max-content;max-width:180px;}
 .wordmark.wordmark--image::before {content:none !important;}
 .wordmark--image img {display:block;max-width:180px;max-height:44px;width:auto;height:auto;object-fit:contain;}
@@ -143,7 +144,7 @@ def build(config,config_dir,work):
     if len(dom.cssselect('h1'))!=1 or len(dom.cssselect('h2'))!=9:raise ValueError('heading hierarchy changed')
     if not dom.cssselect('h2')[-1].getparent().getparent().getparent().get('id')=='contato':
         if dom.cssselect('h2')[-1].get('id')!='cta-title':raise ValueError('last H2 must remain final CTA')
-    return {'schemaVersion':1,'status':'generated-awaiting-browser-qa','stage':config['stage'],'sourceHash':source_hash(),'configHash':sha(json.dumps(config,sort_keys=True,ensure_ascii=False).encode()),'artifactId':artifact_id(files),'files':files,'contrasts':{k:round(v,3) for k,v in contrasts.items()},'visualStatus':'awaiting-human-review','composition':{'cities':len(config['coverage']['cities']),'coverageScopes':[c['scope'] for c in config['coverage']['cities']],'services':len(config['services']),'gallery':len(assets['concepts'][assets['activeConcept']]['gallery']),'reviews':config['reviews']['presentation'],'ratingBadge':config['reviews']['rating'] is not None,'assets':config['assets']['mode'],'logo':bool(config.get('brand',{}).get('logo'))},'notice':'Publish site/ only. This private report is not a publication approval.'}
+    return {'schemaVersion':1,'status':'generated-awaiting-browser-qa','stage':config['stage'],'sourceHash':source_hash(),'configHash':sha(json.dumps(config,sort_keys=True,ensure_ascii=False).encode()),'artifactId':artifact_id(files),'files':files,'contrasts':{k:round(v,3) for k,v in contrasts.items()},'visualStatus':'awaiting-human-review','composition':{'cities':len(config['coverage']['cities']),'coverageScopes':[c['scope'] for c in config['coverage']['cities']],'services':len(config['services']),'gallery':len(assets['concepts'][assets['activeConcept']]['gallery']),'reviews':config['reviews']['presentation'],'reviewOrigin':config['reviews'].get('origin','google' if config['reviews']['rating'] is not None else 'direct'),'ratingBadge':config['reviews']['rating'] is not None,'assets':config['assets']['mode'],'logo':bool(config.get('brand',{}).get('logo'))},'notice':'Publish site/ only. This private report is not a publication approval.'}
 
 def check_visual_approval(approval,report):
     if not isinstance(approval,dict) or approval.get('artifactId')!=report['artifactId'] or approval.get('sourceHash')!=report['sourceHash'] or approval.get('composition')!=report['composition']:

@@ -107,6 +107,18 @@ def run(args):
                         details.locator('summary').click();state=page.evaluate(MEASURE)
                         faq_failures.extend([f for f in state['failures'] if f['label']=='Resposta FAQ'])
                     state=page.evaluate(MEASURE);sample['measurements']=state
+                    origin=info['composition'].get('reviewOrigin')
+                    if origin:
+                        section=page.locator('#avaliacoes')
+                        assert section.get_attribute('data-review-origin')==origin,'review origin desynchronized'
+                        assert page.locator('#avaliacoes .rating-badge').count()==int(info['composition']['ratingBadge']),'rating badge state'
+                        assert page.locator('.review-marquee-card').count()==24,'six reviews and their animation copies must remain'
+                        assert len(set(page.locator('.review-marquee-message').all_text_contents()))==6,'distinct review content'
+                        if origin=='direct':
+                            assert 'AVALIAÇÕES NO GOOGLE' not in page.locator('#avaliacoes .eyebrow').inner_text(),'direct testimonials attributed to Google'
+                            assert page.locator('.reviews-head > a').count()==0,'unapproved extra review CTA'
+                        assert page.locator('.google-review__button[data-client-review]').count()==1,'Google review invitation missing'
+                        sample['reviews']={'origin':origin,'cards':24,'distinct':6,'badge':info['composition']['ratingBadge'],'googleInvitation':True}
                     sample['footerGeometry']=page.evaluate(FOOTER_MEASURE)
                     assert not sample['footerGeometry']['failures'],'footer geometry: '+str(sample['footerGeometry']['failures'])
                     # Prove the checker rejects the actual inheritance regression,

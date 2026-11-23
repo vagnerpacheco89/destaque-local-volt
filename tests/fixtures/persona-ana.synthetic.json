@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "copyId": "volt-copy-v1",
+  "stage": "preview",
+  "identity": {
+    "businessName": "Elétrica Ana Exemplo",
+    "displayName": "Ana Exemplo",
+    "contactName": "Ana"
+  },
+  "publication": {
+    "url": "https://review-volt-persona-ana.destaque-local-volt.pages.dev/",
+    "copyrightYear": 2026,
+    "authorization": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "kind": "synthetic-test",
+    "indexable": false
+  },
+  "colors": {
+    "primary": "#7C3AED",
+    "secondary": "#22B8CF"
+  },
+  "coverage": {
+    "cities": [
+      {
+        "name": "Florianópolis",
+        "label": "Florianópolis continental",
+        "scope": "neighborhoods",
+        "neighborhoods": [
+          "Jardim Atlântico",
+          "Bom Abrigo",
+          "Itaguaçu",
+          "Monte Cristo",
+          "Coqueiros",
+          "Capoeiras",
+          "Coloninha",
+          "Balneário",
+          "Estreito",
+          "Abraão"
+        ]
+      }
+    ],
+    "map": {
+      "latitude": -27.61,
+      "longitude": -48.59,
+      "desktopZoom": 11,
+      "mobileZoom": 10
+    }
+  },
+  "services": [
+    "panels",
+    "outlets",
+    "lighting",
+    "showers",
+    "diagnostics",
+    "wiring-protection"
+  ],
+  "audiences": [
+    "residences",
+    "small-businesses"
+  ],
+  "experience": {
+    "since": 2021
+  },
+  "hours": {
+    "weekdays": {
+      "opens": "07:00",
+      "closes": "19:00"
+    },
+    "saturday": {
+      "opens": "08:00",
+      "closes": "13:00"
+    },
+    "sundayHolidays": null
+  },
+  "policies": {
+    "urgent": true,
+    "quoteBeforeWork": true,
+    "materialsBeforeWork": true,
+    "warrantyAnswer": "As condições de garantia dependem do tipo de serviço e são informadas no orçamento. Não existe um único prazo divulgado para todos os trabalhos.",
+    "invoiceAnswer": "Sim, mediante solicitação.",
+    "paymentAnswer": "Pix, dinheiro, cartão de débito e cartão de crédito. Condições de parcelamento podem variar conforme o valor do serviço.",
+    "approval": "SYNTHETIC QA FIXTURE — not real policies"
+  },
+  "contacts": {
+    "whatsapp": "5500000000000",
+    "whatsappMessage": "Olá! Este é um teste fictício do VOLT. Não é uma solicitação real.",
+    "socials": {
+      "instagram": null,
+      "facebook": null,
+      "youtube": null,
+      "tiktok": null
+    }
+  },
+  "google": {
+    "profileUrl": "https://www.google.com/maps/search/?api=1&query=NEGOCIO+FICTICIO+VOLT+ANA",
+    "reviewAction": {
+      "kind": "profile",
+      "url": "https://www.google.com/maps/search/?api=1&query=NEGOCIO+FICTICIO+VOLT+ANA"
+    }
+  },
+  "reviews": {
+    "presentation": "verified",
+    "items": [
+      {
+        "message": "Explicou o problema com clareza e deixou o quadro muito organizado.",
+        "name": "Alice Teste",
+        "initials": "AT",
+        "location": "Jardim Atlântico · Florianópolis",
+        "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
+      },
+      {
+        "message": "Atendimento cuidadoso e orçamento explicado antes de começar o serviço.",
+        "name": "Daniel Teste",
+        "initials": "DT",
+        "location": "Bom Abrigo · Florianópolis",
+        "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
+      },
+      {
+        "message": "Resolveu um disjuntor que desarmava e mostrou o que precisava ser corrigido.",
+        "name": "Helena Teste",
+        "initials": "HT",
+        "location": "Itaguaçu · Florianópolis",
+        "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
+      },
+      {
+        "message": "Muito organizado na instalação das luminárias e dos novos pontos.",
+        "name": "Pedro Teste",
+        "initials": "PT",
+        "location": "Monte Cristo · Florianópolis",
+        "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
+      },
+      {
+        "message": "Atendeu no horário combinado e explicou as opções antes de trocar a fiação.",
+        "name": "Laura Teste",
+        "initials": "LT",
+        "location": "Coqueiros · Florianópolis",
+        "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
+      },
+      {
+        "message": "O serviço ficou limpo e o contato pelo WhatsApp foi bem direto.",
+        "name": "Renato Teste",
+        "initials": "RT",
+        "location": "Capoeiras · Florianópolis",
+        "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
+      }
+    ],
+    "rating": null,
+    "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct",
+    "approval": "Synthetic controlled test authorized in task; not real business statements",
+    "origin": "direct"
+  },
+  "assets": {
+    "mode": "template-illustrations",
+    "hero": null,
+    "about": null,
+    "gallery": null
+  },
+  "brand": {
+    "logo": null,
+    "favicon": null
+  },
+  "copyOverrides": {},
+  "confirmations": {
+    "identity": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "coverage": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "services": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "hours": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "policies": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "contacts": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "colors": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "reviews": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "publication": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation",
+    "assets": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation"
+  }
+}

@@ -108,8 +108,11 @@ def validate(data,base):
     if action.get('kind')=='request-link':
         if action.get('url') is not None:err('google.reviewAction.url','request-link uses confirmed WhatsApp, not an inferred Google URL')
     else:url(action.get('url'),'google.reviewAction.url',{'www.google.com','google.com','search.google.com','maps.google.com','maps.app.goo.gl','g.page'})
-    reviews=obj(data.get('reviews'),'reviews',['presentation','items','rating','source','approval'])
+    reviews=obj(data.get('reviews'),'reviews',['presentation','items','rating','source','approval'],['origin'])
     if reviews.get('presentation') not in ('verified','invitation'):err('reviews.presentation','explicit verified or invitation mode required; no automatic removal')
+    origin=reviews.get('origin','google' if reviews.get('rating') is not None else 'direct')
+    if origin not in ('google','direct'):err('reviews.origin','google or direct required')
+    if origin=='direct' and reviews.get('rating') is not None:err('reviews.rating','direct testimonials cannot carry Google rating')
     items=reviews.get('items',[])
     if reviews.get('presentation')=='verified':
         if not isinstance(items,list) or len(items)!=6:err('reviews.items','six distinct verified reports required for this approved composition')

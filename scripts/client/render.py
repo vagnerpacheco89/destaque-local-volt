@@ -250,6 +250,25 @@ def prepare_client(rootdir,config):
     for span in intro:span.text=(span.text or '').replace('relatos demonstrativos','relatos de clientes').replace('relatos demonstrativos','relatos de clientes')
     for row in dom.cssselect('.review-marquee-row'):row.set('aria-label','Avaliações de clientes: seis relatos distintos')
     badge=q('#avaliacoes .rating-badge')
+    origin=reviews.get('origin','google' if reviews['rating'] is not None else 'direct')
+    q('#avaliacoes').set('data-review-origin',origin)
+    synthetic=config['publication'].get('kind')=='synthetic-test'
+    if origin=='direct' and reviews['presentation']=='verified':
+        for span in q('#avaliacoes .eyebrow'):set_text(span,'DEPOIMENTOS DE CLIENTES' if span.get('data-review-copy')=='full' else 'DEPOIMENTOS')
+        variants={
+          'full':'Antes de contratar um eletricista em '+cities[0]['name']+', conheça experiências compartilhadas por pessoas atendidas. Os depoimentos abaixo foram recebidos diretamente pelo profissional e não representam avaliações do Google.',
+          'medium':'Conheça experiências de pessoas atendidas. Os depoimentos foram recebidos diretamente pelo profissional, fora do Google.',
+          'short':'Depoimentos recebidos diretamente pelo profissional, fora do Google.',
+          'compact':'Depoimentos recebidos diretamente pelo profissional.'}
+        for span in intro:set_text(span,variants[span.get('data-review-intro-variant')])
+    if synthetic and reviews['presentation']=='verified':
+        variants={
+          'full':'Cenário fictício para testar o VOLT em '+cities[0]['name']+'. Nomes, relatos e localidades compõem uma simulação de '+('avaliações do Google. A nota e a quantidade também são simuladas.' if origin=='google' else 'depoimentos recebidos pelo profissional. Não são experiências reais nem avaliações do Google.'),
+          'medium':'Teste fictício: nomes e relatos são ilustrativos. '+('A nota e a quantidade simulam avaliações do Google.' if origin=='google' else 'Simulação de depoimentos recebidos pelo profissional, fora do Google.'),
+          'short':'Teste fictício: relatos ilustrativos, sem experiências reais. '+('Nota Google simulada.' if origin=='google' else 'Origem direta simulada.'),
+          'compact':'Teste fictício: relatos '+('e nota Google simulados.' if origin=='google' else 'ilustrativos, de origem direta simulada.')}
+        for span in intro:set_text(span,variants[span.get('data-review-intro-variant')])
+        for row in dom.cssselect('.review-marquee-row'):row.set('aria-label','Seis depoimentos fictícios para teste, sem experiências reais')
     if reviews['presentation']=='invitation':
         # Consulting reviews and inviting a past customer are distinct messages.
         # This explicit alternative remains subject to its own visual approval.
@@ -258,9 +277,9 @@ def prepare_client(rootdir,config):
         for span in intro:set_text(span,'Antes de contratar, tire suas dúvidas sobre o atendimento pelo WhatsApp. Para consultar avaliações no Google, peça o link do negócio.')
         q('#avaliacoes .reviews-marquee').getparent().remove(q('#avaliacoes .reviews-marquee'))
     if reviews['rating'] is None:
-        link=html.Element('a',{'class':'btn','href':review_url,'target':'_blank','rel':'noopener noreferrer','data-typography':'cta','data-max-lines':'1','data-client-review':action['kind']});link.text='PEDIR LINK' if action['kind']=='request-link' else 'AVALIAR NO GOOGLE';badge.getparent().replace(badge,link)
+        badge.getparent().remove(badge)
     else:
-        badge.set('aria-label',f"Nota de {reviews['rating']['score']:.1f} de 5, com {reviews['rating']['count']} avaliações no Google.".replace('.',',',1))
+        badge.set('aria-label',('Simulação fictícia: ' if synthetic else '')+f"Nota de {reviews['rating']['score']:.1f} de 5, com {reviews['rating']['count']} avaliações no Google.".replace('.',',',1))
     # Explicit preview/live states; no demo event interception or fictitious dialogs remain.
     dom.set('data-volt-mode',stage)
     notice=q('#topo .nav-demo-label')
