@@ -2822,7 +2822,12 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
   html[data-volt-mode="production"] #topo .nav-wrap {grid-template-columns:auto minmax(0,1fr) auto !important;}
  }
 }
-#rodape a.footer-contact__cta {display:inline-flex !important;}
+/* Anchor activation must not inherit generic footer-link layout. */
+#rodape a.footer-social {display:grid !important;place-items:center !important;margin:0 !important;font-size:16px !important;line-height:1.6 !important;color:rgba(255,255,255,.90) !important;}
+#rodape a.footer-social:hover {color:#fff !important;}
+#rodape a.footer-social:focus-visible {outline:2px solid var(--accent-text) !important;outline-offset:4px !important;}
+#rodape a.footer-contact__cta {display:inline-flex !important;margin-bottom:0 !important;}
+#rodape a.footer-contact__cta:focus-visible {outline:2px solid var(--accent-text) !important;outline-offset:3px !important;}
 .wordmark.wordmark--image {display:flex !important;align-items:center;justify-content:center;min-height:44px;width:max-content;max-width:180px;}
 .wordmark.wordmark--image::before {content:none !important;}
 .wordmark--image img {display:block;max-width:180px;max-height:44px;width:auto;height:auto;object-fit:contain;}
