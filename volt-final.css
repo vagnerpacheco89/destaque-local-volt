@@ -2822,6 +2822,8 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
   html[data-volt-mode="production"] #topo .nav-wrap {grid-template-columns:auto minmax(0,1fr) auto !important;}
  }
 }
+/* Single-city coverage: center text inside its existing allocated area. */
+#hero .hero__trust-card:nth-child(4) .hero__trust-title[data-single-city="true"] {display:flex !important;align-items:center !important;justify-content:center !important;text-align:center !important;}
 /* Anchor activation must not inherit generic footer-link layout. */
 #rodape a.footer-social {display:grid !important;place-items:center !important;margin:0 !important;font-size:16px !important;line-height:1.6 !important;color:rgba(255,255,255,.90) !important;}
 #rodape a.footer-social:hover {color:#fff !important;}
