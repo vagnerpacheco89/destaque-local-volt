@@ -111,9 +111,10 @@ def build(config,config_dir,work):
     (work/'assets.json').write_text(json.dumps(assets,ensure_ascii=False,indent=2)+'\n')
     (work/'volt-final.js').write_text(runtime)
     (work/'styles.css').write_text(migrate((ROOT/'styles.css').read_text()))
+    heading_css=(ROOT/'scripts/client/headings.css').read_text()
     trust_css=(ROOT/'scripts/client/trust-panels.css').read_text()
-    base_css=(ROOT/'volt-final.css').read_text().removesuffix(trust_css)
-    (work/'volt-final.css').write_text(migrate(base_css,True)+CLIENT_CSS+trust_css)
+    base_css=(ROOT/'volt-final.css').read_text().removesuffix(heading_css).removesuffix(trust_css)
+    (work/'volt-final.css').write_text(migrate(base_css,True)+CLIENT_CSS+trust_css+heading_css)
     (work/'theme.json').write_text(json.dumps(config['colors']))
     (work/'volt-theme.css').write_text(theme_css)
     asset_builder=load_module('volt_assets',ROOT/'scripts/build-assets.py');asset_builder.ROOT=work
