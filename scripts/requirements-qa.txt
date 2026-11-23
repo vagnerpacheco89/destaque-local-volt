@@ -1,2 +1,0 @@
--r requirements-client.txt
-playwright==1.65.2

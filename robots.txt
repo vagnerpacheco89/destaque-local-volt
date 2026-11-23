@@ -1,13 +1,3 @@
-# VOLT demo: crawling is allowed so bots can read the page-level noindex directive.
-# On a real client site, keep crawling allowed and switch the HTML robots meta to index,follow.
-
 User-agent: *
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-Sitemap: https://volt.destaquelocal.com.br/sitemap.xml
+Disallow: /
+Sitemap: https://review-volt-persona-ana.destaque-local-volt.pages.dev/sitemap.xml
