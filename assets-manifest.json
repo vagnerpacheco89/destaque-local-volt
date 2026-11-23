@@ -506,23 +506,23 @@
     }
   },
   "favicon": {
-    "version": "69903d8487f4",
+    "version": "bfc8a392249f",
     "files": {
       "favicon.svg": {
         "bytes": 211,
-        "sha256": "808c82b0ebc929114bca6edd7f0b9dc7881ed66261a482127c739cc9c7b70362"
+        "sha256": "439638b71a3c390250a3921b5e56f2e37fbc53f26e50444e100e873413a29670"
       },
       "favicon.ico": {
-        "bytes": 3226,
-        "sha256": "1fa46018113edccc638b9871537b25b7d50598e6f2be4292ed95e59de1535e52"
+        "bytes": 3364,
+        "sha256": "503dfdf52ae42c4130624134fbff6d3ecef4217bd0a7d003af43b5d990cf40a2"
       },
       "favicon-32x32.png": {
-        "bytes": 1051,
-        "sha256": "dcbfe66ce1ccac1429eafda14df5c3ee9d620e2ee93f3421c03a98ff3c32ace0"
+        "bytes": 1083,
+        "sha256": "1e9b0c8b2d48dd87204bd6cb1a0356e762fb5f0aff5d1c5475b43c6585a8f4be"
       },
       "apple-touch-icon.png": {
-        "bytes": 3994,
-        "sha256": "0b5f80e1898f4c6de0a66dc8cf2dd499c5971d333f9221e9201e6a62f668dfb1"
+        "bytes": 4124,
+        "sha256": "31230695ab7c27fba1a85c6b03d2940f51da474c3feb7abb6162213d522ef812"
       }
     }
   }
