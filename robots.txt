@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+Sitemap: https://review-volt-pipeline-b.destaque-local-volt.pages.dev/sitemap.xml

@@ -1,0 +1,6 @@
+/* Generated from assets.json; do not edit. Desktop composition stays in styles.css. */
+:root { --volt-hero-background: url("assets/generated/hero-1672-4700f9047704.webp"); }
+@supports (background-image: image-set(url("x.webp") 1x)) {
+  :root { --volt-hero-background: image-set(url("assets/generated/hero-1280-a666cc9906c2.webp") 1x, url("assets/generated/hero-1672-4700f9047704.webp") 2x); }
+}
+.hero__frame picture { display:contents; }
