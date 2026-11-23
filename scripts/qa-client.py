@@ -119,6 +119,17 @@ def run(args):
                             assert page.locator('.reviews-head > a').count()==0,'unapproved extra review CTA'
                         assert page.locator('.google-review__button[data-client-review]').count()==1,'Google review invitation missing'
                         sample['reviews']={'origin':origin,'cards':24,'distinct':6,'badge':info['composition']['ratingBadge'],'googleInvitation':True}
+                    if info['composition']['cities']==1:
+                        centered=page.locator('.hero__trust-card:nth-child(4) .hero__trust-title[data-single-city="true"]')
+                        assert centered.count()==2,'single-city marker must cover both responsive structures'
+                        measurements=[]
+                        for title in centered.all():
+                            if not title.is_visible():continue
+                            m=title.evaluate('''e=>{const b=e.getBoundingClientRect(),s=getComputedStyle(e),r=document.createRange();r.selectNodeContents(e);const t=r.getBoundingClientRect();return {dx:Math.abs(t.x+t.width/2-b.x-b.width/2),dy:Math.abs(t.y+t.height/2-b.y-b.height/2),display:s.display,align:s.alignItems,justify:s.justifyContent,textAlign:s.textAlign}}''')
+                            assert m['dx']<=1 and m['dy']<=2 and m['display']=='flex' and m['align']=='center' and m['justify']=='center' and m['textAlign']=='center','single-city text is not centered: '+str(m)
+                            measurements.append(m)
+                        assert len(measurements)==1,'exactly one responsive coverage title must be visible'
+                        sample['singleCityTextCenter']=measurements
                     sample['footerGeometry']=page.evaluate(FOOTER_MEASURE)
                     assert not sample['footerGeometry']['failures'],'footer geometry: '+str(sample['footerGeometry']['failures'])
                     # Prove the checker rejects the actual inheritance regression,
