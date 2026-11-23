@@ -24,6 +24,7 @@ FOOTER_MEASURE=r'''() => {
  const items=controls.map(e=>{const r=e.getBoundingClientRect(),svg=e.querySelector('svg')?.getBoundingClientRect(),s=getComputedStyle(e),iconSize=e.classList.contains('footer-social--facebook')?19:e.classList.contains('footer-social--whatsapp')?(innerWidth<=680?23:24):21;
   const item={display:s.display,color:s.color,width:r.width,height:r.height,marginBottom:parseFloat(s.marginBottom),x:r.x,y:r.y,svgWidth:svg?.width,svgHeight:svg?.height,dx:svg?svg.x+svg.width/2-r.x-r.width/2:null,dy:svg?svg.y+svg.height/2-r.y-r.height/2:null};
   if(s.color!==(e.matches(':hover')?'rgb(255, 255, 255)':'rgba(255, 255, 255, 0.9)'))failures.push('social control ink: '+e.className);
+  if(e.matches(':focus-visible')&&(!close(parseFloat(s.outlineWidth),2)||!close(parseFloat(s.outlineOffset),4)))failures.push('social keyboard focus: '+e.className);
   if(s.display!=='grid'||!close(r.width,size)||!close(r.height,size)||!close(item.marginBottom,0)||!svg||!close(item.dx,0)||!close(item.dy,0)||!close(svg.width,iconSize)||!close(svg.height,iconSize))failures.push('social control geometry: '+e.className);
   return item;
  });
@@ -32,6 +33,7 @@ FOOTER_MEASURE=r'''() => {
  if(items.length===6)for(let i=0;i<3;i++)if(!close(items[i].y,items[0].y)||!close(items[i+3].y,items[3].y)||!close(items[i+3].y-items[i].y,size+12)||!close(items[i].x,items[i+3].x))failures.push('social row alignment');
  const cta=document.querySelector('#rodape .footer-contact__cta'),cs=cta&&getComputedStyle(cta);
  if(!cs||cs.display!=='inline-flex'||!close(parseFloat(cs.marginBottom),0))failures.push('footer contact display/margin');
+ if(cta?.matches(':focus-visible')&&(!close(parseFloat(cs.outlineWidth),2)||!close(parseFloat(cs.outlineOffset),3)))failures.push('footer contact keyboard focus');
  return {width:innerWidth,items,grid:gr?{width:gr.width,height:gr.height,gap:gs.gap}:null,cta:cs?{display:cs.display,marginBottom:cs.marginBottom}:null,failures};
 }'''
 MEASURE=r'''() => {
@@ -147,6 +149,14 @@ def run(args):
                         external.close()
                         assert page.locator('dialog[open]').count()==0
                         assert page.locator('.footer-socials__icons a').count()==6
+                        page.locator('.footer-social--instagram').focus();page.keyboard.press('Tab')
+                        assert page.evaluate("document.activeElement.matches('.footer-social--whatsapp:focus-visible')"),'social keyboard navigation'
+                        focus_state=page.evaluate(FOOTER_MEASURE)
+                        assert not focus_state['failures'],'social focus geometry: '+str(focus_state['failures'])
+                        sample['footerKeyboardFocus']={'visible':True,'outlineWidth':page.locator('.footer-social--whatsapp').evaluate('(e)=>getComputedStyle(e).outlineWidth'),'outlineOffset':page.locator('.footer-social--whatsapp').evaluate('(e)=>getComputedStyle(e).outlineOffset')}
+                        page.locator('.footer-contact__cta').focus()
+                        assert page.evaluate("document.activeElement.matches('.footer-contact__cta:focus-visible')"),'footer contact keyboard focus visibility'
+                        assert not page.evaluate(FOOTER_MEASURE)['failures'],'footer contact keyboard focus geometry'
                         sample['interactions']={'mobileMenu':menu.is_visible(),'faq':True,'whatsappRequestBlockedAfterCorrectDestination':True,'socialControls':6}
                         if args.screenshots:
                             dest=Path(args.screenshots).resolve()
