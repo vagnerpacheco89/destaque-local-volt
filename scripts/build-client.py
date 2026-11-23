@@ -87,7 +87,11 @@ def prepare_assets(work,config,assets,theme_css,config_dir,dom_text):
 
 CLIENT_CSS='''
 /* Client state composition: shared dimensions and typography remain in base CSS. */
-html[data-volt-mode="production"] #topo .nav-wrap {grid-template-columns:auto minmax(0,1fr) auto !important;}
+@layer volt-nav-review {
+ @media(min-width:861px) {
+  html[data-volt-mode="production"] #topo .nav-wrap {grid-template-columns:auto minmax(0,1fr) auto !important;}
+ }
+}
 #rodape a.footer-contact__cta {display:inline-flex !important;}
 .wordmark.wordmark--image {display:flex !important;align-items:center;justify-content:center;min-height:44px;width:max-content;max-width:180px;}
 .wordmark.wordmark--image::before {content:none !important;}
