@@ -21,20 +21,20 @@
   "coverage": {
     "cities": [
       {
-        "name": "Florianópolis",
-        "label": "Florianópolis continental",
+        "name": "São José",
+        "label": "São José",
         "scope": "neighborhoods",
         "neighborhoods": [
-          "Jardim Atlântico",
-          "Bom Abrigo",
-          "Itaguaçu",
-          "Monte Cristo",
-          "Coqueiros",
-          "Capoeiras",
-          "Coloninha",
-          "Balneário",
-          "Estreito",
-          "Abraão"
+          "Forquilhinha",
+          "Campinas",
+          "Bela Vista",
+          "Barreiros",
+          "Kobrasol",
+          "Ipiranga",
+          "Potecas",
+          "Serraria",
+          "Roçado",
+          "Areias"
         ]
       }
     ],
@@ -104,42 +104,42 @@
         "message": "Explicou o problema com clareza e deixou o quadro muito organizado.",
         "name": "Alice Teste",
         "initials": "AT",
-        "location": "Jardim Atlântico · Florianópolis",
+        "location": "Forquilhinha · São José",
         "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
       },
       {
         "message": "Atendimento cuidadoso e orçamento explicado antes de começar o serviço.",
         "name": "Daniel Teste",
         "initials": "DT",
-        "location": "Bom Abrigo · Florianópolis",
+        "location": "Campinas · São José",
         "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
       },
       {
         "message": "Resolveu um disjuntor que desarmava e mostrou o que precisava ser corrigido.",
         "name": "Helena Teste",
         "initials": "HT",
-        "location": "Itaguaçu · Florianópolis",
+        "location": "Bela Vista · São José",
         "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
       },
       {
         "message": "Muito organizado na instalação das luminárias e dos novos pontos.",
         "name": "Pedro Teste",
         "initials": "PT",
-        "location": "Monte Cristo · Florianópolis",
+        "location": "Barreiros · São José",
         "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
       },
       {
         "message": "Atendeu no horário combinado e explicou as opções antes de trocar a fiação.",
         "name": "Laura Teste",
         "initials": "LT",
-        "location": "Coqueiros · Florianópolis",
+        "location": "Kobrasol · São José",
         "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
       },
       {
         "message": "O serviço ficou limpo e o contato pelo WhatsApp foi bem direto.",
         "name": "Renato Teste",
         "initials": "RT",
-        "location": "Capoeiras · Florianópolis",
+        "location": "Ipiranga · São José",
         "source": "SYNTHETIC TEST: four fictitious personas authorized by Founder; not real client confirmation; simulated direct"
       }
     ],
