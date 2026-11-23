@@ -16,6 +16,7 @@ import threading
 from urllib.parse import urljoin,urlsplit
 from playwright.sync_api import sync_playwright
 from client.trust import MEASURE as TRUST_MEASURE
+from client.headings import MEASURE as HEADING_MEASURE
 
 WIDTHS=[320,390,560,561,620,621,680,681,760,761,860,861,1080,1081,1200,1201,1440]
 FOOTER_MEASURE=r'''() => {
@@ -120,6 +121,17 @@ def run(args):
                             assert page.locator('.reviews-head > a').count()==0,'unapproved extra review CTA'
                         assert page.locator('.google-review__button[data-client-review]').count()==1,'Google review invitation missing'
                         sample['reviews']={'origin':origin,'cards':24,'distinct':6,'badge':info['composition']['ratingBadge'],'googleInvitation':True}
+                    sample['headingClearance']=page.evaluate(HEADING_MEASURE)
+                    assert not sample['headingClearance']['failures'],'heading clearance: '+str(sample['headingClearance']['failures'])
+                    if width==390 and dpr==1:
+                        saved_heading_styles=page.evaluate("() => [...document.querySelectorAll('h1,h1 *')].map(e=>{const s=e.getAttribute('style');e.style.setProperty('line-height','.84','important');return s;})")
+                        page.wait_for_function("Math.abs(parseFloat(getComputedStyle(document.querySelector('h1')).lineHeight)/parseFloat(getComputedStyle(document.querySelector('h1')).fontSize)-.84)<.002")
+                        rejected_heading=page.evaluate(HEADING_MEASURE)
+                        page.evaluate("styles=>[...document.querySelectorAll('h1,h1 *')].forEach((e,i)=>styles[i]===null?e.removeAttribute('style'):e.setAttribute('style',styles[i]))",saved_heading_styles)
+                        page.wait_for_function("[...document.querySelectorAll('h1,h1 *')].every(e=>Math.abs(parseFloat(getComputedStyle(e).lineHeight)/parseFloat(getComputedStyle(e).fontSize)-1.3)<.002)")
+                        assert any('heading leading' in f for f in rejected_heading['failures']),'heading regression was not detected'
+                        assert not page.evaluate(HEADING_MEASURE)['failures'],'heading regression did not restore'
+                        sample['headingRegressionTest']={'detected':True,'restored':True}
                     sample['trustPanels']=page.evaluate(TRUST_MEASURE)
                     assert not sample['trustPanels']['failures'],'trust panels: '+str(sample['trustPanels']['failures'])
                     if width==390 and dpr==1:
@@ -176,11 +188,14 @@ def run(args):
                         assert page.locator('.footer-socials__icons a').count()==6
                         page.locator('.footer-social--instagram').focus();page.keyboard.press('Tab')
                         assert page.evaluate("document.activeElement.matches('.footer-social--whatsapp:focus-visible')"),'social keyboard navigation'
+                        page.evaluate('() => new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))')
                         focus_state=page.evaluate(FOOTER_MEASURE)
                         assert not focus_state['failures'],'social focus geometry: '+str(focus_state['failures'])
                         sample['footerKeyboardFocus']={'visible':True,'outlineWidth':page.locator('.footer-social--whatsapp').evaluate('(e)=>getComputedStyle(e).outlineWidth'),'outlineOffset':page.locator('.footer-social--whatsapp').evaluate('(e)=>getComputedStyle(e).outlineOffset')}
                         page.locator('.footer-contact__cta').focus()
                         assert page.evaluate("document.activeElement.matches('.footer-contact__cta:focus-visible')"),'footer contact keyboard focus visibility'
+                        page.evaluate('() => new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))')
+                        page.wait_for_function("(() => {const s=getComputedStyle(document.querySelector('.footer-contact__cta'));return s.outlineWidth==='2px'&&s.outlineOffset==='3px';})()")
                         assert not page.evaluate(FOOTER_MEASURE)['failures'],'footer contact keyboard focus geometry'
                         sample['interactions']={'mobileMenu':menu.is_visible(),'faq':True,'whatsappRequestBlockedAfterCorrectDestination':True,'socialControls':6}
                         if args.screenshots:
