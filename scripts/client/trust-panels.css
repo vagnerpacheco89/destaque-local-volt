@@ -2,7 +2,7 @@
 @layer volt-hero-trust {
  #hero .hero__trust-grid {grid-auto-rows:1fr !important;align-items:stretch !important;}
  #hero .hero__trust-grid .hero__trust-card:nth-child(n) {grid-template-columns:22% minmax(0,1fr) !important;column-gap:0 !important;row-gap:0 !important;align-items:stretch !important;padding:0 !important;overflow:hidden !important;}
- #hero .hero__trust-card .trust-icon {width:100% !important;height:100% !important;align-self:stretch !important;border-radius:0 !important;background:linear-gradient(160deg,var(--accent),var(--accent-fill-end)) !important;color:var(--accent-ink,#fff) !important;}
+ #hero .hero__trust-card .trust-icon {width:100% !important;height:100% !important;align-self:stretch !important;border-radius:0 !important;background:linear-gradient(160deg,var(--accent),var(--accent-fill-end,var(--accent-hover))) !important;color:var(--accent-ink,#fff) !important;}
  #hero .hero__trust-card .trust-icon svg {color:inherit !important;}
  #hero .hero__trust-card .hero__trust-title {display:flex !important;align-items:center !important;justify-content:center !important;align-self:stretch !important;text-align:center !important;box-sizing:border-box !important;padding:12px 8px !important;min-height:calc(3lh + 24px) !important;overflow-wrap:normal !important;word-break:normal !important;}
  @media(max-width:620px) {#hero .hero__trust-card .hero__trust-title {padding-block:14px !important;}}
