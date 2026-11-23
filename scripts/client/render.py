@@ -187,8 +187,6 @@ def prepare_client(rootdir,config):
                 for name in names[at:at+size]:etree.SubElement(group,'span',{'data-typography':'label','data-ink':'primary'}).text=name
                 at+=size
         coverage.append(card)
-    for title in dom.cssselect('.hero__trust-card:nth-child(4) .hero__trust-title'):
-        title.set('data-single-city','true' if len(cities)==1 else 'false')
     q('[data-base-city-map]').set('title','Mapa de '+cities[0]['name']+', com vista da região atendida')
     # Footer city facts share the same authoritative list.
     footer_block=dom.cssselect('#rodape .footer-block')[0];label=copy.deepcopy(footer_block[0]);footer_block.clear();footer_block.set('class','footer-block');footer_block.append(label)

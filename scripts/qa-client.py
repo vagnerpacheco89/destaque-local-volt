@@ -15,6 +15,7 @@ import sys
 import threading
 from urllib.parse import urljoin,urlsplit
 from playwright.sync_api import sync_playwright
+from client.trust import MEASURE as TRUST_MEASURE
 
 WIDTHS=[320,390,560,561,620,621,680,681,760,761,860,861,1080,1081,1200,1201,1440]
 FOOTER_MEASURE=r'''() => {
@@ -108,7 +109,7 @@ def run(args):
                         faq_failures.extend([f for f in state['failures'] if f['label']=='Resposta FAQ'])
                     state=page.evaluate(MEASURE);sample['measurements']=state
                     origin=info['composition'].get('reviewOrigin')
-                    if origin:
+                    if origin and info['composition']['reviews']=='verified':
                         section=page.locator('#avaliacoes')
                         assert section.get_attribute('data-review-origin')==origin,'review origin desynchronized'
                         assert page.locator('#avaliacoes .rating-badge').count()==int(info['composition']['ratingBadge']),'rating badge state'
@@ -119,17 +120,18 @@ def run(args):
                             assert page.locator('.reviews-head > a').count()==0,'unapproved extra review CTA'
                         assert page.locator('.google-review__button[data-client-review]').count()==1,'Google review invitation missing'
                         sample['reviews']={'origin':origin,'cards':24,'distinct':6,'badge':info['composition']['ratingBadge'],'googleInvitation':True}
-                    if info['composition']['cities']==1:
-                        centered=page.locator('.hero__trust-card:nth-child(4) .hero__trust-title[data-single-city="true"]')
-                        assert centered.count()==2,'single-city marker must cover both responsive structures'
-                        measurements=[]
-                        for title in centered.all():
-                            if not title.is_visible():continue
-                            m=title.evaluate('''e=>{const b=e.getBoundingClientRect(),s=getComputedStyle(e),r=document.createRange();r.selectNodeContents(e);const t=r.getBoundingClientRect();return {dx:Math.abs(t.x+t.width/2-b.x-b.width/2),dy:Math.abs(t.y+t.height/2-b.y-b.height/2),display:s.display,align:s.alignItems,justify:s.justifyContent,textAlign:s.textAlign}}''')
-                            assert m['dx']<=1 and m['dy']<=2 and m['display']=='flex' and m['align']=='center' and m['justify']=='center' and m['textAlign']=='center','single-city text is not centered: '+str(m)
-                            measurements.append(m)
-                        assert len(measurements)==1,'exactly one responsive coverage title must be visible'
-                        sample['singleCityTextCenter']=measurements
+                    sample['trustPanels']=page.evaluate(TRUST_MEASURE)
+                    assert not sample['trustPanels']['failures'],'trust panels: '+str(sample['trustPanels']['failures'])
+                    if width==390 and dpr==1:
+                        test_style=page.add_style_tag(content='@layer volt-hero-trust {#hero .hero__trust-card .hero__trust-title {align-items:flex-start!important;justify-content:flex-start!important;text-align:left!important;}}')
+                        page.wait_for_function("[...document.querySelectorAll('#hero .hero__trust-title')].every(e=>getComputedStyle(e).textAlign==='left')")
+                        rejected=page.evaluate(TRUST_MEASURE)
+                        test_style.evaluate('(e)=>e.remove()')
+                        page.wait_for_function("[...document.querySelectorAll('#hero .hero__trust-title')].every(e=>getComputedStyle(e).textAlign==='center')")
+                        restored=page.evaluate(TRUST_MEASURE)
+                        assert any('centered text' in f for f in rejected['failures']),'trust text regression was not detected'
+                        assert not restored['failures'],'trust panel regression did not restore geometry'
+                        sample['trustPanelsRegressionTest']={'detected':True,'restored':True}
                     sample['footerGeometry']=page.evaluate(FOOTER_MEASURE)
                     assert not sample['footerGeometry']['failures'],'footer geometry: '+str(sample['footerGeometry']['failures'])
                     # Prove the checker rejects the actual inheritance regression,
