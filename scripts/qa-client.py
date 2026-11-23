@@ -16,7 +16,24 @@ import threading
 from urllib.parse import urljoin,urlsplit
 from playwright.sync_api import sync_playwright
 
-WIDTHS=[320,390,560,561,620,621,760,761,860,861,1080,1081,1440]
+WIDTHS=[320,390,560,561,620,621,680,681,760,761,860,861,1080,1081,1200,1201,1440]
+FOOTER_MEASURE=r'''() => {
+ const controls=[...document.querySelectorAll('#rodape .footer-social')];
+ const failures=[],size=innerWidth<=680?46:48;
+ const close=(a,b)=>Math.abs(a-b)<=1;
+ const items=controls.map(e=>{const r=e.getBoundingClientRect(),svg=e.querySelector('svg')?.getBoundingClientRect(),s=getComputedStyle(e),iconSize=e.classList.contains('footer-social--facebook')?19:e.classList.contains('footer-social--whatsapp')?(innerWidth<=680?23:24):21;
+  const item={display:s.display,color:s.color,width:r.width,height:r.height,marginBottom:parseFloat(s.marginBottom),x:r.x,y:r.y,svgWidth:svg?.width,svgHeight:svg?.height,dx:svg?svg.x+svg.width/2-r.x-r.width/2:null,dy:svg?svg.y+svg.height/2-r.y-r.height/2:null};
+  if(s.color!==(e.matches(':hover')?'rgb(255, 255, 255)':'rgba(255, 255, 255, 0.9)'))failures.push('social control ink: '+e.className);
+  if(s.display!=='grid'||!close(r.width,size)||!close(r.height,size)||!close(item.marginBottom,0)||!svg||!close(item.dx,0)||!close(item.dy,0)||!close(svg.width,iconSize)||!close(svg.height,iconSize))failures.push('social control geometry: '+e.className);
+  return item;
+ });
+ const grid=document.querySelector('#rodape .footer-socials__icons'),gr=grid?.getBoundingClientRect(),gs=grid&&getComputedStyle(grid);
+ if(controls.length!==6||!gr||!close(gr.height,size*2+16)||!close(gr.width,size*3+24)||!close(parseFloat(gs.rowGap),12)||!close(parseFloat(gs.columnGap),12))failures.push('social grid dimensions/gaps');
+ if(items.length===6)for(let i=0;i<3;i++)if(!close(items[i].y,items[0].y)||!close(items[i+3].y,items[3].y)||!close(items[i+3].y-items[i].y,size+12)||!close(items[i].x,items[i+3].x))failures.push('social row alignment');
+ const cta=document.querySelector('#rodape .footer-contact__cta'),cs=cta&&getComputedStyle(cta);
+ if(!cs||cs.display!=='inline-flex'||!close(parseFloat(cs.marginBottom),0))failures.push('footer contact display/margin');
+ return {width:innerWidth,items,grid:gr?{width:gr.width,height:gr.height,gap:gs.gap}:null,cta:cs?{display:cs.display,marginBottom:cs.marginBottom}:null,failures};
+}'''
 MEASURE=r'''() => {
  const visible=e=>{const r=e.getBoundingClientRect();return r.width>0&&r.height>0&&getComputedStyle(e).visibility!=='hidden'};
  const lines=e=>{const rows=[],w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){
@@ -88,6 +105,20 @@ def run(args):
                         details.locator('summary').click();state=page.evaluate(MEASURE)
                         faq_failures.extend([f for f in state['failures'] if f['label']=='Resposta FAQ'])
                     state=page.evaluate(MEASURE);sample['measurements']=state
+                    sample['footerGeometry']=page.evaluate(FOOTER_MEASURE)
+                    assert not sample['footerGeometry']['failures'],'footer geometry: '+str(sample['footerGeometry']['failures'])
+                    # Prove the checker rejects the actual inheritance regression,
+                    # then remove only this temporary test style and verify recovery.
+                    if width==390 and dpr==1:
+                        regression=page.add_style_tag(content='#rodape a.footer-social{display:block!important;margin-bottom:7px!important;color:#838883!important}#rodape a.footer-contact__cta{margin-bottom:7px!important}')
+                        page.wait_for_function("[...document.querySelectorAll('#rodape .footer-social')].every(e=>getComputedStyle(e).color==='rgb(131, 136, 131)')")
+                        negative=page.evaluate(FOOTER_MEASURE)
+                        regression.evaluate('(e)=>e.remove()')
+                        page.wait_for_function("[...document.querySelectorAll('#rodape .footer-social')].every(e=>getComputedStyle(e).color===(e.matches(':hover')?'rgb(255, 255, 255)':'rgba(255, 255, 255, 0.9)'))")
+                        recovered=page.evaluate(FOOTER_MEASURE)
+                        assert any('social control geometry' in f for f in negative['failures']) and any('social control ink' in f for f in negative['failures']) and 'footer contact display/margin' in negative['failures'],'negative footer regression was not detected'
+                        assert not recovered['failures'],'footer regression test did not restore layout'
+                        sample['footerRegressionTest']={'detected':True,'restored':True}
                     assert not state['overflow'],'horizontal overflow'
                     assert not state['failures'],json.dumps(state['failures'],ensure_ascii=False)
                     assert not state['flags'],json.dumps(state['flags'],ensure_ascii=False)

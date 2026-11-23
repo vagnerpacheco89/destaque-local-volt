@@ -251,9 +251,11 @@ def prepare_client(rootdir,config):
     for row in dom.cssselect('.review-marquee-row'):row.set('aria-label','Avaliações de clientes: seis relatos distintos')
     badge=q('#avaliacoes .rating-badge')
     if reviews['presentation']=='invitation':
-        for key in headings['reviews-title']['variants']:headings['reviews-title']['variants'][key]='SUA EXPERIÊNCIA CONTA'
-        set_text(q('#reviews-title span'),'SUA EXPERIÊNCIA CONTA')
-        for span in intro:set_text(span,'Se você já utilizou nossos serviços, compartilhe sua experiência no Google. Sua opinião ajuda outras pessoas a conhecerem nosso trabalho.')
+        # Consulting reviews and inviting a past customer are distinct messages.
+        # This explicit alternative remains subject to its own visual approval.
+        for key in headings['reviews-title']['variants']:headings['reviews-title']['variants'][key]='AVALIAÇÕES DO ATENDIMENTO'
+        set_text(q('#reviews-title span'),'AVALIAÇÕES DO ATENDIMENTO')
+        for span in intro:set_text(span,'Antes de contratar, tire suas dúvidas sobre o atendimento pelo WhatsApp. Para consultar avaliações no Google, peça o link do negócio.')
         q('#avaliacoes .reviews-marquee').getparent().remove(q('#avaliacoes .reviews-marquee'))
     if reviews['rating'] is None:
         link=html.Element('a',{'class':'btn','href':review_url,'target':'_blank','rel':'noopener noreferrer','data-typography':'cta','data-max-lines':'1','data-client-review':action['kind']});link.text='PEDIR LINK' if action['kind']=='request-link' else 'AVALIAR NO GOOGLE';badge.getparent().replace(badge,link)

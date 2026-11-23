@@ -92,7 +92,10 @@ CLIENT_CSS='''
   html[data-volt-mode="production"] #topo .nav-wrap {grid-template-columns:auto minmax(0,1fr) auto !important;}
  }
 }
-#rodape a.footer-contact__cta {display:inline-flex !important;}
+/* Anchor activation must not inherit generic footer-link layout. */
+#rodape a.footer-social {display:grid !important;place-items:center !important;margin:0 !important;font-size:16px !important;line-height:1.6 !important;color:rgba(255,255,255,.90) !important;}
+#rodape a.footer-social:hover {color:#fff !important;}
+#rodape a.footer-contact__cta {display:inline-flex !important;margin-bottom:0 !important;}
 .wordmark.wordmark--image {display:flex !important;align-items:center;justify-content:center;min-height:44px;width:max-content;max-width:180px;}
 .wordmark.wordmark--image::before {content:none !important;}
 .wordmark--image img {display:block;max-width:180px;max-height:44px;width:auto;height:auto;object-fit:contain;}
@@ -138,7 +141,13 @@ def build(config,config_dir,work):
     if len(dom.cssselect('h1'))!=1 or len(dom.cssselect('h2'))!=9:raise ValueError('heading hierarchy changed')
     if not dom.cssselect('h2')[-1].getparent().getparent().getparent().get('id')=='contato':
         if dom.cssselect('h2')[-1].get('id')!='cta-title':raise ValueError('last H2 must remain final CTA')
-    return {'schemaVersion':1,'status':'generated-awaiting-browser-qa','stage':config['stage'],'sourceHash':source_hash(),'configHash':sha(json.dumps(config,sort_keys=True,ensure_ascii=False).encode()),'artifactId':artifact_id(files),'files':files,'contrasts':{k:round(v,3) for k,v in contrasts.items()},'composition':{'cities':len(config['coverage']['cities']),'services':len(config['services']),'reviews':config['reviews']['presentation'],'assets':config['assets']['mode']},'notice':'Publish site/ only. This private report is not a publication approval.'}
+    return {'schemaVersion':1,'status':'generated-awaiting-browser-qa','stage':config['stage'],'sourceHash':source_hash(),'configHash':sha(json.dumps(config,sort_keys=True,ensure_ascii=False).encode()),'artifactId':artifact_id(files),'files':files,'contrasts':{k:round(v,3) for k,v in contrasts.items()},'visualStatus':'awaiting-human-review','composition':{'cities':len(config['coverage']['cities']),'coverageScopes':[c['scope'] for c in config['coverage']['cities']],'services':len(config['services']),'gallery':len(assets['concepts'][assets['activeConcept']]['gallery']),'reviews':config['reviews']['presentation'],'ratingBadge':config['reviews']['rating'] is not None,'assets':config['assets']['mode'],'logo':bool(config.get('brand',{}).get('logo'))},'notice':'Publish site/ only. This private report is not a publication approval.'}
+
+def check_visual_approval(approval,report):
+    if not isinstance(approval,dict) or approval.get('artifactId')!=report['artifactId'] or approval.get('sourceHash')!=report['sourceHash'] or approval.get('composition')!=report['composition']:
+        raise ValueError('visual approval missing or stale for this exact artifact/composition')
+    for key in ('reviewer','approvalReference'):
+        if not isinstance(approval.get(key),str) or not approval[key].strip():raise ValueError('visual approval requires reviewer and approvalReference')
 
 def main(args):
     config_file=Path(args.config).resolve();raw=config_file.read_text();config=validate(json.loads(raw),config_file.parent)
@@ -155,12 +164,15 @@ def main(args):
             if existing!=report or actual!=report['files']:raise ValueError('artifact differs from configuration/source or contains extra/missing files; generate a fresh folder')
             if args.release_check:
                 if config['stage']=='production' and config['publication'].get('kind')=='synthetic-test':raise ValueError('synthetic test artifacts cannot be released as production')
+                if config['stage']=='production':
+                    if not args.visual_approval:raise ValueError('production release requires --visual-approval for the exact artifact; browser QA is not visual approval')
+                    check_visual_approval(json.loads(Path(args.visual_approval).read_text()),report)
                 if not args.qa:raise ValueError('--release-check requires an explicit --qa evidence file')
                 qa=json.loads(Path(args.qa).read_text())
                 if not qa.get('passed') or qa.get('artifactId')!=report['artifactId'] or qa.get('sourceHash')!=report['sourceHash'] or qa.get('checkerHash')!=sha((ROOT/'scripts/qa-client.py').read_bytes()):raise ValueError('QA missing, failed, or stale for this artifact/checker')
                 for engine in ('firefox','webkit'):
                     sizes={(s.get('width'),s.get('dpr')) for s in qa.get('runs',[]) if s.get('engine')==engine and not s.get('errors')}
-                    if not ({(w,1) for w in (320,390,560,561,620,621,760,761,860,861,1080,1081,1440)}|{(390,2),(1440,2)}).issubset(sizes):raise ValueError('complete Firefox/WebKit viewport QA required before release')
+                    if not ({(w,1) for w in (320,390,560,561,620,621,680,681,760,761,860,861,1080,1081,1200,1201,1440)}|{(390,2),(1440,2)}).issubset(sizes):raise ValueError('complete Firefox/WebKit viewport QA required before release')
             print('OK: release check' if args.release_check else 'OK: artifact verified; public files unchanged')
         else:
             (work/'production-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
@@ -168,6 +180,6 @@ def main(args):
             print('OK: isolated client generated at '+str(dest/'site')+'; browser QA required')
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--config',required=True);p.add_argument('--output',required=True);p.add_argument('--check',action='store_true');p.add_argument('--release-check',action='store_true');p.add_argument('--qa')
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--config',required=True);p.add_argument('--output',required=True);p.add_argument('--check',action='store_true');p.add_argument('--release-check',action='store_true');p.add_argument('--qa');p.add_argument('--visual-approval')
     try:main(p.parse_args())
     except (ValueError,KeyError,TypeError,OSError,AttributeError,IndexError) as e:sys.exit('STOP: '+str(e))

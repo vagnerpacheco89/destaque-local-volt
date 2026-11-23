@@ -12,7 +12,9 @@ ROOT=Path(__file__).resolve().parent.parent
 def package(args):
     output=Path(args.output).resolve();site=output/'site';archive=Path(args.archive).resolve()
     if archive.exists() or archive.is_relative_to(site) or archive.is_relative_to(ROOT):raise ValueError('new private archive outside site/ and matrix required')
-    subprocess.run([sys.executable,str(ROOT/'scripts/build-client.py'),'--config',args.config,'--output',str(output),'--release-check','--qa',args.qa],check=True)
+    command=[sys.executable,str(ROOT/'scripts/build-client.py'),'--config',args.config,'--output',str(output),'--release-check','--qa',args.qa]
+    if args.visual_approval:command+=['--visual-approval',args.visual_approval]
+    subprocess.run(command,check=True)
     info=json.loads((output/'production-report.json').read_text())
     archive.parent.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED) as bundle:
@@ -25,5 +27,6 @@ def package(args):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for key in ('config','output','qa','archive'):p.add_argument('--'+key,required=True)
+    p.add_argument('--visual-approval')
     try:package(p.parse_args())
     except (ValueError,OSError,KeyError,subprocess.CalledProcessError) as e:sys.exit('STOP: '+str(e))

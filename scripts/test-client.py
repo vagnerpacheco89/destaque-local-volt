@@ -16,6 +16,22 @@ def fixture(name='a'):return json.loads((ROOT/f'tests/fixtures/client-{name}.syn
 spec=importlib.util.spec_from_file_location('builder',ROOT/'scripts/build-client.py');builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
 
 class ClientContract(unittest.TestCase):
+ def test_visual_approval_requires_exact_artifact_and_composition(self):
+  report={'artifactId':'synthetic-hash','sourceHash':'synthetic-source','composition':{'cities':1,'reviews':'invitation'}}
+  approval={**report,'reviewer':'SYNTHETIC TEST','approvalReference':'SYNTHETIC TEST ONLY'}
+  builder.check_visual_approval(approval,report)
+  for key in ('artifactId','sourceHash','composition','reviewer','approvalReference'):
+   changed=copy.deepcopy(approval);changed.pop(key)
+   with self.assertRaisesRegex(ValueError,'visual approval'):builder.check_visual_approval(changed,report)
+  changed=copy.deepcopy(approval);changed['composition']['cities']=3
+  with self.assertRaisesRegex(ValueError,'visual approval'):builder.check_visual_approval(changed,report)
+ def test_invitation_does_not_duplicate_google_complement(self):
+  text,_,_=prepare_client(ROOT,fixture('b'));dom=html.document_fromstring(text)
+  intros=dom.cssselect('#avaliacoes .reviews-intro > span')
+  complement=dom.cssselect('.google-review__description')[0].text_content().strip()
+  self.assertTrue(intros)
+  self.assertTrue(all(e.text_content().strip()!=complement for e in intros))
+  self.assertFalse(dom.cssselect('#avaliacoes .review-marquee-card,#avaliacoes .rating-badge'))
  def test_explicit_states_valid(self):
   for n in ('a','b'):self.assertEqual(validate(fixture(n),ROOT),fixture(n))
  def test_missing_contact_never_inherits_demo(self):
