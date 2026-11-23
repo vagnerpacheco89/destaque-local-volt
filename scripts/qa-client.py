@@ -189,6 +189,7 @@ def run(args):
                         page.locator('.footer-social--instagram').focus();page.keyboard.press('Tab')
                         assert page.evaluate("document.activeElement.matches('.footer-social--whatsapp:focus-visible')"),'social keyboard navigation'
                         page.evaluate('() => new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))')
+                        page.wait_for_function('() => !('+FOOTER_MEASURE+')().failures.length',timeout=3000)
                         focus_state=page.evaluate(FOOTER_MEASURE)
                         assert not focus_state['failures'],'social focus geometry: '+str(focus_state['failures'])
                         sample['footerKeyboardFocus']={'visible':True,'outlineWidth':page.locator('.footer-social--whatsapp').evaluate('(e)=>getComputedStyle(e).outlineWidth'),'outlineOffset':page.locator('.footer-social--whatsapp').evaluate('(e)=>getComputedStyle(e).outlineOffset')}
@@ -196,7 +197,9 @@ def run(args):
                         assert page.evaluate("document.activeElement.matches('.footer-contact__cta:focus-visible')"),'footer contact keyboard focus visibility'
                         page.evaluate('() => new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))')
                         page.wait_for_function("(() => {const s=getComputedStyle(document.querySelector('.footer-contact__cta'));return s.outlineWidth==='2px'&&s.outlineOffset==='3px';})()")
-                        assert not page.evaluate(FOOTER_MEASURE)['failures'],'footer contact keyboard focus geometry'
+                        page.wait_for_function('() => !('+FOOTER_MEASURE+')().failures.length',timeout=3000)
+                        contact_focus_state=page.evaluate(FOOTER_MEASURE)
+                        assert not contact_focus_state['failures'],'footer contact keyboard focus geometry: '+str(contact_focus_state)
                         sample['interactions']={'mobileMenu':menu.is_visible(),'faq':True,'whatsappRequestBlockedAfterCorrectDestination':True,'socialControls':6}
                         if args.screenshots:
                             dest=Path(args.screenshots).resolve()
