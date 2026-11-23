@@ -83,7 +83,7 @@ def inventory():
     headings=json.loads(re.search(r'const voltHeadingCopies = (\{.*?\n\});',script,re.S).group(1))
     for path,value in leaves(headings):
         if '/variants/' not in path:continue
-        out.append({'binding':{'file':'volt-final.js','kind':'responsive-heading','path':path},'section':path.split('/')[1],'role':'H2','variant':path.rsplit('/',1)[1],'limits':{'manual':'chapter 4'},'text':value})
+        out.append({'binding':{'file':'volt-final.js','kind':'responsive-heading','path':path},'section':path.split('/')[1],'role':'H3' if path.startswith('/google-review-title/') else 'H2','variant':path.rsplit('/',1)[1],'limits':{'manual':'chapter 4'},'text':value})
     assets=json.loads((ROOT/'assets.json').read_text())
     for path,value in leaves(assets):
         if path.endswith('/alt') or path=='/siteUrl':out.append({'binding':{'file':'assets.json','kind':'json','path':path},'section':'assets','role':'asset-description-or-origin','variant':'regular','limits':{},'text':value})

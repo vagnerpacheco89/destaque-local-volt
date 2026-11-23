@@ -7,6 +7,7 @@ source proportions, never upscale, and contain no baked-in page copy.
 See the single official implementation manual linked from README.md.
 """
 import argparse
+import base64
 import hashlib
 import html
 import io
@@ -46,7 +47,7 @@ def local_file(name):
 
 
 def checked_source(asset, role):
-    if set(asset) != ({'id', 'source', 'alt', 'position'} if role == 'gallery' else {'kind', 'source', 'alt', 'position'}):
+    if set(asset)-{'contentType'} != ({'id', 'source', 'alt', 'position'} if role == 'gallery' else {'kind', 'source', 'alt', 'position'}):
         raise ValueError(f'{role}: unexpected/missing configuration keys')
     if not isinstance(asset['alt'], str) or not asset['alt'].strip():
         raise ValueError(f'{role}: descriptive alt is required')
@@ -60,12 +61,16 @@ def checked_source(asset, role):
             raise ValueError(f'{role}: full scene must be opaque; no transparent avatar cutout')
         image = ImageOps.exif_transpose(opened).convert('RGB')
     w, h = image.size
+    content_type=asset.get('contentType','illustration')
+    if content_type not in ('illustration','photograph'):
+        raise ValueError(f'{role}: contentType must be illustration or photograph')
     if role == 'hero' and (asset['kind'] != 'background' or w < 1600 or h < 900 or w / h < 1.5 or asset['position'] != 'right center'):
         raise ValueError('hero: complete background, minimum 1600x900, character right; never a cutout')
     if role == 'about' and (asset['kind'] != 'portrait-scene' or w < 1000 or h < 1200 or not .65 <= w/h <= .9 or asset['position'] != 'center top'):
         raise ValueError('about: portrait-scene with setting, minimum 1000x1200, center top')
-    if role == 'gallery' and (max(w, h) < 1000 or min(w, h) < 720 or not asset['alt'].startswith('Ilustração demonstrativa:')):
-        raise ValueError('gallery: master >=1000px long edge / >=720px short edge; label illustrative content')
+    prefix='Ilustração' if content_type=='illustration' else 'Fotografia fornecida pelo cliente:'
+    if role == 'gallery' and (max(w, h) < 1000 or min(w, h) < 720 or not asset['alt'].startswith(prefix)):
+        raise ValueError('gallery: master >=1000px long edge / >=720px short edge; label illustrative content or client photograph accurately')
     if role == 'gallery' and not re.fullmatch(r'work-\d{2}', asset['id']):
         raise ValueError('gallery: stable id must match work-NN')
     return image, path.read_bytes()
@@ -123,6 +128,21 @@ def replace_once(pattern, replacement, text, label):
 
 
 def favicons(config, outputs):
+    if config.get('kind')=='client-raster':
+        if set(config)!={'kind','source','background'} or not re.fullmatch(r'#[0-9a-fA-F]{6}',config['background']):
+            raise ValueError('client favicon: kind/source/background required')
+        with Image.open(local_file(config['source'])) as opened:
+            if opened.format!='PNG' or opened.width!=opened.height or opened.width<180:
+                raise ValueError('client favicon: approved square PNG >=180px required; no automatic crop')
+            icon=opened.convert('RGBA').resize((180,180),Image.Resampling.LANCZOS)
+        opaque=Image.new('RGBA',(180,180),config['background']);opaque.alpha_composite(icon)
+        buf=io.BytesIO();opaque.convert('RGB').save(buf,'PNG',optimize=True)
+        outputs['apple-touch-icon.png']=buf.getvalue()
+        encoded=base64.b64encode(buf.getvalue()).decode()
+        outputs['favicon.svg']=(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180"><image width="180" height="180" href="data:image/png;base64,{encoded}"/></svg>\n').encode()
+        buf=io.BytesIO();opaque.resize((32,32),Image.Resampling.LANCZOS).save(buf,'PNG',optimize=True);outputs['favicon-32x32.png']=buf.getvalue()
+        buf=io.BytesIO();opaque.resize((48,48),Image.Resampling.LANCZOS).save(buf,'ICO',sizes=[(16,16),(32,32),(48,48)]);outputs['favicon.ico']=buf.getvalue()
+        return digest(b''.join(outputs[n] for n in ('favicon.svg','favicon.ico','favicon-32x32.png','apple-touch-icon.png')))[:12]
     if set(config) != {'kind', 'foreground', 'background'} or config['kind'] != 'volt-lightning':
         raise ValueError('favicon: only approved volt-lightning geometry; a different brand needs its own approved adapter')
     for key in ('foreground', 'background'):

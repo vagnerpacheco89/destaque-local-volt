@@ -24,4 +24,4 @@ O [VOLT publicado](https://volt.destaquelocal.com.br/) é demonstrativo. Não tr
 
 `QA-MASTER-v1.0.md` preserva o registro histórico da refatoração de setembro de 2026; não substitui a QA vigente nem comprova uma implementação atual. `SEO-CLIENT-CHECKLIST.md` apenas aponta para o manual. As branches `archive/*` preservam estados antigos para consulta histórica.
 
-A biblioteca de copy, a centralização completa das variáveis e a montagem automática ainda não estão concluídas.
+A Copy 1 e a geração isolada de instâncias são executáveis por `scripts/build-client.py`, com configuração privada, cores, textos, assets, contatos e busca sincronizados. O procedimento, entradas, limites e validação obrigatória estão na seção 5.7 do manual único. `scripts/qa-client.py` verifica o artefato e `scripts/package-client.py` empacota somente seus arquivos públicos após conferência. As versões de copy 2–5 continuam pendentes.

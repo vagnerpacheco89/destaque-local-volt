@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "copyId": "volt-copy-v1",
+  "stage": "preview",
+  "identity": {
+    "businessName": "Elétrica Exemplo Dois",
+    "displayName": "Marina Exemplo",
+    "contactName": "Marina"
+  },
+  "publication": {
+    "url": "https://review-volt-pipeline-b.destaque-local-volt.pages.dev/",
+    "copyrightYear": 2026,
+    "authorization": "SYNTHETIC QA TEST ONLY; no real client data",
+    "kind": "synthetic-test",
+    "indexable": false
+  },
+  "colors": {
+    "primary": "#FA2E23",
+    "secondary": "#F47B20"
+  },
+  "coverage": {
+    "cities": [
+      {
+        "name": "Curitiba",
+        "label": "Curitiba",
+        "scope": "citywide",
+        "neighborhoods": []
+      }
+    ],
+    "map": {
+      "latitude": -25.43,
+      "longitude": -49.27,
+      "desktopZoom": 11,
+      "mobileZoom": 10
+    }
+  },
+  "services": [
+    "panels",
+    "outlets",
+    "lighting",
+    "showers",
+    "diagnostics",
+    "wiring-protection"
+  ],
+  "audiences": [
+    "residences",
+    "small-businesses"
+  ],
+  "experience": {
+    "since": null
+  },
+  "hours": {
+    "weekdays": {
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    "saturday": {
+      "opens": "08:00",
+      "closes": "13:00"
+    },
+    "sundayHolidays": null
+  },
+  "policies": {
+    "urgent": false,
+    "quoteBeforeWork": true,
+    "materialsBeforeWork": true,
+    "warrantyAnswer": "As condições de garantia dependem do tipo de serviço e são informadas no orçamento. Não existe um único prazo divulgado para todos os trabalhos.",
+    "invoiceAnswer": "Sim, mediante solicitação.",
+    "paymentAnswer": "Pix, dinheiro, cartão de débito e cartão de crédito. Condições de parcelamento podem variar conforme o valor do serviço.",
+    "approval": "SYNTHETIC QA FIXTURE — not real policies"
+  },
+  "contacts": {
+    "whatsapp": "5500000000000",
+    "whatsappMessage": "Olá! Este é um teste fictício do VOLT. Não é uma solicitação real.",
+    "socials": {
+      "instagram": null,
+      "facebook": null,
+      "youtube": null,
+      "tiktok": null
+    }
+  },
+  "google": {
+    "profileUrl": null,
+    "reviewAction": {
+      "kind": "request-link",
+      "url": null
+    }
+  },
+  "reviews": {
+    "presentation": "invitation",
+    "items": [],
+    "rating": null,
+    "source": null,
+    "approval": "SYNTHETIC TEST: explicit invitation composition; not missing-data inference"
+  },
+  "assets": {
+    "mode": "template-illustrations",
+    "hero": null,
+    "about": null,
+    "gallery": null
+  },
+  "brand": {
+    "logo": null,
+    "favicon": null
+  },
+  "copyOverrides": {},
+  "confirmations": {
+    "identity": "SYNTHETIC QA FIXTURE; not real client confirmation",
+    "coverage": "SYNTHETIC QA FIXTURE; not real client confirmation",
+    "services": "SYNTHETIC QA FIXTURE; not real client confirmation",
+    "hours": "SYNTHETIC QA FIXTURE; not real client confirmation",
+    "policies": "SYNTHETIC QA FIXTURE; not real client confirmation",
+    "contacts": "SYNTHETIC QA FIXTURE; not real client confirmation",
+    "colors": "SYNTHETIC QA FIXTURE; not real client confirmation",
+    "reviews": "SYNTHETIC QA FIXTURE; not real client confirmation",
+    "publication": "SYNTHETIC QA FIXTURE; not real client confirmation",
+    "assets": "SYNTHETIC QA FIXTURE; not real client confirmation"
+  }
+}

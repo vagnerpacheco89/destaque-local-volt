@@ -12619,7 +12619,7 @@
         "path": "/google-review-title/variants/full"
       },
       "section": "google-review-title",
-      "role": "H2",
+      "role": "H3",
       "variant": "full",
       "limits": {
         "manual": "chapter 4"
@@ -12639,7 +12639,7 @@
         "path": "/google-review-title/variants/short"
       },
       "section": "google-review-title",
-      "role": "H2",
+      "role": "H3",
       "variant": "short",
       "limits": {
         "manual": "chapter 4"

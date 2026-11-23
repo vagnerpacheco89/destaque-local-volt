@@ -1,2 +1,2 @@
--r requirements-assets.txt
+-r requirements-client.txt
 playwright==1.65.2

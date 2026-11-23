@@ -1,0 +1,26 @@
+/* Papéis de cores do cliente: somente apresentação cromática, sem regras de geometria. */
+@layer volt-client-colors {
+  [data-ink="accent"] {color:var(--accent-text) !important;}
+  [data-ink="on-accent"] {color:var(--accent-ink) !important;}
+  .services-other :is(h3,.services-other__eyebrow),
+  .problem-panel__label,
+  .rating-badge :is(.rating-badge__stars,.rating-badge__text,.rating-badge__score),
+  #area-atendida .service-area__coverage-head,
+  #area-atendida .service-area__coverage-head h3 {color:var(--accent-ink) !important;}
+  .services-other p,.google-review__description,.final-cta .final-cta__intro {color:var(--accent-ink-muted) !important;}
+  .google-review__microsteps,.google-review__microsteps li strong,
+  .google-review__microsteps li+li::before {color:var(--accent-ink) !important;}
+  .google-review .google-review__button {color:var(--accent-soft-ink) !important;}
+  .google-review .google-review__button:focus-visible {outline-color:var(--accent-ink) !important;}
+  .btn--accent,.final-cta .final-cta__action .btn {border-color:var(--accent-control-edge) !important;}
+  .btn--accent:hover,.final-cta .final-cta__action .btn:hover {color:var(--accent-ink) !important;}
+  .footer-contact__cta:is(:hover,:focus-visible) {color:var(--accent-ink) !important;}
+  :is(.btn,a,summary,button):focus-visible {outline-color:var(--accent-text) !important;}
+  #avaliar-no-google :is(.btn,a,button):focus-visible,.services-other :focus-visible {outline-color:var(--accent-ink) !important;}
+  /* A secundária ocupa somente ornamentos; não compete com os CTAs. */
+  .eyebrow::after {background:var(--detail) !important;}
+  .services-other .eyebrow::after,.differentials > div:first-child .eyebrow::after,
+  .final-cta .eyebrow::after,.google-review .eyebrow::after {background:var(--accent-ink) !important;}
+  #sobre .about__image::before,#sobre .about__image::after {border-color:var(--detail) !important;}
+  #avaliacoes .review-marquee-card::before {background:var(--detail) !important;}
+}
