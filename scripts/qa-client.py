@@ -16,7 +16,7 @@ import threading
 from urllib.parse import urljoin,urlsplit
 from playwright.sync_api import sync_playwright
 from client.trust import MEASURE as TRUST_MEASURE
-from client.headings import MEASURE as HEADING_MEASURE
+from client.headings import MEASURE as HEADING_MEASURE,CITY_PROBES
 
 WIDTHS=[320,390,560,561,620,621,680,681,760,761,860,861,1080,1081,1200,1201,1440]
 FOOTER_MEASURE=r'''() => {
@@ -109,6 +109,9 @@ def run(args):
                         details.locator('summary').click();state=page.evaluate(MEASURE)
                         faq_failures.extend([f for f in state['failures'] if f['label']=='Resposta FAQ'])
                     state=page.evaluate(MEASURE);sample['measurements']=state
+                    if width in (390,1440) and dpr==1:
+                        sample['accentCityProbes']=page.evaluate(CITY_PROBES)
+                        assert not sample['accentCityProbes']['failures'],'accent city probe: '+str(sample['accentCityProbes']['failures'])
                     sample['headingClearance']=page.evaluate(HEADING_MEASURE)
                     assert not sample['headingClearance']['failures'],'heading clearance: '+str(sample['headingClearance']['failures'])
                     if width==390 and dpr==1:
@@ -116,7 +119,7 @@ def run(args):
                         page.wait_for_function("Math.abs(parseFloat(getComputedStyle(document.querySelector('h1')).lineHeight)/parseFloat(getComputedStyle(document.querySelector('h1')).fontSize)-.84)<.002")
                         rejected_heading=page.evaluate(HEADING_MEASURE)
                         page.evaluate("styles=>[...document.querySelectorAll('h1,h1 *')].forEach((e,i)=>styles[i]===null?e.removeAttribute('style'):e.setAttribute('style',styles[i]))",saved_heading_styles)
-                        page.wait_for_function("[...document.querySelectorAll('h1,h1 *')].every(e=>Math.abs(parseFloat(getComputedStyle(e).lineHeight)/parseFloat(getComputedStyle(e).fontSize)-1.3)<.002)")
+                        page.wait_for_function("[...document.querySelectorAll('h1,h1 *')].every(e=>Math.abs(parseFloat(getComputedStyle(e).lineHeight)/parseFloat(getComputedStyle(e).fontSize)-.97)<.002)")
                         assert any('heading leading' in f for f in rejected_heading['failures']),'heading regression was not detected'
                         assert not page.evaluate(HEADING_MEASURE)['failures'],'heading regression did not restore'
                         sample['headingRegressionTest']={'detected':True,'restored':True}
