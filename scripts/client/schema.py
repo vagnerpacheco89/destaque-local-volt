@@ -1,5 +1,6 @@
 """Strict public-site inputs. Unknown/missing facts are errors, never defaults."""
 from pathlib import Path
+from .benefits import validate_selection
 import re
 from urllib.parse import urlsplit
 
@@ -28,8 +29,8 @@ def validate(data,base):
         if raw.is_symlink():err(path,'symlink sources are not accepted')
         if not p.is_file() or p.is_symlink():err(path,'source must be an existing regular local file')
         return p
-    obj(data,'client',['schemaVersion','copyId','stage','identity','publication','colors','coverage','services','audiences','experience','hours','policies','contacts','google','reviews','assets','confirmations'],['copyOverrides','brand'])
-    if data.get('schemaVersion')!=1 or data.get('copyId')!='volt-copy-v1':err('schema','expected client schema 1 / volt-copy-v1')
+    obj(data,'client',['schemaVersion','copyId','stage','identity','publication','colors','coverage','services','audiences','experience','hours','policies','contacts','google','reviews','assets','confirmations','heroBenefits'],['copyOverrides','brand'])
+    if data.get('schemaVersion')!=2 or data.get('copyId')!='volt-copy-v1':err('schema','expected client schema 2 / volt-copy-v1')
     if data.get('stage') not in ('preview','production'):err('stage','preview or production required')
     identity=obj(data.get('identity'),'identity',['businessName','displayName','contactName'])
     for k,v in identity.items():text(v,'identity.'+k)
@@ -148,5 +149,7 @@ def validate(data,base):
         obj(v,'copyOverrides.'+key,['text','approval']);text(v.get('text'),'copyOverrides.'+key+'.text');text(v.get('approval'),'copyOverrides.'+key+'.approval')
     conf=obj(data.get('confirmations'),'confirmations',DOMAINS)
     for k,v in conf.items():text(v,'confirmations.'+k)
+    try:validate_selection(data)
+    except (ValueError,TypeError,KeyError) as exc:err('heroBenefits',str(exc))
     if errors:raise InvalidClient('\n'.join(errors))
     return data

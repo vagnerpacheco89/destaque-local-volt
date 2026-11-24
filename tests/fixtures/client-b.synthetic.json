@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "copyId": "volt-copy-v1",
   "stage": "preview",
   "identity": {
@@ -115,5 +115,27 @@
     "reviews": "SYNTHETIC QA FIXTURE; not real client confirmation",
     "publication": "SYNTHETIC QA FIXTURE; not real client confirmation",
     "assets": "SYNTHETIC QA FIXTURE; not real client confirmation"
-  }
+  },
+  "heroBenefits": [
+    {
+      "id": "orcamento_previo",
+      "parameters": {},
+      "confirmation": "SYNTHETIC TEST — confirmed fictitious benefit orcamento_previo"
+    },
+    {
+      "id": "contato_direto",
+      "parameters": {},
+      "confirmation": "SYNTHETIC TEST — confirmed fictitious benefit contato_direto"
+    },
+    {
+      "id": "pix_cartao",
+      "parameters": {},
+      "confirmation": "SYNTHETIC TEST — confirmed fictitious benefit pix_cartao"
+    },
+    {
+      "id": "local_organizado",
+      "parameters": {},
+      "confirmation": "SYNTHETIC TEST — confirmed fictitious benefit local_organizado"
+    }
+  ]
 }

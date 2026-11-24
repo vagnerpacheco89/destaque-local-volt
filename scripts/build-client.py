@@ -24,7 +24,7 @@ ROOT=Path(__file__).resolve().parent.parent
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def source_hash():
-    files=['index.html','styles.css','volt-final.css','volt-final.js','copy/v1.json','copy/demo-data.json','assets.json','scripts/build-assets.py','scripts/build-theme.py','scripts/build-client.py']+[str(p.relative_to(ROOT)) for p in sorted((ROOT/'scripts/client').glob('*')) if p.is_file()]
+    files=['index.html','styles.css','volt-final.css','volt-final.js','copy/v1.json','copy/demo-data.json','copy/hero-benefits.json','assets.json','scripts/build-assets.py','scripts/build-theme.py','scripts/build-client.py']+[str(p.relative_to(ROOT)) for p in sorted((ROOT/'scripts/client').glob('*')) if p.is_file()]
     return sha(b''.join(name.encode()+b'\0'+(ROOT/name).read_bytes() for name in files))
 def files_hash(path):return {str(p.relative_to(path)):sha(p.read_bytes()) for p in sorted(path.rglob('*')) if p.is_file()}
 def artifact_id(files):return sha(json.dumps(files,sort_keys=True,separators=(',',':')).encode())
@@ -146,7 +146,7 @@ def build(config,config_dir,work):
     if len(dom.cssselect('h1'))!=1 or len(dom.cssselect('h2'))!=9:raise ValueError('heading hierarchy changed')
     if not dom.cssselect('h2')[-1].getparent().getparent().getparent().get('id')=='contato':
         if dom.cssselect('h2')[-1].get('id')!='cta-title':raise ValueError('last H2 must remain final CTA')
-    return {'schemaVersion':1,'status':'generated-awaiting-browser-qa','stage':config['stage'],'sourceHash':source_hash(),'configHash':sha(json.dumps(config,sort_keys=True,ensure_ascii=False).encode()),'artifactId':artifact_id(files),'files':files,'contrasts':{k:round(v,3) for k,v in contrasts.items()},'visualStatus':'awaiting-human-review','composition':{'cities':len(config['coverage']['cities']),'coverageScopes':[c['scope'] for c in config['coverage']['cities']],'services':len(config['services']),'gallery':len(assets['concepts'][assets['activeConcept']]['gallery']),'reviews':config['reviews']['presentation'],'ratingBadge':config['reviews']['rating'] is not None,'assets':config['assets']['mode'],'logo':bool(config.get('brand',{}).get('logo'))},'notice':'Publish site/ only. This private report is not a publication approval.'}
+    return {'schemaVersion':1,'status':'generated-awaiting-browser-qa','stage':config['stage'],'sourceHash':source_hash(),'configHash':sha(json.dumps(config,sort_keys=True,ensure_ascii=False).encode()),'artifactId':artifact_id(files),'files':files,'contrasts':{k:round(v,3) for k,v in contrasts.items()},'visualStatus':'awaiting-human-review','composition':{'heroBenefits':[b['id'] for b in config['heroBenefits']],'cities':len(config['coverage']['cities']),'coverageScopes':[c['scope'] for c in config['coverage']['cities']],'services':len(config['services']),'gallery':len(assets['concepts'][assets['activeConcept']]['gallery']),'reviews':config['reviews']['presentation'],'ratingBadge':config['reviews']['rating'] is not None,'assets':config['assets']['mode'],'logo':bool(config.get('brand',{}).get('logo'))},'notice':'Publish site/ only. This private report is not a publication approval.'}
 
 def check_visual_approval(approval,report):
     if not isinstance(approval,dict) or approval.get('artifactId')!=report['artifactId'] or approval.get('sourceHash')!=report['sourceHash'] or approval.get('composition')!=report['composition']:

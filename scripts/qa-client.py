@@ -124,6 +124,7 @@ def run(args):
                         assert not page.evaluate(HEADING_MEASURE)['failures'],'heading regression did not restore'
                         sample['headingRegressionTest']={'detected':True,'restored':True}
                     sample['trustPanels']=page.evaluate(TRUST_MEASURE)
+                    assert [c['benefitId'] for c in sample['trustPanels']['cards']]==info['composition']['heroBenefits'],'selected Hero benefit IDs differ from artifact'
                     assert not sample['trustPanels']['failures'],'trust panels: '+str(sample['trustPanels']['failures'])
                     if width==390 and dpr==1:
                         test_style=page.add_style_tag(content='@layer volt-hero-trust {#hero .hero__trust-card .hero__trust-title {align-items:flex-start!important;justify-content:flex-start!important;text-align:left!important;}}')

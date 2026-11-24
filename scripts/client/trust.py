@@ -21,8 +21,11 @@ MEASURE=r'''() => {
   if(rows.length<1||rows.length>3||ink.left<t.left+parseFloat(ps.paddingLeft)-1||ink.right>t.right-parseFloat(ps.paddingRight)+1||ink.top<t.top-1||ink.bottom>t.bottom+1)failures.push('trust text lines/fit '+index);
   if(!close(sr.width,iconSize)||!close(sr.height,iconSize)||!close(sr.x+sr.width/2,ir.x+ir.width/2)||!close(sr.y+sr.height/2,ir.y+ir.height/2))failures.push('icon geometry '+index);
   if(!is.backgroundImage.startsWith('linear-gradient')||ratios.length!==2||Math.min(...ratios)<3)failures.push('icon strip contrast '+index);
-  return {index,text:p.textContent,lines:rows.length,dx,dy,card:{x:r.x,y:r.y,w:r.width,h:r.height},icon:{x:ir.x,y:ir.y,w:ir.width,h:ir.height},textBox:{x:t.x,y:t.y,w:t.width,h:t.height},font:ps.font,fontSize:ps.fontSize,background:is.backgroundImage,iconColor:getComputedStyle(svg).color,contrasts:ratios};
+  return {index,benefitId:card.dataset.heroBenefit,text:p.textContent,lines:rows.length,dx,dy,card:{x:r.x,y:r.y,w:r.width,h:r.height},icon:{x:ir.x,y:ir.y,w:ir.width,h:ir.height},textBox:{x:t.x,y:t.y,w:t.width,h:t.height},font:ps.font,fontSize:ps.fontSize,background:is.backgroundImage,iconColor:getComputedStyle(svg).color,contrasts:ratios};
  });
+ if(new Set(result.map(c=>c.benefitId)).size!==4||result.some(c=>!c.benefitId))failures.push('four explicitly selected unique benefits');
+ const sets=[...document.querySelectorAll('#hero .hero__trust-grid')].map(g=>[...g.querySelectorAll('.hero__trust-card')].map(c=>[c.dataset.heroBenefit,c.querySelector('p').textContent,c.querySelector('svg').innerHTML]));
+ if(sets.length!==2||JSON.stringify(sets[0])!==JSON.stringify(sets[1]))failures.push('responsive benefit content/icon divergence');
  if(result.some(c=>!close(c.card.h,result[0].card.h)))failures.push('four equal trust-panel heights');
  return {width:window.innerWidth,failures,cards:result};
 }'''
