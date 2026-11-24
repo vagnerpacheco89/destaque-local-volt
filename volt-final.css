@@ -6,9 +6,9 @@
 :root {
   --section-body-size: 16px;
   --section-subtitle-size: 28px;
-  --section-subtitle-line-height: 1.3;
+  --section-subtitle-line-height: 1.05;
   --section-title-size: clamp(2.6rem, calc(2rem + 2.5vw), 4.4rem);
-  --section-title-line-height: 1.3;
+  --section-title-line-height: .97;
   --section-meta-size: 12px;
   --section-button-size: 14px;
   --section-eyebrow-size: 12px;
@@ -2847,8 +2847,10 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
   #hero .hero__trust-card .hero__trust-title {min-height:0 !important;height:auto !important;}
  }
 }
-/* Heading accent clearance: one proportional leading for H1, H2 and H3. */
+/* Compact heading leading: slight clearance for actual accented lines. */
 @layer volt-mobile-natural {
- body :is(h1,h2,h3) {line-height:1.3 !important;}
- body :is(h1,h2,h3) :is(span,strong,em) {line-height:1.3 !important;}
+ body :is(h1,h2) {line-height:.97 !important;}
+ body h3 {line-height:1.05 !important;}
+ body #google-review-title {line-height:.97 !important;}
+ body :is(h1,h2,h3) :is(span,strong,em) {line-height:inherit !important;}
 }
