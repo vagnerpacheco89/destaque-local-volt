@@ -29,7 +29,10 @@ MEASURE=r'''() => {
   return {tag:e.tagName,id:e.id,text:e.textContent.trim(),fontSize:fs,lineHeight:lh,lines:rows.length,gaps,pairs,rows:rows.map(({y,text})=>({y,text}))};
  });
  if(!headings.length)failures.push('missing headings');
- return {width:innerWidth,failures,headings};
+ const eye=document.querySelector('#hero .hero__copy > .eyebrow'),title=document.querySelector('#hero-title');
+ const heroGap=eye&&title?title.getBoundingClientRect().top-eye.getBoundingClientRect().bottom:null;
+ if(heroGap===null||Math.abs(heroGap-8)>1||Math.abs(parseFloat(getComputedStyle(eye).marginBottom)-8)>.1)failures.push('Hero Eyebrow-H1 gap');
+ return {width:innerWidth,heroGap,failures,headings};
 }'''
 CITY_PROBES=r'''() => {
  const ctx=document.createElement('canvas').getContext('2d'),seen=new Set(),samples=[],failures=[];
