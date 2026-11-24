@@ -2805,6 +2805,7 @@ html[data-volt-footer-analysis] #rodape .reveal-item {opacity:1 !important;trans
 }
 /* Compact heading leading: slight clearance for actual accented lines. */
 @layer volt-mobile-natural {
+ #hero .hero__copy > .eyebrow {margin-bottom:8px !important;}
  body :is(h1,h2) {line-height:.97 !important;}
  body h3 {line-height:1.05 !important;}
  body #google-review-title {line-height:.97 !important;}
