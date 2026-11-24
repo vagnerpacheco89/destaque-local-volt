@@ -1784,15 +1784,6 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
   }
 }
 
-/* Frase complementar da Hero: uma linha acima de 620 px;
-   uma a duas no celular, verificadas na QA sem corte do texto. */
-@layer volt-hero-promise {
-  .hero__copy > .hero__promise {
-    max-width:min(620px,100%) !important;
-    height:auto !important;
-    min-height:0 !important;
-  }
-}
 
 /* Microcopy abaixo dos CTAs da Hero: uma linha, dentro da coluna.
    Frases atuais aprovadas; a biblioteca de cinco copys será definida depois. */
@@ -1879,21 +1870,13 @@ main > section:not(.hero) .eyebrow { font-size:var(--section-eyebrow-size) !impo
 
 /* Encaixes da Hero autorizados em 16/11/2026; fontes e recuos preservados. */
 @layer volt-hero-fit {
-  .hero__copy > .hero__promise {
-    container-type:inline-size !important;
-    container-name:volt-hero-promise-fit !important;
-  }
   .hero__actions {
     container-type:inline-size !important;
     container-name:volt-hero-actions-fit !important;
   }
-  .hero-promise__full, .hero-cta__full { display:inline !important; }
-  .hero-promise__short, .hero-cta__short { display:none !important; }
+  .hero-cta__full { display:inline !important; }
+  .hero-cta__short { display:none !important; }
   @media (min-width:621px) {
-    @container volt-hero-promise-fit (max-width:460px) {
-      .hero-promise__full { display:none !important; }
-      .hero-promise__short { display:inline !important; }
-    }
     @container volt-hero-actions-fit (max-width:465px) {
       .hero-cta__full { display:none !important; }
       .hero-cta__short { display:inline !important; }

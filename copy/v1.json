@@ -1346,7 +1346,7 @@
       "binding": {
         "file": "index.html",
         "kind": "text",
-        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[1]",
+        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[1]/span[1]",
         "key": "1"
       },
       "section": "hero",
@@ -1354,11 +1354,13 @@
       "variant": "regular",
       "limits": {
         "data-min-lines": "2",
-        "data-max-lines": "3",
-        "data-mobile-max-lines": "4"
+        "data-max-lines": "5",
+        "data-mobile-max-lines": "7"
       },
-      "template": "Manutenção, instalações e correções elétricas para resolver desde ajustes do dia a dia até novas instalações.",
-      "variables": [],
+      "template": "Instalações, manutenção e reparos elétricos em {{coverage.base_city}} e região.",
+      "variables": [
+        "coverage.base_city"
+      ],
       "confirmationDomains": [],
       "requiresInstanceAdaptation": false
     },
@@ -1367,21 +1369,19 @@
       "binding": {
         "file": "index.html",
         "kind": "text",
-        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[2]/span[1]",
+        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[1]/span[2]",
         "key": "1"
       },
       "section": "hero",
       "role": "content",
       "variant": "regular",
       "limits": {
-        "data-min-lines": "1",
-        "data-max-lines": "1",
-        "data-mobile-max-lines": "2"
+        "data-min-lines": "2",
+        "data-max-lines": "5",
+        "data-mobile-max-lines": "7"
       },
-      "template": "Atendimento direto com {{identity.contact_name}}, do primeiro contato à execução.",
-      "variables": [
-        "identity.contact_name"
-      ],
+      "template": "Do problema na tomada à renovação da elétrica da sua casa ou comércio.",
+      "variables": [],
       "confirmationDomains": [],
       "requiresInstanceAdaptation": false
     },
@@ -1390,21 +1390,19 @@
       "binding": {
         "file": "index.html",
         "kind": "text",
-        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[2]/span[2]",
+        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[1]/span[3]",
         "key": "1"
       },
       "section": "hero",
       "role": "content",
-      "variant": "short",
+      "variant": "regular",
       "limits": {
-        "data-min-lines": "1",
-        "data-max-lines": "1",
-        "data-mobile-max-lines": "2"
+        "data-min-lines": "2",
+        "data-max-lines": "5",
+        "data-mobile-max-lines": "7"
       },
-      "template": "Atendimento direto com {{identity.contact_name}}.",
-      "variables": [
-        "identity.contact_name"
-      ],
+      "template": "Mais segurança e praticidade para sua rotina, sem complicação.",
+      "variables": [],
       "confirmationDomains": [],
       "requiresInstanceAdaptation": false
     },
@@ -1477,7 +1475,7 @@
       "binding": {
         "file": "index.html",
         "kind": "text",
-        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[3]/span[1]",
+        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[2]/span[1]",
         "key": "1"
       },
       "section": "hero",
@@ -1494,7 +1492,7 @@
       "binding": {
         "file": "index.html",
         "kind": "text",
-        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[3]/span[2]",
+        "path": "/html[1]/body[1]/main[1]/section[1]/div[1]/div[1]/p[2]/span[2]",
         "key": "1"
       },
       "section": "hero",

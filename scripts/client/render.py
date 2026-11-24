@@ -82,6 +82,7 @@ def render_entry(entry,values,config,render):
     audience='residências e pequenos comércios' if len(config['audiences'])==2 else 'residências' if config['audiences']==['residences'] else 'pequenos comércios'
     result=result.replace('residências e pequenos comércios',audience).replace('Residências e pequenos comércios',audience[0].upper()+audience[1:])
     if len(config['audiences'])==1:
+        result=result.replace('da sua casa ou comércio','da sua casa' if config['audiences']==['residences'] else 'do seu comércio')
         result=result.replace('Residencial e comércios','Residencial' if config['audiences']==['residences'] else 'Pequenos comércios')
         result=result.replace('residências, pequenos comércios e demandas do dia a dia',audience+' e demandas do dia a dia')
     if len(cities)==1:
