@@ -9,6 +9,7 @@ from lxml import html,etree
 from tree_sitter import Language,Parser
 import tree_sitter_javascript
 from .colors import migrate
+from .benefits import apply as apply_benefits,SLOTS,validate_selection
 
 SERVICE_IDS=['panels','outlets','lighting','showers','diagnostics','wiring-protection']
 
@@ -128,6 +129,7 @@ def client_runtime(source,headings,config):
 def render_dom(rootdir,config):
     cat=load_module('volt_copy_catalog',rootdir/'scripts/copy-catalog.py')
     catalog=json.loads((rootdir/'copy/v1.json').read_text());demo=json.loads((rootdir/'copy/demo-data.json').read_text());cat.check(catalog,demo)
+    validate_selection(config,rootdir)
     known_ids={e['id'] for e in catalog['entries']}
     if set(config.get('copyOverrides',{}))-known_ids:raise ValueError('unknown copy override id')
     for entry in catalog['entries']:
@@ -201,7 +203,6 @@ def prepare_client(rootdir,config):
     if urgent:set_text(answers[4],'Sim, dentro do horário de atendimento e conforme disponibilidade. Não há promessa de atendimento imediato ou de chegada em um prazo fixo.')
     else:
         set_text(answers[4],'O atendimento é realizado com agendamento. Consulte os horários e a disponibilidade pelo WhatsApp.')
-        for el in dom.cssselect('.hero__trust-card:nth-child(3) p'):set_text(el,'Atendimento com agendamento')
         for el in dom.cssselect('#diagnostico p'):
             for node in el.iter():
                 if node.text:node.text=node.text.replace('Urgências são atendidas conforme disponibilidade dentro do horário de funcionamento.','O atendimento é realizado com agendamento.').replace('Urgências dependem da disponibilidade e do horário de atendimento.','O atendimento é realizado com agendamento.')
@@ -305,6 +306,7 @@ def prepare_client(rootdir,config):
     for stop in dom.cssselect('#rating-badge-paper stop'):
         stop.set('stop-color','var(--accent-shield-top)' if stop.get('offset')=='0' else 'var(--accent)')
     csslink=html.Element('link',{'id':'volt-client-theme','rel':'stylesheet','href':'volt-theme.css'});q('link[href^="styles.css"]').addprevious(csslink)
+    apply_benefits(dom,config,rootdir)
     runtime=client_runtime((rootdir/'volt-final.js').read_text(),headings,config)
     html_text=html.tostring(dom,encoding='unicode',method='html',doctype='<!doctype html>')+'\n'
     html_text=re.sub(r'<(?:img|meta|link|source|input|br|hr)\b[^>]*>',lambda m:m[0] if m[0].endswith('/>') else m[0][:-1]+' />',html_text)

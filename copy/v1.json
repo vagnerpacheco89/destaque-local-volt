@@ -26,7 +26,8 @@
     "clientActivation": "Filled export is review-only. Demo UI/guards, rating/reviews, Google invitation and live destinations need instance-specific approved adaptation before use",
     "knownGoogleStep": "Current source says Clique no botão amarelo. When applying the approved color process, use its already approved instruction Clique em Avaliar no Google; no automatic color-name inference",
     "ownership": "Image/OG-image references are managed by assets.json and build-assets.py; body copy is not an asset output",
-    "analysisPanel": "Technical diagnostic panel strings are not sales copy; some include demo geography and require explicit adaptation if a real instance keeps the panel"
+    "analysisPanel": "Technical diagnostic panel strings are not sales copy; some include demo geography and require explicit adaptation if a real instance keeps the panel",
+    "heroBenefits": "Select exactly four confirmed benefit IDs from copy/hero-benefits.json. No automatic geography/audience/urgency substitution."
   },
   "fields": {
     "identity.business_name": {
@@ -1539,12 +1540,13 @@
         "data-reserved-lines": "3",
         "data-mobile-reserved-lines": "0"
       },
-      "template": "Orçamento antes da execução",
+      "template": "Orçamento antes de começar",
       "variables": [],
       "confirmationDomains": [
-        "commercial-policies"
+        "commercial-policies",
+        "services"
       ],
-      "requiresInstanceAdaptation": false
+      "requiresInstanceAdaptation": true
     },
     {
       "id": "hero.content.005",
@@ -1563,10 +1565,13 @@
         "data-reserved-lines": "3",
         "data-mobile-reserved-lines": "0"
       },
-      "template": "Residencial e comércios",
+      "template": "Atendimento direto com o eletricista",
       "variables": [],
-      "confirmationDomains": [],
-      "requiresInstanceAdaptation": false
+      "confirmationDomains": [
+        "commercial-policies",
+        "services"
+      ],
+      "requiresInstanceAdaptation": true
     },
     {
       "id": "hero.content.006",
@@ -1585,12 +1590,13 @@
         "data-reserved-lines": "3",
         "data-mobile-reserved-lines": "0"
       },
-      "template": "Urgências conforme disponibilidade",
+      "template": "Pague no Pix ou cartão",
       "variables": [],
       "confirmationDomains": [
-        "commercial-policies"
+        "commercial-policies",
+        "services"
       ],
-      "requiresInstanceAdaptation": false
+      "requiresInstanceAdaptation": true
     },
     {
       "id": "hero.content.007",
@@ -1609,14 +1615,13 @@
         "data-reserved-lines": "3",
         "data-mobile-reserved-lines": "0"
       },
-      "template": "{{coverage.base_city}} • {{coverage.city_2}} • {{coverage.city_3_name}}",
-      "variables": [
-        "coverage.base_city",
-        "coverage.city_2",
-        "coverage.city_3_name"
+      "template": "Local organizado ao terminar",
+      "variables": [],
+      "confirmationDomains": [
+        "commercial-policies",
+        "services"
       ],
-      "confirmationDomains": [],
-      "requiresInstanceAdaptation": false
+      "requiresInstanceAdaptation": true
     },
     {
       "id": "hero.accessibility-or-metadata.002",
@@ -1652,12 +1657,13 @@
         "data-reserved-lines": "3",
         "data-mobile-reserved-lines": "0"
       },
-      "template": "Orçamento antes da execução",
+      "template": "Orçamento antes de começar",
       "variables": [],
       "confirmationDomains": [
-        "commercial-policies"
+        "commercial-policies",
+        "services"
       ],
-      "requiresInstanceAdaptation": false
+      "requiresInstanceAdaptation": true
     },
     {
       "id": "hero.content.009",
@@ -1676,10 +1682,13 @@
         "data-reserved-lines": "3",
         "data-mobile-reserved-lines": "0"
       },
-      "template": "Residencial e comércios",
+      "template": "Atendimento direto com o eletricista",
       "variables": [],
-      "confirmationDomains": [],
-      "requiresInstanceAdaptation": false
+      "confirmationDomains": [
+        "commercial-policies",
+        "services"
+      ],
+      "requiresInstanceAdaptation": true
     },
     {
       "id": "hero.content.010",
@@ -1698,12 +1707,13 @@
         "data-reserved-lines": "3",
         "data-mobile-reserved-lines": "0"
       },
-      "template": "Urgências conforme disponibilidade",
+      "template": "Pague no Pix ou cartão",
       "variables": [],
       "confirmationDomains": [
-        "commercial-policies"
+        "commercial-policies",
+        "services"
       ],
-      "requiresInstanceAdaptation": false
+      "requiresInstanceAdaptation": true
     },
     {
       "id": "hero.content.011",
@@ -1722,14 +1732,13 @@
         "data-reserved-lines": "3",
         "data-mobile-reserved-lines": "0"
       },
-      "template": "{{coverage.base_city}} • {{coverage.city_2}} • {{coverage.city_3_name}}",
-      "variables": [
-        "coverage.base_city",
-        "coverage.city_2",
-        "coverage.city_3_name"
+      "template": "Local organizado ao terminar",
+      "variables": [],
+      "confirmationDomains": [
+        "commercial-policies",
+        "services"
       ],
-      "confirmationDomains": [],
-      "requiresInstanceAdaptation": false
+      "requiresInstanceAdaptation": true
     },
     {
       "id": "servicos.eyebrow.001",

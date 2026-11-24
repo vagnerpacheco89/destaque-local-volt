@@ -82,7 +82,8 @@ class ClientContract(unittest.TestCase):
   self.assertIn('SUA EXPERIÊNCIA CONTA',text)
   self.assertEqual(len(dom.cssselect('.footer-socials__icons a')),6)
   self.assertEqual(len(dom.cssselect('dialog,[data-demo-cta],[data-review-demo-cta]')),0)
-  self.assertIn('agendamento',dom.cssselect('.hero__trust-card')[2].text_content())
+  self.assertEqual('Pague no Pix ou cartão',dom.cssselect('.hero__trust-card')[2].text_content().strip())
+  self.assertIn('agendamento',dom.cssselect('#faq details')[4].text_content())
  def test_single_audience_does_not_inherit_the_other(self):
   for audience,forbidden in [(['residences'],'pequenos comércios e demandas'),(['small-businesses'],'residências, pequenos comércios')]:
    c=fixture('b');c['audiences']=audience
@@ -136,5 +137,39 @@ class ClientContract(unittest.TestCase):
    try:
     with self.assertRaisesRegex(ValueError,'minimum 1600x900'):assets.checked_source({'source':'assets/small.png','kind':'background','position':'right center','alt':'Fotografia fornecida pelo cliente: teste','contentType':'photograph'},'hero')
    finally:assets.ROOT=old
+
+ def test_hero_benefits_require_four_confirmed_nonredundant_choices(self):
+  for change in ('missing','short','duplicate','unknown','unconfirmed','extra_param','redundant'):
+   c=fixture()
+   if change=='missing':c.pop('heroBenefits')
+   elif change=='short':c['heroBenefits'].pop()
+   elif change=='duplicate':c['heroBenefits'][1]=copy.deepcopy(c['heroBenefits'][0])
+   elif change=='unknown':c['heroBenefits'][0]['id']='promessa_inventada'
+   elif change=='unconfirmed':c['heroBenefits'][2]['confirmation']=''
+   elif change=='extra_param':c['heroBenefits'][0]['parameters']={'texto':'garantido'}
+   else:c['heroBenefits'][1]={'id':'aprovacao_previa','parameters':{},'confirmation':'SYNTHETIC'}
+   with self.subTest(change=change):
+    with self.assertRaisesRegex(InvalidClient,'heroBenefits'):validate(c,ROOT)
+ def test_benefits_have_parameters_icons_and_no_demo_defaults(self):
+  from client.benefits import bank,validate_selection
+  c=fixture();c['heroBenefits']=[{'id':'orcamento_previo','parameters':{},'confirmation':'SYNTHETIC'},{'id':'experiencia','parameters':{'ano':c['experience']['since']},'confirmation':'SYNTHETIC'},{'id':'parcelamento','parameters':{'parcelas':3},'confirmation':'SYNTHETIC'},{'id':'nota_fiscal','parameters':{},'confirmation':'SYNTHETIC'}]
+  text,_,_=prepare_client(ROOT,validate(c,ROOT));dom=html.document_fromstring(text)
+  expected=[t for _,t in validate_selection(c,ROOT)]
+  for grid in dom.cssselect('.hero__trust-grid'):
+   self.assertEqual([p.text_content() for p in grid.cssselect('.hero__trust-title')],expected)
+   self.assertEqual([a.get('data-hero-benefit') for a in grid.cssselect('article')],[x['id'] for x in c['heroBenefits']])
+  self.assertNotIn('Pague no Pix ou cartão',[p.text_content() for p in dom.cssselect('.hero__trust-title')])
+  c['heroBenefits'][1]['parameters']['ano']=1901
+  with self.assertRaisesRegex(InvalidClient,'heroBenefits'):validate(c,ROOT)
+ def test_matrix_benefits_match_the_approved_bank_in_both_grids(self):
+  from client.benefits import bank
+  from lxml import etree
+  b=bank(ROOT);entries={e['id']:e for e in b['entries']};dom=html.document_fromstring((ROOT/'index.html').read_text())
+  for grid in dom.cssselect('.hero__trust-grid'):
+   for card,choice in zip(grid.cssselect('article'),b['demoSelection']):
+    e=entries[choice['id']];self.assertEqual(card.get('data-hero-benefit'),e['id']);self.assertEqual(card.cssselect('p')[0].text_content(),e['text'])
+    expected=etree.fromstring(('<svg>'+b['icons'][e['icon']]+'</svg>').encode())
+    shape=lambda svg:[(n.tag,dict(n.attrib)) for n in svg]
+    self.assertEqual(shape(card.cssselect('svg')[0]),shape(expected))
 
 if __name__=='__main__':unittest.main()
