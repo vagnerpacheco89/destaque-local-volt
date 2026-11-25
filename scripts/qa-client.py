@@ -67,6 +67,7 @@ def run(args):
     folder=Path(args.output).resolve();report_path=Path(args.report).resolve();site=folder/'site'
     if report_path.is_relative_to(site):raise ValueError('QA evidence must stay outside site/')
     info=json.loads((folder/'production-report.json').read_text())
+    template_preview=info.get('mode')=='personalized-template-preview'
     if all_hashes(site)!=info['files']:raise ValueError('public files changed since generation')
     server=None
     if args.url:base=args.url
@@ -141,7 +142,7 @@ def run(args):
                     # Prove the checker rejects the actual inheritance regression,
                     # then remove only this temporary test style and verify recovery.
                     if width==390 and dpr==1:
-                        regression=page.add_style_tag(content='#rodape a.footer-social{display:block!important;margin-bottom:7px!important;color:#838883!important}#rodape a.footer-contact__cta{margin-bottom:7px!important}')
+                        regression=page.add_style_tag(content='#rodape .footer-social.footer-social{display:block!important;margin-bottom:7px!important;color:#838883!important}#rodape .footer-contact__cta.footer-contact__cta{margin-bottom:7px!important}')
                         page.wait_for_function("[...document.querySelectorAll('#rodape .footer-social')].every(e=>getComputedStyle(e).color==='rgb(131, 136, 131)')")
                         negative=page.evaluate(FOOTER_MEASURE)
                         regression.evaluate('(e)=>e.remove()')
@@ -156,7 +157,13 @@ def run(args):
                     assert not faq_failures,json.dumps(faq_failures,ensure_ascii=False)
                     assert state['h1']==1 and state['h2']==9 and state['lastH2']=='cta-title','heading hierarchy'
                     assert state['cityCards']==info['composition']['cities'] and state['services']==info['composition']['services'],'collection composition'
-                    assert not state['demoControls'],'demo interaction remains'
+                    if template_preview:
+                        assert state['previewLabel'] and 'DEMONSTRA' in state['previewLabel'].upper(),'template preview must retain its visible demo label'
+                        assert page.locator('[data-demo-cta]').count()==0,'supplied WhatsApp still intercepted'
+                        assert page.locator('[data-review-demo-cta]').count()>0,'Google demonstration action changed'
+                        assert 'noindex' in state['robots'],'template preview must not be indexable'
+                    else:
+                        assert not state['demoControls'],'demo interaction remains'
                     assert 'Inter' in state['fonts'] and 'Barlow Condensed' in state['fonts'],'webfonts did not load'
                     assert all(i['loaded'] for i in state['images']),'image failed to load'
                     assert all(a['tag']=='A' and a['href'].startswith('https://wa.me/') for a in state['contacts']),'contact destination'
@@ -178,7 +185,7 @@ def run(args):
                         external.close()
                         page.mouse.move(0,0)
                         assert page.locator('dialog[open]').count()==0
-                        assert page.locator('.footer-socials__icons a').count()==6
+                        assert page.locator('.footer-socials__icons a').count()==(1 if template_preview else 6)
                         page.locator('.footer-social--instagram').focus();page.keyboard.press('Tab')
                         assert page.evaluate("document.activeElement.matches('.footer-social--whatsapp:focus-visible')"),'social keyboard navigation'
                         page.evaluate('() => new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))')

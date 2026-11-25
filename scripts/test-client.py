@@ -10,12 +10,49 @@ import unittest
 from lxml import html
 from client.schema import validate,InvalidClient
 from client.render import prepare_client
+from client.preview import validate_brief,render_preview,MODE
 
 ROOT=Path(__file__).resolve().parent.parent
 def fixture(name='a'):return json.loads((ROOT/f'tests/fixtures/client-{name}.synthetic.json').read_text())
 spec=importlib.util.spec_from_file_location('builder',ROOT/'scripts/build-client.py');builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
 
 class ClientContract(unittest.TestCase):
+ def preview_brief(self):
+  return {'businessName':'Elétrica Exemplo','services':['Quadros elétricos','Iluminação','Tomadas','Chuveiros','Diagnóstico elétrico','Fiação e proteção'],'region':['Curitiba','Pinhais','Colombo'],'whatsapp':'5541999990000','primaryColor':'#164cba'}
+ def test_preview_uses_only_five_inputs_and_keeps_examples(self):
+  c=self.preview_brief();self.assertEqual(validate_brief(c,'https://preview-exemplo.example/','SYNTHETIC AUTHORIZATION'),c)
+  text,js=render_preview(ROOT,c,'https://preview-exemplo.example/');dom=html.document_fromstring(text);base=html.parse(str(ROOT/'index.html')).getroot()
+  self.assertEqual([e.text_content().strip() for e in dom.cssselect('.service-card h3')],c['services'])
+  self.assertEqual([e.text_content().strip() for e in dom.cssselect('.service-area__coverage-item h3')],c['region'])
+  for selector in ('.hero__trust-card','.review-marquee-message','.rating-badge','.footer-hours','#faq details:nth-of-type(7)','#faq details:nth-of-type(8)','#faq details:nth-of-type(9)'):
+   self.assertEqual([e.text_content() for e in dom.cssselect(selector)],[e.text_content() for e in base.cssselect(selector)],selector)
+  self.assertEqual(len(dom.cssselect('.portfolio-card')),len(base.cssselect('.portfolio-card')))
+  self.assertTrue(all(a.get('href')=='https://wa.me/'+c['whatsapp'] for a in dom.cssselect('[data-client-contact]')))
+  self.assertFalse(dom.cssselect('[data-demo-cta]'))
+  self.assertTrue(dom.cssselect('[data-review-demo-cta],#social-demo-dialog'))
+  self.assertEqual(dom.get('data-volt-preview-kind'),MODE)
+  self.assertIn('noindex',dom.cssselect('meta[name="robots"]')[0].get('content'))
+  self.assertEqual(dom.cssselect('.nav-demo-label')[0].text_content(),base.cssselect('.nav-demo-label')[0].text_content())
+ def test_preview_cannot_smuggle_production_or_confirmations(self):
+  for key,value in [('stage','production'),('confirmations',{}),('publication',{'indexable':True}),('policies',{})]:
+   c=self.preview_brief();c[key]=value
+   with self.assertRaisesRegex(ValueError,'only'):validate_brief(c,'https://preview-exemplo.example/','SYNTHETIC')
+  with self.assertRaises(InvalidClient):validate(self.preview_brief(),ROOT)
+ def test_preview_inputs_never_silently_fill_missing_customer_data(self):
+  for key in self.preview_brief():
+   c=self.preview_brief();del c[key]
+   with self.assertRaisesRegex(ValueError,'requires only'):validate_brief(c,'https://preview-exemplo.example/','SYNTHETIC')
+  for key,value in [('businessName','<script>'),('services',[]),('region',[]),('whatsapp','5511<script>'),('primaryColor','red')]:
+   c=self.preview_brief();c[key]=value
+   with self.assertRaises(ValueError):validate_brief(c,'https://preview-exemplo.example/','SYNTHETIC')
+  for url in ('https://example.com/path','http://example.com/','https://user:pass@example.com/'):
+   with self.assertRaises(ValueError):validate_brief(self.preview_brief(),url,'SYNTHETIC')
+ def test_preview_one_region_and_one_service_needs_no_extra_questions(self):
+  c=self.preview_brief();c['region']='Curitiba';c['services']='Iluminação';c=validate_brief(c,'https://preview-exemplo.example/','SYNTHETIC')
+  text,js=render_preview(ROOT,c,'https://preview-exemplo.example/');dom=html.document_fromstring(text)
+  self.assertEqual(len(dom.cssselect('.service-card')),1);self.assertEqual(len(dom.cssselect('.service-area__coverage-item')),1)
+  self.assertIn('relatos demonstrativos',text);self.assertIn('2017',text)
+  self.assertNotIn('const voltHeadingCopies = undefined',js)
  def test_visual_approval_requires_exact_artifact_and_composition(self):
   report={'artifactId':'synthetic-hash','sourceHash':'synthetic-source','composition':{'cities':1,'reviews':'invitation'}}
   approval={**report,'reviewer':'SYNTHETIC TEST','approvalReference':'SYNTHETIC TEST ONLY'}

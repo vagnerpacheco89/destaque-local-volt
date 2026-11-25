@@ -26,4 +26,6 @@ O [VOLT publicado](https://volt.destaquelocal.com.br/) é demonstrativo. Não tr
 
 A Copy 1 e a geração isolada de instâncias são executáveis por `scripts/build-client.py`, com configuração privada, cores, textos, assets, contatos e busca sincronizados. O procedimento, entradas, limites e validação obrigatória estão na seção 5.7 do manual único. `scripts/qa-client.py` verifica o artefato e `scripts/package-client.py` empacota somente seus arquivos públicos após conferência. As versões de copy 2–5 continuam pendentes.
 
-A ficha de cliente usa schema 2: os quatro benefícios da Hero são escolhidos explicitamente no banco `copy/hero-benefits.json`, com confirmação factual por item. Procedimento e condições no manual único; não herdar a seleção da demonstração.
+A prévia personalizada de cinco dados usa `--preview-brief` no mesmo gerador; entradas e execução na seção 5.7.9 do manual. Ela mantém os demais exemplos demonstrativos do VOLT e não serve para liberar produção. O envio do modelo genérico continua usando o VOLT pronto.
+
+A configuração completa de cliente/produção usa schema 2: os quatro benefícios da Hero são escolhidos explicitamente no banco `copy/hero-benefits.json`, com confirmação factual por item. Procedimento e condições no manual único; não herdar a seleção da demonstração como fatos confirmados.

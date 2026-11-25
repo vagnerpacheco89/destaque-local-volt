@@ -14,11 +14,13 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 from PIL import Image,ImageOps
 from lxml import html,etree
 from client.schema import validate,InvalidClient
 from client.render import prepare_client,load_module
 from client.colors import migrate
+from client.preview import validate_brief,build_preview
 
 ROOT=Path(__file__).resolve().parent.parent
 
@@ -104,6 +106,8 @@ CLIENT_CSS='''
 '''
 
 def build(config,config_dir,work):
+    if config.get('_templatePreview'):
+        return build_preview(ROOT,config['brief'],config['publication']['url'],config['publication']['authorization'],work,SimpleNamespace(**globals()))
     text,runtime,assets=prepare_client(ROOT,config)
     theme=load_module('volt_theme',ROOT/'scripts/build-theme.py');theme_css,contrasts=theme.compile_theme(config['colors'])
     assets,text=prepare_assets(work,config,assets,theme_css,config_dir,text)
@@ -155,7 +159,13 @@ def check_visual_approval(approval,report):
         if not isinstance(approval.get(key),str) or not approval[key].strip():raise ValueError('visual approval requires reviewer and approvalReference')
 
 def main(args):
-    config_file=Path(args.config).resolve();raw=config_file.read_text();config=validate(json.loads(raw),config_file.parent)
+    config_file=Path(args.config).resolve();raw=config_file.read_text()
+    if args.preview_brief:
+        brief=validate_brief(json.loads(raw),args.preview_url or '',args.authorization or '')
+        config={'_templatePreview':True,'stage':'preview','brief':brief,'publication':{'url':args.preview_url,'authorization':args.authorization}}
+    else:
+        if args.preview_url or args.authorization:raise ValueError('--preview-url/--authorization require --preview-brief')
+        config=validate(json.loads(raw),config_file.parent)
     dest=Path(args.output).resolve()
     if dest==ROOT or dest.is_relative_to(ROOT) or ROOT.is_relative_to(dest):raise ValueError('output must be an isolated external folder, never the matrix or its parent')
     if not args.check and not args.release_check and dest.exists():raise ValueError('output already exists; never overwrite a client or evidence')
@@ -186,5 +196,8 @@ def main(args):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--config',required=True);p.add_argument('--output',required=True);p.add_argument('--check',action='store_true');p.add_argument('--release-check',action='store_true');p.add_argument('--qa');p.add_argument('--visual-approval')
+    p.add_argument('--preview-brief',action='store_true',help='Five-input demonstrative preview only; never production')
+    p.add_argument('--preview-url',help='Internal confirmed HTTPS preview origin')
+    p.add_argument('--authorization',help='Internal real reference for preview authorization')
     try:main(p.parse_args())
     except (ValueError,KeyError,TypeError,OSError,AttributeError,IndexError) as e:sys.exit('STOP: '+str(e))
