@@ -113,8 +113,24 @@ def render_preview(root, brief, origin):
         card = copy.deepcopy(examples[i])
         set_text(select(card, 'h3'), city['name'])
         coverage.append(card)
+    # The footer is the same supplied region list, not a fixed three-city demo.
+    footer = dom.xpath('//div[contains(concat(" ", normalize-space(@class), " "), " footer-block ")][p[contains(@class, "footer-block__label") and normalize-space(.)="ÁREA DE ATENDIMENTO"]]')
+    if len(footer) != 1:
+        raise ValueError('preview footer coverage binding not unique')
+    rows = footer[0].cssselect('p:not(.footer-block__label)')
+    prototype = copy.deepcopy(rows[0])
+    for row in rows:
+        footer[0].remove(row)
+    for city in cities:
+        row = copy.deepcopy(prototype)
+        set_text(row, city['name'])
+        footer[0].append(row)
     map_frame = select(dom, '[data-base-city-map]')
     map_frame.set('src', values['map.embed_src'])
+    map_title = 'Mapa de ' + cities[0]['name'] + ', cidade-base'
+    if len(cities) > 1:
+        map_title += ', com vista de ' + ' e '.join(c['name'] for c in cities[1:])
+    map_frame.set('title', map_title)
     # The matrix's demo label, fictitious review warning and illustrative images stay.
     dom.set('data-volt-mode', 'preview')
     dom.set('data-volt-preview-kind', MODE)
@@ -146,6 +162,8 @@ def render_preview(root, brief, origin):
     theme = html.Element('link', {'id': 'volt-client-theme', 'rel': 'stylesheet', 'href': 'volt-theme.css'})
     select(dom, 'link[href^="styles.css"]').addprevious(theme)
     text = html.tostring(dom, encoding='unicode', method='html', doctype='<!doctype html>') + '\n'
+    if '__EXPLICIT_STATE_PENDING__' in text:
+        raise ValueError('unresolved internal state in personalized preview')
     text = re.sub(r'<(?:img|meta|link|source|input|br|hr)\b[^>]*>', lambda m: m[0] if m[0].endswith('/>') else m[0][:-1] + ' />', text)
     return text, source_js
 

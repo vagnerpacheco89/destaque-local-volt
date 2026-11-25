@@ -53,6 +53,15 @@ class ClientContract(unittest.TestCase):
   self.assertEqual(len(dom.cssselect('.service-card')),1);self.assertEqual(len(dom.cssselect('.service-area__coverage-item')),1)
   self.assertIn('relatos demonstrativos',text);self.assertIn('2017',text)
   self.assertNotIn('const voltHeadingCopies = undefined',js)
+ def test_preview_footer_lists_only_supplied_regions(self):
+  for count in (1,2,3):
+   with self.subTest(regions=count):
+    c=self.preview_brief();c['region']=c['region'][:count]
+    text,_=render_preview(ROOT,c,'https://preview-exemplo.example/')
+    dom=html.document_fromstring(text)
+    footer=dom.xpath('//div[contains(concat(" ",normalize-space(@class)," ")," footer-block ")][p[contains(@class,"footer-block__label") and normalize-space(.)="ÁREA DE ATENDIMENTO"]]')[0]
+    self.assertEqual([e.text_content().strip() for e in footer.cssselect('p:not(.footer-block__label)')],c['region'])
+    self.assertNotIn('__EXPLICIT_STATE_PENDING__',text)
  def test_visual_approval_requires_exact_artifact_and_composition(self):
   report={'artifactId':'synthetic-hash','sourceHash':'synthetic-source','composition':{'cities':1,'reviews':'invitation'}}
   approval={**report,'reviewer':'SYNTHETIC TEST','approvalReference':'SYNTHETIC TEST ONLY'}
